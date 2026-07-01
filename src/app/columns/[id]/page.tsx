@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ColumnContent } from "@/components/column/column-content";
+import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
 import {
@@ -91,14 +92,13 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
           </div>
         )}
 
-        <article>
-          <h1 className="title">{column.title}</h1>
-
-          <div className="article-body">
+        <article className="column-article">
+          <div className="column-main">
+            <ColumnTitle>{column.title}</ColumnTitle>
             <ColumnContent content={column.content} />
           </div>
 
-          <div className="mt-6 flex items-center gap-3">
+          <div className="flex items-center gap-3">
             {author.avatar_url ? (
               <Image
                 src={author.avatar_url}
@@ -119,7 +119,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             <time className="hint shrink-0">{formatDate(column.created_at)}</time>
           </div>
 
-          <p className="hint mt-6">
+          <p className="hint">
             {plainTextLength}文字（{CONTENT_MIN_LENGTH}〜{CONTENT_MAX_LENGTH}文字）
           </p>
         </article>

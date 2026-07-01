@@ -20,8 +20,8 @@ export async function SiteHeader() {
     : null;
 
   return (
-    <header className="header w-full">
-      <div className="header-inner w-full">
+    <header className="w-full">
+      <div className="header-inner">
         <Link href="/">
           <img
             src="/logo.svg"

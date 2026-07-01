@@ -29,13 +29,6 @@ export function ColumnTypographySetting() {
 
   return (
     <div className="stack">
-      <div>
-        <p className="label">コラムの文字組み</p>
-        <p className="hint mt-1">
-          文字サイズ・行間・段落の広さ・字間を調整できます
-        </p>
-      </div>
-
       <OptionGroup<ColumnFontSize>
         label="文字サイズ"
         options={FONT_SIZE_OPTIONS}

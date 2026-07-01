@@ -1,63 +1,29 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
 
-import { ColumnTypographySetting } from "@/components/settings/column-typography-setting";
-import { ProfileForm } from "@/components/profile/profile-form";
-import { SiteHeader } from "@/components/layout/site-header";
-import { ThemeSetting } from "@/components/theme/theme-setting";
 import { BackLink } from "@/components/ui/back-link";
-import { createClient } from "@/lib/supabase/server";
+import { SETTINGS_ITEMS } from "@/lib/settings/items";
 
-export default async function SettingsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: profile, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (error || !profile) {
-    return (
-      <>
-        <SiteHeader />
-        <div className="auth-page">
-          <p className="muted">プロフィールの取得に失敗しました。再度ログインしてください。</p>
-        </div>
-      </>
-    );
-  }
-
+export default function SettingsPage() {
   return (
-    <>
-      <SiteHeader />
-      <div className="page">
-        <div className="page-narrow">
-          <div className="mb-8">
-            <h1 className="title">設定</h1>
-            <p className="muted mt-2">
-              ID・ユーザー名・自己紹介文・表示設定を変更できます
-            </p>
-          </div>
-
-          <div className="mb-8 stack">
-            <ThemeSetting />
-            <ColumnTypographySetting />
-          </div>
-
-          <ProfileForm profile={profile} />
-
-          <p className="mt-8 text-center">
-            <BackLink href="/mypage">マイページに戻る</BackLink>
-          </p>
+    <div className="page">
+        <div className="mb-8">
+          <h1 className="title">設定</h1>
         </div>
-      </div>
-    </>
+
+        <ul className="list mt-0">
+          {SETTINGS_ITEMS.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href} className="settings-item">
+                <item.Icon className="settings-item-icon" aria-hidden />
+                <span className="text-sm">{item.title}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-8 text-center">
+          <BackLink href="/mypage">マイページに戻る</BackLink>
+        </p>
+    </div>
   );
 }
