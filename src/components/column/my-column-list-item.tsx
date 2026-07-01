@@ -15,20 +15,24 @@ export function MyColumnListItem({ column }: MyColumnListItemProps) {
   const href = isDraft ? `/columns/${column.id}/edit` : `/columns/${column.id}`;
 
   return (
-    <div className="card flex items-start gap-3">
-      <Link href={href} className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-medium">{column.title}</p>
-          {isDraft && <span className="badge">下書き</span>}
+    <article className="column-feed-item">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <Link href={href} className="block">
+            <p className="flex items-center gap-2 text-base font-medium">
+              <span className="truncate">{column.title}</span>
+              {isDraft && <span className="badge shrink-0">下書き</span>}
+            </p>
+          </Link>
+          <p className="hint mt-2">
+            <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
+            <span className="mx-1.5">·</span>
+            <span>{plainTextLength}文字</span>
+          </p>
         </div>
-        <p className="hint mt-1">
-          <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
-          <span className="mx-1.5">·</span>
-          <span>{plainTextLength}文字</span>
-        </p>
-      </Link>
-      <DeleteColumnButton columnId={column.id} />
-    </div>
+        <DeleteColumnButton columnId={column.id} />
+      </div>
+    </article>
   );
 }
 

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { HeaderUserMenu } from "@/components/layout/header-user-menu";
 import { createClient } from "@/lib/supabase/server";
 
 export async function SiteHeader() {
@@ -13,7 +13,7 @@ export async function SiteHeader() {
     ? (
         await supabase
           .from("profiles")
-          .select("avatar_url, display_name")
+          .select("avatar_url, display_name, user_id")
           .eq("id", user.id)
           .single()
       ).data
@@ -30,22 +30,12 @@ export async function SiteHeader() {
           />
         </Link>
         <nav className="flex items-center gap-4">
-          {user ? (
-            <Link href="/mypage" aria-label="マイページ">
-              {profile?.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt={profile.display_name}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
-              ) : (
-                <div className="avatar h-8 w-8 text-xs">
-                  {profile?.display_name?.charAt(0) ?? "?"}
-                </div>
-              )}
-            </Link>
+          {user && profile ? (
+            <HeaderUserMenu
+              avatarUrl={profile.avatar_url}
+              displayName={profile.display_name}
+              userId={profile.user_id}
+            />
           ) : (
             <Link href="/login" className="nav-link">
               ログイン

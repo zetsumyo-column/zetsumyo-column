@@ -13,6 +13,7 @@ export type ToggleFollowResult =
 
 export async function toggleFollow(
   targetProfileId: string,
+  columnId?: string,
 ): Promise<ToggleFollowResult> {
   const supabase = await createClient();
   const {
@@ -81,6 +82,10 @@ export async function toggleFollow(
   }
 
   revalidatePath("/mypage");
+
+  if (columnId) {
+    revalidatePath(`/columns/${columnId}`);
+  }
 
   return getFollowInfo(targetProfileId, user.id);
 }

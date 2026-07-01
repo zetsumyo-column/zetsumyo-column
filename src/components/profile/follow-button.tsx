@@ -9,12 +9,14 @@ type FollowButtonProps = {
   targetProfileId: string;
   initialFollowing: boolean;
   isLoggedIn: boolean;
+  columnId?: string;
 };
 
 export function FollowButton({
   targetProfileId,
   initialFollowing,
   isLoggedIn,
+  columnId,
 }: FollowButtonProps) {
   const [following, setFollowing] = useState(initialFollowing);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,7 @@ export function FollowButton({
         onClick={() => {
           setError(null);
           startTransition(async () => {
-            const result = await toggleFollow(targetProfileId);
+            const result = await toggleFollow(targetProfileId, columnId);
             if ("error" in result) {
               setError(result.error);
               return;

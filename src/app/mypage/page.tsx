@@ -1,9 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Cog6ToothIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 
-import { signOut } from "@/app/actions/auth";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
@@ -75,23 +72,13 @@ export default async function MypagePage() {
             {profile.bio && (
               <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
             )}
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <Link href="/columns/new" className="btn inline-flex items-center gap-1.5">
-                <PencilSquareIcon className="h-4 w-4" aria-hidden />
-                投稿
-              </Link>
-              <Link href="/settings" className="link inline-flex items-center gap-1.5">
-                <Cog6ToothIcon className="h-4 w-4" aria-hidden />
-                設定
-              </Link>
-            </div>
           </div>
         </div>
 
         {draftColumns.length > 0 && (
           <section className="section">
             <h2 className="subtitle">下書き</h2>
-            <ul className="list">
+            <ul className="column-feed-list">
               {draftColumns.map((column) => (
                 <li key={column.id}>
                   <MyColumnListItem column={column} />
@@ -113,7 +100,7 @@ export default async function MypagePage() {
           )}
 
           {!columnsError && publishedColumns.length > 0 && (
-            <ul className="list">
+            <ul className="column-feed-list">
               {publishedColumns.map((column) => (
                 <li key={column.id}>
                   <MyColumnListItem column={column} />
@@ -122,14 +109,6 @@ export default async function MypagePage() {
             </ul>
           )}
         </section>
-
-        <div className="divider">
-          <form action={signOut}>
-            <button type="submit" className="link">
-              ログアウト
-            </button>
-          </form>
-        </div>
       </div>
     </>
   );

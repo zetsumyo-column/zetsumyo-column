@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { ColumnArticleFooter } from "@/components/column/column-article-footer";
 import { ColumnContent } from "@/components/column/column-content";
-import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
+import { getFollowInfo } from "@/lib/profile/follows";
 import { getColumnLikeInfo } from "@/lib/column/likes";
 import { getPlainTextLength } from "@/lib/column/content";
-import { formatDate } from "@/lib/format-date";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnWithAuthor } from "@/types/database";
 
@@ -69,9 +68,12 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
 
   const { profiles: author } = column;
   const plainTextLength = getPlainTextLength(column.content);
-  const likeInfo = !isDraft
-    ? await getColumnLikeInfo(column.id, user?.id)
-    : null;
+  const [likeInfo, followInfo] = await Promise.all([
+    !isDraft ? getColumnLikeInfo(column.id, user?.id) : Promise.resolve(null),
+    !isOwner
+      ? getFollowInfo(column.author_id, user?.id)
+      : Promise.resolve(null),
+  ]);
 
   return (
     <>
@@ -92,47 +94,19 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             <ColumnContent content={column.content} />
           </div>
 
-          <div>
-            <div className="flex items-center gap-3">
-              <Link
-                href={`/users/${author.user_id}`}
-                className="flex min-w-0 flex-1 items-center gap-3"
-              >
-                {author.avatar_url ? (
-                  <Image
-                    src={author.avatar_url}
-                    alt={author.display_name}
-                    width={36}
-                    height={36}
-                    className="rounded-full"
-                  />
-                ) : (
-                  <div className="avatar h-9 w-9 text-xs">
-                    {author.display_name.charAt(0)}
-                  </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{author.display_name}</p>
-                  <p className="hint truncate">@{author.user_id}</p>
-                </div>
-              </Link>
-              <time className="hint shrink-0">{formatDate(column.created_at)}</time>
-            </div>
-            {author.bio && (
-              <p className="mt-3 whitespace-pre-wrap text-sm">{author.bio}</p>
-            )}
-          </div>
-
-          {!isDraft && likeInfo && (
-            <ColumnLikeButton
-              columnId={column.id}
-              initialCount={likeInfo.count}
-              initialLiked={likeInfo.liked}
-              isLoggedIn={!!user}
-            />
-          )}
-
-          <p className="hint">{plainTextLength}文字</p>
+          <ColumnArticleFooter
+            author={author}
+            authorId={column.author_id}
+            columnId={column.id}
+            createdAt={column.created_at}
+            plainTextLength={plainTextLength}
+            isDraft={isDraft}
+            isLoggedIn={!!user}
+            isOwner={isOwner}
+            likeCount={likeInfo?.count}
+            liked={likeInfo?.liked}
+            isFollowing={followInfo?.isFollowing}
+          />
         </article>
       </div>
     </>

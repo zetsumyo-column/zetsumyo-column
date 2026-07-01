@@ -1,7 +1,7 @@
 import { ColumnListEmpty, ColumnListItem } from "@/components/column/column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getColumnList } from "@/lib/column/queries";
-import type { ColumnListItem as ColumnListItemType } from "@/types/database";
+import type { ColumnListItemWithAuthor } from "@/types/database";
 
 export default async function HomePage() {
   const { data: columns, error } = await getColumnList();
@@ -19,8 +19,8 @@ export default async function HomePage() {
         {!error && (!columns || columns.length === 0) && <ColumnListEmpty />}
 
         {!error && columns && columns.length > 0 && (
-          <ul className="list mt-0">
-            {(columns as ColumnListItemType[]).map((column) => (
+          <ul className="column-feed-list mt-0">
+            {(columns as ColumnListItemWithAuthor[]).map((column) => (
               <li key={column.id}>
                 <ColumnListItem column={column} />
               </li>

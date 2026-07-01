@@ -104,7 +104,7 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
           )}
 
           {!columnsError && columns && columns.length > 0 && (
-            <ul className="list">
+            <ul className="column-feed-list">
               {(columns as ColumnListItemType[]).map((column) => (
                 <li key={column.id}>
                   <ColumnListItem column={column} />

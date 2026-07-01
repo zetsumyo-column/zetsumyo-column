@@ -51,9 +51,6 @@ export default async function FollowingPage({ params }: FollowingPageProps) {
       <div className="page">
         <div className="mb-8">
           <h1 className="title">フォロー中</h1>
-          <p className="muted mt-2">
-            {isOwnProfile ? "あなた" : profile.display_name}がフォロー中
-          </p>
         </div>
 
         {followsError && (
@@ -81,11 +78,11 @@ export default async function FollowingPage({ params }: FollowingPageProps) {
           </ul>
         )}
 
-        <p className="mt-8 text-center">
-          <BackLink href={backHref}>
-            {isOwnProfile ? "マイページに戻る" : "プロフィールに戻る"}
-          </BackLink>
-        </p>
+        {!isOwnProfile && (
+          <p className="mt-8 text-center">
+            <BackLink href={backHref}>プロフィールに戻る</BackLink>
+          </p>
+        )}
       </div>
     </>
   );

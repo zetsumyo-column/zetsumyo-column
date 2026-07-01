@@ -28,6 +28,10 @@ export type ColumnListItem = Pick<
   "id" | "title" | "created_at" | "content" | "status"
 >;
 
+export type ColumnListItemWithAuthor = ColumnListItem & {
+  profiles: Pick<Profile, "user_id" | "display_name">;
+};
+
 export type ColumnLike = {
   id: string;
   user_id: string;

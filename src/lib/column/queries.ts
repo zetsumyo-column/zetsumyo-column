@@ -6,7 +6,9 @@ export const getColumnList = cache(async () => {
   const supabase = await createClient();
   return supabase
     .from("columns")
-    .select("id, title, created_at, content, status")
+    .select(
+      "id, title, created_at, content, status, profiles!columns_author_id_fkey(user_id, display_name)",
+    )
     .eq("status", "published")
     .order("created_at", { ascending: false });
 });

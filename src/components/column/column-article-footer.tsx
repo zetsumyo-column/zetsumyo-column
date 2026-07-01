@@ -1,0 +1,94 @@
+import Image from "next/image";
+import Link from "next/link";
+
+import { ColumnLikeButton } from "@/components/column/column-like-button";
+import { FollowButton } from "@/components/profile/follow-button";
+import { formatDate } from "@/lib/format-date";
+import type { Profile } from "@/types/database";
+
+type ColumnArticleFooterProps = {
+  author: Pick<Profile, "user_id" | "display_name" | "avatar_url" | "bio">;
+  authorId: string;
+  columnId: string;
+  createdAt: string;
+  plainTextLength: number;
+  isDraft: boolean;
+  isLoggedIn: boolean;
+  isOwner: boolean;
+  likeCount?: number;
+  liked?: boolean;
+  isFollowing?: boolean;
+};
+
+export function ColumnArticleFooter({
+  author,
+  authorId,
+  columnId,
+  createdAt,
+  plainTextLength,
+  isDraft,
+  isLoggedIn,
+  isOwner,
+  likeCount = 0,
+  liked = false,
+  isFollowing = false,
+}: ColumnArticleFooterProps) {
+  return (
+    <footer className="column-footer">
+      <p className="hint">
+        <time dateTime={createdAt}>{formatDate(createdAt)}</time>
+        <span className="mx-1.5">·</span>
+        <span>{plainTextLength}文字</span>
+      </p>
+
+      {!isDraft && (
+        <ColumnLikeButton
+          columnId={columnId}
+          initialCount={likeCount}
+          initialLiked={liked}
+          isLoggedIn={isLoggedIn}
+        />
+      )}
+
+      <div className="column-footer-author">
+        <div className="flex items-start justify-between gap-3">
+          <Link
+            href={`/users/${author.user_id}`}
+            className="flex min-w-0 flex-1 items-center gap-3"
+          >
+            {author.avatar_url ? (
+              <Image
+                src={author.avatar_url}
+                alt={author.display_name}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="avatar h-10 w-10 text-sm">
+                {author.display_name.charAt(0)}
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">{author.display_name}</p>
+              <p className="hint truncate">@{author.user_id}</p>
+            </div>
+          </Link>
+
+          {!isOwner && (
+            <FollowButton
+              targetProfileId={authorId}
+              initialFollowing={isFollowing}
+              isLoggedIn={isLoggedIn}
+              columnId={columnId}
+            />
+          )}
+        </div>
+
+        {author.bio && (
+          <p className="mt-3 whitespace-pre-wrap text-sm">{author.bio}</p>
+        )}
+      </div>
+    </footer>
+  );
+}
