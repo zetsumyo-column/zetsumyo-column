@@ -10,6 +10,7 @@ export type Profile = {
 export type Column = {
   id: string;
   author_id: string;
+  title: string;
   content: string;
   char_limit: number;
   created_at: string;
@@ -19,6 +20,8 @@ export type Column = {
 export type ColumnWithAuthor = Column & {
   profiles: Pick<Profile, "user_id" | "display_name" | "avatar_url">;
 };
+
+export type ColumnListItem = Pick<Column, "id" | "title" | "created_at">;
 
 export type Database = {
   public: {
@@ -46,12 +49,14 @@ export type Database = {
         Insert: {
           id?: string;
           author_id: string;
+          title: string;
           content: string;
           char_limit: number;
           created_at?: string;
           updated_at?: string;
         };
         Update: {
+          title?: string;
           content?: string;
           char_limit?: number;
           updated_at?: string;

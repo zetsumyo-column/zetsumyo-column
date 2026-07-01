@@ -20,6 +20,8 @@ https://<project-ref>.supabase.co/auth/v1/callback
 
 1. `supabase/sql/001_profiles.sql`（未実行の場合）
 2. `supabase/sql/002_columns.sql`（コラム投稿機能）
+3. `supabase/sql/003_columns_tiptap.sql`（TipTap HTML 対応）
+4. `supabase/sql/004_columns_title.sql`（タイトル列の追加）
 
 ## 3. 環境変数を設定
 

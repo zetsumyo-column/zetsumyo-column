@@ -6,9 +6,11 @@ import {
   createColumn,
   type ColumnFormState,
 } from "@/app/actions/column";
+import { ColumnEditor } from "@/components/column/column-editor";
 import {
   CHAR_LIMIT_OPTIONS,
   DEFAULT_CHAR_LIMIT,
+  TITLE_MAX_LENGTH,
   type CharLimit,
 } from "@/lib/constants/column";
 
@@ -20,18 +22,44 @@ export function ColumnForm() {
     initialState,
   );
   const [charLimit, setCharLimit] = useState<CharLimit>(DEFAULT_CHAR_LIMIT);
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [plainTextLength, setPlainTextLength] = useState(0);
 
-  const remaining = charLimit - content.length;
-  const isOverLimit = remaining < 0;
+  const isOverLimit = plainTextLength > charLimit;
+  const isContentEmpty = plainTextLength === 0;
+  const isTitleEmpty = title.trim().length === 0;
+  const isTitleOverLimit = title.length > TITLE_MAX_LENGTH;
 
   return (
     <form action={formAction} className="flex w-full flex-col gap-6">
       <div className="flex flex-col gap-2">
         <label
-          htmlFor="char_limit"
+          htmlFor="title"
           className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
+          タイトル
+        </label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          required
+          maxLength={TITLE_MAX_LENGTH}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="コラムのタイトル"
+          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-500"
+        />
+        <p
+          className={`text-xs ${isTitleOverLimit ? "text-red-600" : "text-zinc-500"}`}
+        >
+          {title.length} / {TITLE_MAX_LENGTH} 文字
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           文字数制限
         </label>
         <div className="flex flex-wrap gap-2">
@@ -54,29 +82,18 @@ export function ColumnForm() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label
-          htmlFor="content"
-          className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
+        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           コラム本文
         </label>
-        <textarea
-          id="content"
-          name="content"
-          required
-          rows={5}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder={`${charLimit}文字以内で、絶妙なコラムを書いてみましょう`}
-          className="resize-none rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-500"
+        <input type="hidden" name="content" value={content} />
+        <ColumnEditor
+          charLimit={charLimit}
+          content={content}
+          onChange={(html, length) => {
+            setContent(html);
+            setPlainTextLength(length);
+          }}
         />
-        <p
-          className={`text-right text-sm ${
-            isOverLimit ? "text-red-600" : "text-zinc-500"
-          }`}
-        >
-          {content.length} / {charLimit}
-        </p>
       </div>
 
       {state.error && (
@@ -87,7 +104,7 @@ export function ColumnForm() {
 
       <button
         type="submit"
-        disabled={isPending || isOverLimit || content.trim().length === 0}
+        disabled={isPending || isOverLimit || isContentEmpty || isTitleEmpty || isTitleOverLimit}
         className="h-12 rounded-lg bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
       >
         {isPending ? "投稿中..." : "投稿する"}

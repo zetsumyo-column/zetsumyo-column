@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { ColumnCard, ColumnListEmpty } from "@/components/column/column-card";
+import { ColumnListEmpty, ColumnListItem } from "@/components/column/column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { createClient } from "@/lib/supabase/server";
-import type { ColumnWithAuthor } from "@/types/database";
+import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
 export default async function ColumnsPage() {
   const supabase = await createClient();
@@ -13,9 +13,7 @@ export default async function ColumnsPage() {
 
   const { data: columns, error } = await supabase
     .from("columns")
-    .select(
-      "*, profiles!columns_author_id_fkey(user_id, display_name, avatar_url)",
-    )
+    .select("id, title, created_at")
     .order("created_at", { ascending: false });
 
   return (
@@ -48,10 +46,10 @@ export default async function ColumnsPage() {
         {!error && (!columns || columns.length === 0) && <ColumnListEmpty />}
 
         {!error && columns && columns.length > 0 && (
-          <ul className="flex flex-col gap-4">
-            {(columns as ColumnWithAuthor[]).map((column) => (
+          <ul className="flex flex-col gap-2">
+            {(columns as ColumnListItemType[]).map((column) => (
               <li key={column.id}>
-                <ColumnCard column={column} />
+                <ColumnListItem column={column} />
               </li>
             ))}
           </ul>

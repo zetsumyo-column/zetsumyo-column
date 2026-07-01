@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import {
   parseCharLimit,
   validateColumnContent,
+  validateColumnTitle,
 } from "@/lib/validation/column";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,8 +18,14 @@ export async function createColumn(
   _prevState: ColumnFormState,
   formData: FormData,
 ): Promise<ColumnFormState> {
+  const title = String(formData.get("title") ?? "");
   const content = String(formData.get("content") ?? "");
   const charLimit = parseCharLimit(formData.get("char_limit"));
+
+  const titleError = validateColumnTitle(title);
+  if (titleError) {
+    return { error: titleError };
+  }
 
   const validationError = validateColumnContent(content, charLimit);
   if (validationError) {
@@ -36,6 +43,7 @@ export async function createColumn(
 
   const { error } = await supabase.from("columns").insert({
     author_id: user.id,
+    title: title.trim(),
     content,
     char_limit: charLimit,
   });
