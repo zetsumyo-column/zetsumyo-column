@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { ColumnTypographySetting } from "@/components/settings/column-typography-setting";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ThemeSetting } from "@/components/theme/theme-setting";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SettingsPage() {
@@ -42,8 +44,13 @@ export default async function SettingsPage() {
           <div className="mb-8">
             <h1 className="text-2xl font-semibold tracking-tight">設定</h1>
             <p className="mt-2 text-sm text-zinc-500">
-              ID・ユーザー名・自己紹介文を変更できます
+              ID・ユーザー名・自己紹介文・表示設定を変更できます
             </p>
+          </div>
+
+          <div className="mb-8 space-y-8">
+            <ThemeSetting />
+            <ColumnTypographySetting />
           </div>
 
           <ProfileForm profile={profile} />

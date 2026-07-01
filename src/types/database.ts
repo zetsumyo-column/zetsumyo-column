@@ -14,6 +14,7 @@ export type Column = {
   title: string;
   content: string;
   char_limit: number;
+  status: "draft" | "published";
   created_at: string;
   updated_at: string;
 };
@@ -24,7 +25,7 @@ export type ColumnWithAuthor = Column & {
 
 export type ColumnListItem = Pick<
   Column,
-  "id" | "title" | "created_at" | "content"
+  "id" | "title" | "created_at" | "content" | "status"
 >;
 
 export type Database = {
@@ -58,6 +59,7 @@ export type Database = {
           title: string;
           content: string;
           char_limit: number;
+          status?: "draft" | "published";
           created_at?: string;
           updated_at?: string;
         };
@@ -65,6 +67,7 @@ export type Database = {
           title?: string;
           content?: string;
           char_limit?: number;
+          status?: "draft" | "published";
           updated_at?: string;
         };
         Relationships: [];

@@ -21,7 +21,7 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
   return (
     <Link
       href={`/columns/${column.id}`}
-      className="block rounded-lg border border-zinc-200 bg-white px-4 py-3 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
+      className="block rounded-lg border border-zinc-200 bg-white px-4 py-3 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
     >
       <p className="text-sm font-medium leading-snug">{column.title}</p>
       <p className="mt-1.5 text-xs text-zinc-500">

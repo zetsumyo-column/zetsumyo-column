@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { signOut } from "@/app/actions/auth";
-import { ColumnListEmpty, ColumnListItem } from "@/components/column/column-list-item";
+import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getMyColumns } from "@/lib/column/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -37,6 +37,12 @@ export default async function MypagePage() {
       </>
     );
   }
+
+  const allColumns = (columns ?? []) as ColumnListItemType[];
+  const draftColumns = allColumns.filter((column) => column.status === "draft");
+  const publishedColumns = allColumns.filter(
+    (column) => column.status === "published",
+  );
 
   return (
     <>
@@ -77,6 +83,19 @@ export default async function MypagePage() {
           </div>
         </div>
 
+        {draftColumns.length > 0 && (
+          <section className="mt-10">
+            <h2 className="text-lg font-semibold tracking-tight">下書き</h2>
+            <ul className="mt-4 flex flex-col gap-2">
+              {draftColumns.map((column) => (
+                <li key={column.id}>
+                  <MyColumnListItem column={column} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section className="mt-10">
           <h2 className="text-lg font-semibold tracking-tight">投稿したコラム</h2>
 
@@ -86,24 +105,24 @@ export default async function MypagePage() {
             </p>
           )}
 
-          {!columnsError && (!columns || columns.length === 0) && (
+          {!columnsError && publishedColumns.length === 0 && (
             <div className="mt-4">
-              <ColumnListEmpty />
+              <MyColumnListEmpty />
             </div>
           )}
 
-          {!columnsError && columns && columns.length > 0 && (
+          {!columnsError && publishedColumns.length > 0 && (
             <ul className="mt-4 flex flex-col gap-2">
-              {(columns as ColumnListItemType[]).map((column) => (
+              {publishedColumns.map((column) => (
                 <li key={column.id}>
-                  <ColumnListItem column={column} />
+                  <MyColumnListItem column={column} />
                 </li>
               ))}
             </ul>
           )}
         </section>
 
-        <div className="mt-10 flex flex-col items-center gap-4 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+        <div className="mt-10 flex justify-center border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <form action={signOut}>
             <button
               type="submit"
@@ -112,12 +131,6 @@ export default async function MypagePage() {
               ログアウト
             </button>
           </form>
-          <Link
-            href="/"
-            className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            トップに戻る
-          </Link>
         </div>
       </div>
     </>

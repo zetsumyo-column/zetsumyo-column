@@ -37,7 +37,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           defaultValue={profile.user_id}
           pattern="[a-zA-Z0-9_]{3,30}"
           title="英数字とアンダースコアのみ、3〜30文字"
-          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-500"
+          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
         />
         <p className="text-xs text-zinc-500">
           英数字とアンダースコアのみ、3〜30文字
@@ -58,7 +58,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           required
           maxLength={50}
           defaultValue={profile.display_name}
-          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-500"
+          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
         />
       </div>
 
@@ -77,7 +77,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           placeholder="自己紹介を書いてみましょう"
-          className="resize-none rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-500"
+          className="resize-none rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
         />
         <p
           className={`text-xs ${isBioOverLimit ? "text-red-600" : "text-zinc-500"}`}

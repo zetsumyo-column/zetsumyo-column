@@ -17,6 +17,14 @@ export function validateColumnTitle(title: string): string | null {
   return null;
 }
 
+export function validateColumnTitleOptional(title: string): string | null {
+  const trimmed = title.trim();
+  if (trimmed.length === 0) {
+    return null;
+  }
+  return validateColumnTitle(trimmed);
+}
+
 export function validateColumnContent(html: string): string | null {
   const plainTextLength = getPlainTextLength(html);
 
@@ -26,5 +34,25 @@ export function validateColumnContent(html: string): string | null {
   if (plainTextLength > CONTENT_MAX_LENGTH) {
     return `本文は${CONTENT_MAX_LENGTH}文字以内で入力してください（現在 ${plainTextLength} 文字）`;
   }
+  return null;
+}
+
+export function validateColumnDraft(title: string, html: string): string | null {
+  const trimmedTitle = title.trim();
+  const plainTextLength = getPlainTextLength(html);
+
+  if (trimmedTitle.length === 0 && plainTextLength === 0) {
+    return "タイトルまたは本文を入力してください";
+  }
+
+  const titleError = validateColumnTitleOptional(title);
+  if (titleError) {
+    return titleError;
+  }
+
+  if (plainTextLength > CONTENT_MAX_LENGTH) {
+    return `本文は${CONTENT_MAX_LENGTH}文字以内で入力してください（現在 ${plainTextLength} 文字）`;
+  }
+
   return null;
 }

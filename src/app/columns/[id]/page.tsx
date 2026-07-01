@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { ColumnContent } from "@/components/column/column-content";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
@@ -65,6 +66,18 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
     notFound();
   }
 
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const isOwner = user?.id === column.author_id;
+  const isDraft = column.status === "draft";
+
+  if (isDraft && !isOwner) {
+    notFound();
+  }
+
   const { profiles: author } = column;
   const plainTextLength = getPlainTextLength(column.content);
 
@@ -81,10 +94,32 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
           </Link>
         </p>
 
+        {isDraft && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900 dark:bg-amber-950">
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+              このコラムは下書きです
+            </p>
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/columns/${column.id}/edit`}
+                className="text-sm font-medium text-amber-900 underline dark:text-amber-100"
+              >
+                編集する
+              </Link>
+              <DeleteColumnButton columnId={column.id} />
+            </div>
+          </div>
+        )}
+
         <article>
-          <h1 className="text-2xl font-semibold tracking-tight leading-snug">
-            {column.title}
-          </h1>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="text-2xl font-semibold tracking-tight leading-snug">
+              {column.title}
+            </h1>
+            {isOwner && !isDraft && (
+              <DeleteColumnButton columnId={column.id} className="shrink-0 text-sm text-red-600 underline hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" />
+            )}
+          </div>
 
           <div className="mt-4 flex items-center gap-3">
             {author.avatar_url ? (

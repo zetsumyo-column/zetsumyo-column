@@ -22,7 +22,7 @@ export default async function NewColumnPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">コラムを投稿</h1>
           <p className="mt-2 text-sm text-zinc-500">
-            70文字以上140文字以内で、絶妙なコラムを書きましょう
+            70文字以上140文字以内で投稿、または下書き保存できます
           </p>
         </div>
 

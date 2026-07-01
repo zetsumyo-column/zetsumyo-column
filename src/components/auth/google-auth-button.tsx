@@ -22,7 +22,7 @@ export function GoogleAuthButton({ mode }: GoogleAuthButtonProps) {
     <form action={action}>
       <button
         type="submit"
-        className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border border-zinc-300 bg-white px-6 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+        className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border border-zinc-300 bg-white px-6 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
       >
         <GoogleIcon />
         {label}

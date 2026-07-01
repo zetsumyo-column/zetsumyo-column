@@ -20,13 +20,13 @@ export async function SiteHeader() {
     : null;
 
   return (
-    <header className="w-full border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <header className="w-full border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
       <div className="flex h-14 w-full items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center">
           <img
             src="/logo.svg"
             alt="絶妙コラム"
-            className="h-4 w-auto sm:h-5"
+            className="h-4 w-auto sm:h-5 dark:invert"
           />
         </Link>
         <nav className="flex items-center gap-4 text-sm">

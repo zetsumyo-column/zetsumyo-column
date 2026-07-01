@@ -16,6 +16,8 @@ https://<project-ref>.supabase.co/auth/v1/callback
 
 ## 2. SQL を実行
 
+### 初回セットアップ（テーブルがまだない場合）
+
 **SQL Editor** で以下を順番に実行:
 
 1. `supabase/sql/001_profiles.sql`（未実行の場合）
@@ -24,6 +26,18 @@ https://<project-ref>.supabase.co/auth/v1/callback
 4. `supabase/sql/004_columns_title.sql`（タイトル列の追加）
 5. `supabase/sql/005_columns_char_limit_fixed.sql`（文字数上限を140文字に固定）
 6. `supabase/sql/006_profiles_bio.sql`（自己紹介文の追加）
+7. `supabase/sql/007_columns_status.sql`（下書き・公開ステータス）
+
+### 既にセットアップ済みの場合
+
+`001` や `002` は **再実行しないでください**（`relation "columns" already exists` エラーになります）。
+
+未実行のファイルだけ順番に実行してください。例:
+
+- 下書き機能を使う → `007_columns_status.sql` のみ
+- 自己紹介文が保存できない → `006_profiles_bio.sql` のみ
+
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜007 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 

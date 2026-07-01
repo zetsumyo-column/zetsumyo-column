@@ -12,6 +12,7 @@ import {
 } from "@/lib/constants/column";
 
 type ColumnEditorProps = {
+  initialContent?: string;
   onChange: (html: string, plainTextLength: number) => void;
 };
 
@@ -42,8 +43,13 @@ function ToolbarButton({
   );
 }
 
-export function ColumnEditor({ onChange }: ColumnEditorProps) {
-  const [plainTextLength, setPlainTextLength] = useState(0);
+export function ColumnEditor({
+  initialContent = "",
+  onChange,
+}: ColumnEditorProps) {
+  const [plainTextLength, setPlainTextLength] = useState(() =>
+    getPlainTextLength(initialContent),
+  );
 
   const editor = useEditor({
     extensions: [
@@ -52,7 +58,7 @@ export function ColumnEditor({ onChange }: ColumnEditorProps) {
         limit: CONTENT_MAX_LENGTH,
       }),
     ],
-    content: "",
+    content: initialContent,
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -71,7 +77,7 @@ export function ColumnEditor({ onChange }: ColumnEditorProps) {
 
   if (!editor) {
     return (
-      <div className="min-h-[180px] rounded-lg border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900" />
+      <div className="min-h-[180px] rounded-lg border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800" />
     );
   }
 
@@ -79,7 +85,7 @@ export function ColumnEditor({ onChange }: ColumnEditorProps) {
   const charsUntilMin = Math.max(0, CONTENT_MIN_LENGTH - plainTextLength);
 
   return (
-    <div className="overflow-hidden rounded-lg border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+    <div className="overflow-hidden rounded-lg border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800">
       <div className="flex flex-wrap items-center gap-1 border-b border-zinc-200 px-2 py-1.5 dark:border-zinc-800">
         <ToolbarButton
           label="太字"
