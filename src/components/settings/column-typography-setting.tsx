@@ -1,5 +1,6 @@
 "use client";
 
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 
 import { useColumnTypography } from "@/components/column/column-typography-provider";
@@ -113,7 +114,10 @@ export function ColumnTypographySetting() {
     return (
       <div className="flex flex-col gap-4">
         <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          コラムの文字組み
+          <span className="inline-flex items-center gap-1.5">
+            <AdjustmentsHorizontalIcon className="h-4 w-4" aria-hidden />
+            コラムの文字組み
+          </span>
         </p>
         <SettingSkeleton />
       </div>
@@ -124,7 +128,10 @@ export function ColumnTypographySetting() {
     <div className="flex flex-col gap-4">
       <div>
         <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          コラムの文字組み
+          <span className="inline-flex items-center gap-1.5">
+            <AdjustmentsHorizontalIcon className="h-4 w-4" aria-hidden />
+            コラムの文字組み
+          </span>
         </p>
         <p className="mt-1 text-xs text-zinc-500">
           コラム本文の文字サイズ・行間・段落の広さ・字間を調整できます

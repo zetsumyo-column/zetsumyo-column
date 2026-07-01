@@ -2,10 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import {
+  DocumentTextIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { ColumnContent } from "@/components/column/column-content";
 import { SiteHeader } from "@/components/layout/site-header";
+import { BackLink } from "@/components/ui/back-link";
 import { getPlainTextLength } from "@/lib/column/content";
 import {
   CONTENT_MAX_LENGTH,
@@ -86,24 +91,21 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
       <SiteHeader />
       <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
         <p className="mb-6">
-          <Link
-            href="/"
-            className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            コラム一覧に戻る
-          </Link>
+          <BackLink href="/">コラム一覧に戻る</BackLink>
         </p>
 
         {isDraft && (
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900 dark:bg-amber-950">
-            <p className="text-sm text-amber-800 dark:text-amber-200">
+            <p className="inline-flex items-center gap-1.5 text-sm text-amber-800 dark:text-amber-200">
+              <DocumentTextIcon className="h-4 w-4 shrink-0" aria-hidden />
               このコラムは下書きです
             </p>
             <div className="flex items-center gap-4">
               <Link
                 href={`/columns/${column.id}/edit`}
-                className="text-sm font-medium text-amber-900 underline dark:text-amber-100"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-900 underline dark:text-amber-100"
               >
+                <PencilSquareIcon className="h-4 w-4 shrink-0" aria-hidden />
                 編集する
               </Link>
               <DeleteColumnButton columnId={column.id} />
@@ -117,7 +119,10 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
               {column.title}
             </h1>
             {isOwner && !isDraft && (
-              <DeleteColumnButton columnId={column.id} className="shrink-0 text-sm text-red-600 underline hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" />
+              <DeleteColumnButton
+                columnId={column.id}
+                className="inline-flex shrink-0 items-center gap-1 text-sm text-red-600 underline hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+              />
             )}
           </div>
 

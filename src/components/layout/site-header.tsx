@@ -1,5 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -34,8 +39,9 @@ export async function SiteHeader() {
             <>
               <Link
                 href="/columns/new"
-                className="font-medium text-zinc-900 dark:text-zinc-100"
+                className="inline-flex items-center gap-1.5 font-medium text-zinc-900 dark:text-zinc-100"
               >
+                <PencilSquareIcon className="h-4 w-4" aria-hidden />
                 投稿
               </Link>
               <Link
@@ -59,16 +65,18 @@ export async function SiteHeader() {
               </Link>
               <Link
                 href="/settings"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
               >
+                <Cog6ToothIcon className="h-4 w-4" aria-hidden />
                 設定
               </Link>
             </>
           ) : (
             <Link
               href="/login"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             >
+              <ArrowRightOnRectangleIcon className="h-4 w-4" aria-hidden />
               ログイン
             </Link>
           )}

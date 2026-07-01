@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  DocumentArrowDownIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/outline";
 import { useActionState, useState } from "react";
 
 import { saveColumn, type ColumnFormState } from "@/app/actions/column";
@@ -76,7 +80,8 @@ export function ColumnForm({ column }: ColumnFormProps) {
           コラム本文
         </label>
         <p className="text-xs text-zinc-500">
-          投稿時は{CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内
+          投稿時は{CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内。
+          段落と改行はエディター内の区切り線で確認できます。
         </p>
         <input type="hidden" name="content" value={content} />
         <ColumnEditor
@@ -105,8 +110,9 @@ export function ColumnForm({ column }: ColumnFormProps) {
             isTitleEmpty ||
             isTitleOverLimit
           }
-          className="h-12 flex-1 rounded-lg bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
+          <PaperAirplaneIcon className="h-4 w-4" aria-hidden />
           {isPending ? "保存中..." : isEditingDraft ? "公開する" : "投稿する"}
         </button>
         <button
@@ -114,8 +120,9 @@ export function ColumnForm({ column }: ColumnFormProps) {
           name="intent"
           value="draft"
           disabled={isPending || isDraftEmpty || isTitleOverLimit}
-          className="h-12 flex-1 rounded-lg border border-zinc-300 text-sm font-medium transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-300 text-sm font-medium transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
         >
+          <DocumentArrowDownIcon className="h-4 w-4" aria-hidden />
           {isPending ? "保存中..." : "下書き保存"}
         </button>
       </div>

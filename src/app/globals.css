@@ -25,24 +25,33 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* TipTap エディター */
-.tiptap {
+/* TipTap エディター（コラム投稿） */
+.column-editor .tiptap {
   outline: none;
 }
 
-.tiptap p {
-  margin: 0.25em 0;
+.column-editor .tiptap p {
+  margin: 0;
+  position: relative;
 }
 
-.tiptap p:first-child {
-  margin-top: 0;
+.column-editor .tiptap p + p {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #d4d4d8;
 }
 
-.tiptap p:last-child {
-  margin-bottom: 0;
+.dark .column-editor .tiptap p + p {
+  border-top-color: #52525c;
 }
 
-.tiptap p.is-editor-empty:first-child::before {
+.column-editor .tiptap br {
+  display: block;
+  margin-top: 0.625rem;
+  content: "";
+}
+
+.column-editor .tiptap p.is-editor-empty:first-child::before {
   color: #a3a3a3;
   content: attr(data-placeholder);
   float: left;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
+import { BackLink } from "@/components/ui/back-link";
 import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
@@ -48,9 +49,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </p>
 
         <p className="mt-4 text-center text-xs text-zinc-500">
-          <Link href="/" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
-            トップに戻る
-          </Link>
+          <BackLink href="/">トップに戻る</BackLink>
         </p>
       </div>
     </div>

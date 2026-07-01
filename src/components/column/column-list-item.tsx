@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 import { getPlainTextLength } from "@/lib/column/content";
 import type { ColumnListItem } from "@/types/database";
@@ -39,8 +40,9 @@ export function ColumnListEmpty() {
       <p className="text-sm text-zinc-500">まだコラムがありません</p>
       <Link
         href="/columns/new"
-        className="mt-3 inline-block text-sm font-medium underline"
+        className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium underline"
       >
+        <PencilSquareIcon className="h-4 w-4" aria-hidden />
         最初のコラムを投稿する
       </Link>
     </div>

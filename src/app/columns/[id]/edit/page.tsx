@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { ColumnForm } from "@/components/column/column-form";
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { SiteHeader } from "@/components/layout/site-header";
+import { BackLink } from "@/components/ui/back-link";
 import { createClient } from "@/lib/supabase/server";
 import type { Column } from "@/types/database";
 
@@ -57,12 +57,7 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
         <ColumnForm column={column as Pick<Column, "id" | "title" | "content" | "status">} />
 
         <p className="mt-8 text-center">
-          <Link
-            href="/mypage"
-            className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            マイページに戻る
-          </Link>
+          <BackLink href="/mypage">マイページに戻る</BackLink>
         </p>
       </div>
     </>

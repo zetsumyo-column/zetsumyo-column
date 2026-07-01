@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import {
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+  DocumentTextIcon,
+  QueueListIcon,
+} from "@heroicons/react/24/outline";
 
 import { signOut } from "@/app/actions/auth";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
@@ -76,8 +82,9 @@ export default async function MypagePage() {
             )}
             <Link
               href="/settings"
-              className="mt-3 inline-block text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
             >
+              <Cog6ToothIcon className="h-4 w-4" aria-hidden />
               設定
             </Link>
           </div>
@@ -85,7 +92,10 @@ export default async function MypagePage() {
 
         {draftColumns.length > 0 && (
           <section className="mt-10">
-            <h2 className="text-lg font-semibold tracking-tight">下書き</h2>
+            <h2 className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+              <DocumentTextIcon className="h-5 w-5" aria-hidden />
+              下書き
+            </h2>
             <ul className="mt-4 flex flex-col gap-2">
               {draftColumns.map((column) => (
                 <li key={column.id}>
@@ -97,7 +107,10 @@ export default async function MypagePage() {
         )}
 
         <section className="mt-10">
-          <h2 className="text-lg font-semibold tracking-tight">投稿したコラム</h2>
+          <h2 className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+            <QueueListIcon className="h-5 w-5" aria-hidden />
+            投稿したコラム
+          </h2>
 
           {columnsError && (
             <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
@@ -126,8 +139,9 @@ export default async function MypagePage() {
           <form action={signOut}>
             <button
               type="submit"
-              className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
+              className="inline-flex items-center gap-1.5 text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
             >
+              <ArrowRightOnRectangleIcon className="h-4 w-4" aria-hidden />
               ログアウト
             </button>
           </form>

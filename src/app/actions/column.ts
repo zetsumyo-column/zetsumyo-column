@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import {
   CHAR_LIMIT,
   DRAFT_TITLE_PLACEHOLDER,
+  LEGACY_CHAR_LIMIT,
   type ColumnStatus,
 } from "@/lib/constants/column";
 import {
@@ -13,10 +14,21 @@ import {
   validateColumnDraft,
   validateColumnTitle,
 } from "@/lib/validation/column";
+import {
+  getColumnSaveErrorMessage,
+  isCharLimitConstraintError,
+} from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
 export type ColumnFormState = {
   error?: string;
+};
+
+type ColumnPayload = {
+  title: string;
+  content: string;
+  char_limit: number;
+  status: ColumnStatus;
 };
 
 function parseIntent(value: unknown): "draft" | "publish" {
@@ -31,6 +43,10 @@ function resolveDraftTitle(title: string): string {
 function revalidateColumnPaths() {
   revalidatePath("/");
   revalidatePath("/mypage");
+}
+
+function withCharLimit(payload: Omit<ColumnPayload, "char_limit">, charLimit: number): ColumnPayload {
+  return { ...payload, char_limit: charLimit };
 }
 
 export async function saveColumn(
@@ -69,10 +85,9 @@ export async function saveColumn(
     return { error: "ログインが必要です" };
   }
 
-  const payload = {
+  const basePayload = {
     title: intent === "publish" ? title.trim() : resolveDraftTitle(title),
     content: content || "<p></p>",
-    char_limit: CHAR_LIMIT,
     status,
   };
 
@@ -95,14 +110,25 @@ export async function saveColumn(
       return { error: "公開済みのコラムは編集できません" };
     }
 
-    const { error } = await supabase
+    let payload = withCharLimit(basePayload, CHAR_LIMIT);
+    let { error } = await supabase
       .from("columns")
       .update(payload)
       .eq("id", columnId)
       .eq("author_id", user.id);
 
+    if (error && isCharLimitConstraintError(error)) {
+      payload = withCharLimit(basePayload, LEGACY_CHAR_LIMIT);
+      ({ error } = await supabase
+        .from("columns")
+        .update(payload)
+        .eq("id", columnId)
+        .eq("author_id", user.id));
+    }
+
     if (error) {
-      return { error: "保存に失敗しました。もう一度お試しください" };
+      console.error("column update error:", error);
+      return { error: getColumnSaveErrorMessage(error) };
     }
 
     revalidateColumnPaths();
@@ -116,7 +142,8 @@ export async function saveColumn(
     redirect("/mypage");
   }
 
-  const { data, error } = await supabase
+  let payload = withCharLimit(basePayload, CHAR_LIMIT);
+  let { data, error } = await supabase
     .from("columns")
     .insert({
       author_id: user.id,
@@ -125,7 +152,24 @@ export async function saveColumn(
     .select("id")
     .single();
 
-  if (error || !data) {
+  if (error && isCharLimitConstraintError(error)) {
+    payload = withCharLimit(basePayload, LEGACY_CHAR_LIMIT);
+    ({ data, error } = await supabase
+      .from("columns")
+      .insert({
+        author_id: user.id,
+        ...payload,
+      })
+      .select("id")
+      .single());
+  }
+
+  if (error) {
+    console.error("column insert error:", error);
+    return { error: getColumnSaveErrorMessage(error) };
+  }
+
+  if (!data) {
     return { error: "保存に失敗しました。もう一度お試しください" };
   }
 

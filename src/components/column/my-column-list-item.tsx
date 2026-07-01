@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  DocumentTextIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { getPlainTextLength } from "@/lib/column/content";
@@ -27,7 +31,8 @@ export function MyColumnListItem({ column }: MyColumnListItemProps) {
         <div className="flex items-center gap-2">
           <p className="text-sm font-medium leading-snug">{column.title}</p>
           {isDraft && (
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+            <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+              <DocumentTextIcon className="h-3 w-3" aria-hidden />
               下書き
             </span>
           )}
@@ -49,8 +54,9 @@ export function MyColumnListEmpty() {
       <p className="text-sm text-zinc-500">まだコラムがありません</p>
       <Link
         href="/columns/new"
-        className="mt-3 inline-block text-sm font-medium underline"
+        className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium underline"
       >
+        <PencilSquareIcon className="h-4 w-4" aria-hidden />
         コラムを書く
       </Link>
     </div>

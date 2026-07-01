@@ -7,6 +7,7 @@ import {
   validateDisplayName,
   validateUserId,
 } from "@/lib/validation/profile";
+import { getProfileSaveErrorMessage } from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
 export type ProfileFormState = {
@@ -88,10 +89,8 @@ export async function updateProfile(
   }
 
   if (error) {
-    if (error.code === "23505") {
-      return { error: "この ID はすでに使用されています" };
-    }
-    return { error: "保存に失敗しました。もう一度お試しください" };
+    console.error("profile update error:", error);
+    return { error: getProfileSaveErrorMessage(error) };
   }
 
   revalidatePath("/mypage");

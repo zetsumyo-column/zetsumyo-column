@@ -24,9 +24,10 @@ https://<project-ref>.supabase.co/auth/v1/callback
 2. `supabase/sql/002_columns.sql`（コラム投稿機能）
 3. `supabase/sql/003_columns_tiptap.sql`（TipTap HTML 対応）
 4. `supabase/sql/004_columns_title.sql`（タイトル列の追加）
-5. `supabase/sql/005_columns_char_limit_fixed.sql`（文字数上限を140文字に固定）
+5. `supabase/sql/005_columns_char_limit_fixed.sql`（文字数上限を140文字に固定・旧環境向け）
 6. `supabase/sql/006_profiles_bio.sql`（自己紹介文の追加）
 7. `supabase/sql/007_columns_status.sql`（下書き・公開ステータス）
+8. `supabase/sql/008_columns_char_limit_1400.sql`（文字数上限を1400文字に変更）
 
 ### 既にセットアップ済みの場合
 
@@ -36,8 +37,9 @@ https://<project-ref>.supabase.co/auth/v1/callback
 
 - 下書き機能を使う → `007_columns_status.sql` のみ
 - 自己紹介文が保存できない → `006_profiles_bio.sql` のみ
+- 文字数上限を変更する → `008_columns_char_limit_1400.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜007 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜008 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 
