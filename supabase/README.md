@@ -21,13 +21,12 @@ https://<project-ref>.supabase.co/auth/v1/callback
 **SQL Editor** で以下を順番に実行:
 
 1. `supabase/sql/001_profiles.sql`（未実行の場合）
-2. `supabase/sql/002_columns.sql`（コラム投稿機能）
+2. `supabase/sql/002_columns.sql`（コラム投稿機能・新規は1400文字固定）
 3. `supabase/sql/003_columns_tiptap.sql`（TipTap HTML 対応）
-4. `supabase/sql/004_columns_title.sql`（タイトル列の追加）
-5. `supabase/sql/005_columns_char_limit_fixed.sql`（文字数上限を140文字に固定・旧環境向け）
-6. `supabase/sql/006_profiles_bio.sql`（自己紹介文の追加）
-7. `supabase/sql/007_columns_status.sql`（下書き・公開ステータス）
-8. `supabase/sql/008_columns_char_limit_1400.sql`（文字数上限を1400文字に変更）
+4. `supabase/sql/004_columns_title.sql`（タイトル列の追加・002に含まれる場合は不要）
+5. `supabase/sql/006_profiles_bio.sql`（自己紹介文の追加）
+6. `supabase/sql/007_columns_status.sql`（下書き・公開ステータス）
+7. `supabase/sql/008_columns_char_limit_1400.sql`（文字数上限を1400文字に変更・002適用済みなら不要）
 
 ### 既にセットアップ済みの場合
 
@@ -81,9 +80,10 @@ Next.js 側の実装済み:
 - `src/lib/supabase/` — クライアント初期化（browser / server / middleware）
 - `src/middleware.ts` — セッション更新
 - `src/app/login/` — Google ログイン画面
-- `src/app/mypage/` — プロフィール編集画面
+- `src/app/mypage/` — マイページ
+- `src/app/settings/` — 設定（プロフィール・カラーモード・文字組み）
 - `src/app/auth/callback/` — OAuth コールバック
-- `src/components/auth/google-login-button.tsx`
+- `src/components/auth/google-auth-button.tsx`
 - `src/components/profile/profile-form.tsx`
 
 ### 動作確認

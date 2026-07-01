@@ -1,6 +1,8 @@
 import type { SettingsItem } from "@/lib/settings/items";
 
-type SettingsPageHeaderProps = Pick<SettingsItem, "Icon" | "title" | "description">;
+type SettingsPageHeaderProps = Pick<SettingsItem, "Icon" | "title"> & {
+  description: string;
+};
 
 export function SettingsPageHeader({
   Icon,

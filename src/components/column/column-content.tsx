@@ -7,10 +7,6 @@ type ColumnContentProps = {
   content: string;
 };
 
-function splitPlainTextParagraphs(content: string): string[] {
-  return content.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
-}
-
 export function ColumnContent({ content }: ColumnContentProps) {
   const { style } = useColumnTypography();
 
@@ -21,20 +17,6 @@ export function ColumnContent({ content }: ColumnContentProps) {
         style={style}
         dangerouslySetInnerHTML={{ __html: content }}
       />
-    );
-  }
-
-  const paragraphs = splitPlainTextParagraphs(content);
-
-  if (paragraphs.length > 1) {
-    return (
-      <div className="column-content w-full break-words" style={style}>
-        {paragraphs.map((paragraph, index) => (
-          <p key={index} className="whitespace-pre-wrap">
-            {paragraph}
-          </p>
-        ))}
-      </div>
     );
   }
 

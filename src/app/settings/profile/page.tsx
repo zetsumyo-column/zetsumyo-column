@@ -34,17 +34,17 @@ export default async function SettingsProfilePage() {
 
   return (
     <div className="page">
-        <SettingsPageHeader
-          Icon={settingsItem.Icon}
-          title={settingsItem.title}
-          description="ID・ユーザー名・自己紹介文を変更できます"
-        />
+      <SettingsPageHeader
+        Icon={settingsItem.Icon}
+        title={settingsItem.title}
+        description="ID・ユーザー名・自己紹介文を変更できます"
+      />
 
-        <ProfileForm profile={profile} />
+      <ProfileForm profile={profile} />
 
-        <p className="mt-8 text-center">
-          <BackLink href="/settings">設定に戻る</BackLink>
-        </p>
+      <p className="mt-8 text-center">
+        <BackLink href="/settings">設定に戻る</BackLink>
+      </p>
     </div>
   );
 }

@@ -4,9 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
-  CHAR_LIMIT,
+  CONTENT_MAX_LENGTH,
   DRAFT_TITLE_PLACEHOLDER,
-  LEGACY_CHAR_LIMIT,
   type ColumnStatus,
 } from "@/lib/constants/column";
 import {
@@ -14,10 +13,7 @@ import {
   validateColumnDraft,
   validateColumnTitle,
 } from "@/lib/validation/column";
-import {
-  getColumnSaveErrorMessage,
-  isCharLimitConstraintError,
-} from "@/lib/supabase/errors";
+import { getColumnSaveErrorMessage } from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
 export type ColumnFormState = {
@@ -45,8 +41,10 @@ function revalidateColumnPaths() {
   revalidatePath("/mypage");
 }
 
-function withCharLimit(payload: Omit<ColumnPayload, "char_limit">, charLimit: number): ColumnPayload {
-  return { ...payload, char_limit: charLimit };
+function buildPayload(
+  base: Omit<ColumnPayload, "char_limit">,
+): ColumnPayload {
+  return { ...base, char_limit: CONTENT_MAX_LENGTH };
 }
 
 export async function saveColumn(
@@ -110,21 +108,11 @@ export async function saveColumn(
       return { error: "公開済みのコラムは編集できません" };
     }
 
-    let payload = withCharLimit(basePayload, CHAR_LIMIT);
-    let { error } = await supabase
+    const { error } = await supabase
       .from("columns")
-      .update(payload)
+      .update(buildPayload(basePayload))
       .eq("id", columnId)
       .eq("author_id", user.id);
-
-    if (error && isCharLimitConstraintError(error)) {
-      payload = withCharLimit(basePayload, LEGACY_CHAR_LIMIT);
-      ({ error } = await supabase
-        .from("columns")
-        .update(payload)
-        .eq("id", columnId)
-        .eq("author_id", user.id));
-    }
 
     if (error) {
       console.error("column update error:", error);
@@ -142,27 +130,14 @@ export async function saveColumn(
     redirect("/mypage");
   }
 
-  let payload = withCharLimit(basePayload, CHAR_LIMIT);
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("columns")
     .insert({
       author_id: user.id,
-      ...payload,
+      ...buildPayload(basePayload),
     })
     .select("id")
     .single();
-
-  if (error && isCharLimitConstraintError(error)) {
-    payload = withCharLimit(basePayload, LEGACY_CHAR_LIMIT);
-    ({ data, error } = await supabase
-      .from("columns")
-      .insert({
-        author_id: user.id,
-        ...payload,
-      })
-      .select("id")
-      .single());
-  }
 
   if (error) {
     console.error("column insert error:", error);
@@ -207,6 +182,3 @@ export async function deleteColumn(formData: FormData): Promise<void> {
   revalidateColumnPaths();
   redirect("/mypage");
 }
-
-// 後方互換のエイリアス
-export const createColumn = saveColumn;

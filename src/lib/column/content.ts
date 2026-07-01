@@ -13,7 +13,7 @@ export function getPlainTextLength(html: string): number {
   return getPlainTextFromHtml(html).length;
 }
 
-/** プレーンテキストのみの既存投稿かどうか */
+/** プレーンテキストのみの既存投稿かどうか（TipTap 導入前） */
 export function isHtmlContent(content: string): boolean {
   return /<[^>]+>/.test(content);
 }

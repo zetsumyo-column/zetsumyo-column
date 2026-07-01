@@ -1,8 +1,5 @@
 export const CONTENT_MIN_LENGTH = 700;
 export const CONTENT_MAX_LENGTH = 1400;
-export const CHAR_LIMIT = CONTENT_MAX_LENGTH;
-/** 008 適用前の DB 制約向けフォールバック */
-export const LEGACY_CHAR_LIMIT = 140;
 
 export const TITLE_MAX_LENGTH = 80;
 
