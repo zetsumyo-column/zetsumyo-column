@@ -75,6 +75,7 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
             <h1 className="title">{profile.display_name}</h1>
             <p className="muted mt-1">@{profile.user_id}</p>
             <ProfileFollowStats
+              userId={profile.user_id}
               followerCount={followInfo.followerCount}
               followingCount={followInfo.followingCount}
             />

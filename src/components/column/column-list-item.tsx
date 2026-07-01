@@ -1,19 +1,12 @@
 import Link from "next/link";
 
 import { getPlainTextLength } from "@/lib/column/content";
+import { formatDate } from "@/lib/format-date";
 import type { ColumnListItem } from "@/types/database";
 
 type ColumnListItemProps = {
   column: ColumnListItem;
 };
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 export function ColumnListItem({ column }: ColumnListItemProps) {
   const plainTextLength = getPlainTextLength(column.content);

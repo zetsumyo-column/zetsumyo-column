@@ -1,4 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
+import type { Profile } from "@/types/database";
+
+export type FollowProfile = Pick<
+  Profile,
+  "id" | "user_id" | "display_name" | "avatar_url"
+>;
 
 export type FollowInfo = {
   followerCount: number;
@@ -58,4 +64,53 @@ export async function getFollowInfo(
     followingCount: followingCount ?? 0,
     isFollowing: !!data,
   };
+}
+
+export type FollowListRow = {
+  created_at: string;
+  profiles: FollowProfile;
+};
+
+export async function getFollowers(profileId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("user_follows")
+    .select(
+      "created_at, profiles!user_follows_follower_id_fkey(id, user_id, display_name, avatar_url)",
+    )
+    .eq("following_id", profileId)
+    .order("created_at", { ascending: false });
+
+  return {
+    data: (data ?? null) as FollowListRow[] | null,
+    error,
+  };
+}
+
+export async function getFollowing(profileId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("user_follows")
+    .select(
+      "created_at, profiles!user_follows_following_id_fkey(id, user_id, display_name, avatar_url)",
+    )
+    .eq("follower_id", profileId)
+    .order("created_at", { ascending: false });
+
+  return {
+    data: (data ?? null) as FollowListRow[] | null,
+    error,
+  };
+}
+
+export function getProfileHref(
+  profileUserId: string,
+  currentUserId?: string,
+  profileId?: string,
+): string {
+  if (currentUserId && profileId && currentUserId === profileId) {
+    return "/mypage";
+  }
+
+  return `/users/${profileUserId}`;
 }

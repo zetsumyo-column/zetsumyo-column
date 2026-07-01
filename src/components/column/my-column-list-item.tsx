@@ -2,19 +2,12 @@ import Link from "next/link";
 
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { getPlainTextLength } from "@/lib/column/content";
+import { formatDate } from "@/lib/format-date";
 import type { ColumnListItem } from "@/types/database";
 
 type MyColumnListItemProps = {
   column: ColumnListItem;
 };
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 export function MyColumnListItem({ column }: MyColumnListItemProps) {
   const plainTextLength = getPlainTextLength(column.content);

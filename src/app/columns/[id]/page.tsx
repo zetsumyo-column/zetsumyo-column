@@ -9,20 +9,13 @@ import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getColumnLikeInfo } from "@/lib/column/likes";
 import { getPlainTextLength } from "@/lib/column/content";
+import { formatDate } from "@/lib/format-date";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnWithAuthor } from "@/types/database";
 
 type ColumnPageProps = {
   params: Promise<{ id: string }>;
 };
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 async function getColumn(id: string): Promise<ColumnWithAuthor | null> {
   const supabase = await createClient();

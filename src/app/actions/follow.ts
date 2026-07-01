@@ -69,9 +69,17 @@ export async function toggleFollow(
   }
 
   const profileUserId = await getProfileUserId(targetProfileId);
+  const currentUserProfileUserId = await getProfileUserId(user.id);
+
   if (profileUserId) {
     revalidatePath(`/users/${profileUserId}`);
+    revalidatePath(`/users/${profileUserId}/followers`);
   }
+
+  if (currentUserProfileUserId) {
+    revalidatePath(`/users/${currentUserProfileUserId}/following`);
+  }
+
   revalidatePath("/mypage");
 
   return getFollowInfo(targetProfileId, user.id);
