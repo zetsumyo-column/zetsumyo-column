@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "**/.git": false,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/.open-next": true
+  },
+  "explorer.excludeGitIgnore": false
+}
