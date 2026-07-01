@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
+import { getAvatarInitial } from "@/lib/profile/avatar";
 import { getMyColumns } from "@/lib/column/queries";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { createClient } from "@/lib/supabase/server";
@@ -58,7 +59,9 @@ export default async function MypagePage() {
                 className="rounded-full"
               />
             ) : (
-              <div className="avatar h-20 w-20 text-2xl">{profile.display_name.charAt(0)}</div>
+              <div className="avatar h-20 w-20 text-2xl">
+                {getAvatarInitial(profile.display_name, profile.user_id)}
+              </div>
             )}
           </div>
           <div className="min-w-0 flex-1">

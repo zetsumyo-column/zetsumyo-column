@@ -1,7 +1,7 @@
 import type { SettingsItem } from "@/lib/settings/items";
 
 type SettingsPageHeaderProps = Pick<SettingsItem, "Icon" | "title"> & {
-  description: string;
+  description?: string;
 };
 
 export function SettingsPageHeader({
@@ -15,7 +15,7 @@ export function SettingsPageHeader({
         <Icon className="h-6 w-6 shrink-0" aria-hidden />
         {title}
       </h1>
-      <p className="muted mt-2">{description}</p>
+      {description && <p className="muted mt-2">{description}</p>}
     </div>
   );
 }

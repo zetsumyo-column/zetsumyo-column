@@ -7,6 +7,7 @@ import { FollowButton } from "@/components/profile/follow-button";
 import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
+import { getAvatarInitial } from "@/lib/profile/avatar";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { getProfileByUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -67,7 +68,7 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
               />
             ) : (
               <div className="avatar h-20 w-20 text-2xl">
-                {profile.display_name.charAt(0)}
+                {getAvatarInitial(profile.display_name, profile.user_id)}
               </div>
             )}
           </div>

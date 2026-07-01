@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getAvatarInitial } from "@/lib/profile/avatar";
 import type { FollowProfile } from "@/lib/profile/follows";
 
 type ProfileListItemProps = {
@@ -20,7 +21,9 @@ export function ProfileListItem({ profile, href }: ProfileListItemProps) {
           className="rounded-full"
         />
       ) : (
-        <div className="avatar h-10 w-10 text-sm">{profile.display_name.charAt(0)}</div>
+        <div className="avatar h-10 w-10 text-sm">
+          {getAvatarInitial(profile.display_name, profile.user_id)}
+        </div>
       )}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{profile.display_name}</p>

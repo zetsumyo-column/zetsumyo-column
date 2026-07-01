@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { FollowButton } from "@/components/profile/follow-button";
 import { formatDate } from "@/lib/format-date";
+import { getAvatarInitial } from "@/lib/profile/avatar";
 import type { Profile } from "@/types/database";
 
 type ColumnArticleFooterProps = {
@@ -66,7 +67,7 @@ export function ColumnArticleFooter({
               />
             ) : (
               <div className="avatar h-10 w-10 text-sm">
-                {author.display_name.charAt(0)}
+                {getAvatarInitial(author.display_name, author.user_id)}
               </div>
             )}
             <div className="min-w-0">

@@ -8,6 +8,23 @@ import type { Database } from "@/types/database";
 
 const AVATAR_BUCKET = "avatars";
 
+export function getAvatarInitial(
+  displayName?: string | null,
+  fallback?: string | null,
+): string {
+  const name = displayName?.trim();
+  if (name) {
+    return name.charAt(0);
+  }
+
+  const alt = fallback?.trim();
+  if (alt) {
+    return alt.charAt(0);
+  }
+
+  return "?";
+}
+
 export async function uploadProfileAvatar(
   supabase: SupabaseClient<Database>,
   userId: string,

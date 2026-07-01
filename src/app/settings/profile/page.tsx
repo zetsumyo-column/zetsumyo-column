@@ -37,7 +37,6 @@ export default async function SettingsProfilePage() {
       <SettingsPageHeader
         Icon={settingsItem.Icon}
         title={settingsItem.title}
-        description="ID・ユーザー名・自己紹介文・プロフィール画像を変更できます"
       />
 
       <ProfileForm profile={profile} />

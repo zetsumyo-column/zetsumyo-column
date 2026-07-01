@@ -51,9 +51,6 @@ export default async function FollowersPage({ params }: FollowersPageProps) {
       <div className="page">
         <div className="mb-8">
           <h1 className="title">フォロワー</h1>
-          <p className="muted mt-2">
-            {isOwnProfile ? "あなた" : profile.display_name}のフォロワー
-          </p>
         </div>
 
         {followsError && (
@@ -81,11 +78,11 @@ export default async function FollowersPage({ params }: FollowersPageProps) {
           </ul>
         )}
 
-        <p className="mt-8 text-center">
-          <BackLink href={backHref}>
-            {isOwnProfile ? "マイページに戻る" : "プロフィールに戻る"}
-          </BackLink>
-        </p>
+        {!isOwnProfile && (
+          <p className="mt-8 text-center">
+            <BackLink href={backHref}>プロフィールに戻る</BackLink>
+          </p>
+        )}
       </div>
     </>
   );

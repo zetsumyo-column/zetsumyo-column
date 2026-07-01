@@ -30,10 +30,10 @@ export async function SiteHeader() {
           />
         </Link>
         <nav className="flex items-center gap-4">
-          {user && profile ? (
+          {user && profile?.user_id ? (
             <HeaderUserMenu
               avatarUrl={profile.avatar_url}
-              displayName={profile.display_name}
+              displayName={profile.display_name ?? profile.user_id}
               userId={profile.user_id}
             />
           ) : (

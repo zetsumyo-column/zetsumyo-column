@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 
 import { signOut } from "@/app/actions/auth";
+import { getAvatarInitial } from "@/lib/profile/avatar";
 
 type HeaderUserMenuProps = {
   avatarUrl: string | null;
@@ -87,14 +88,16 @@ export function HeaderUserMenu({
             className="rounded-full"
           />
         ) : (
-          <div className="avatar h-10 w-10 text-sm">{displayName.charAt(0)}</div>
+          <div className="avatar h-10 w-10 text-sm">
+            {getAvatarInitial(displayName, userId)}
+          </div>
         )}
       </button>
 
       {open && (
         <div className="header-menu-popup" role="menu" aria-label="ユーザーメニュー">
           <div className="header-menu-head">
-            <p className="truncate text-sm font-medium">{displayName}</p>
+            <p className="truncate text-sm font-medium">{displayName || userId}</p>
             <p className="hint mt-0.5 truncate">@{userId}</p>
           </div>
 

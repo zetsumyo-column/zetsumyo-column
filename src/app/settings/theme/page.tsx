@@ -11,7 +11,6 @@ export default function SettingsThemePage() {
         <SettingsPageHeader
           Icon={settingsItem.Icon}
           title={settingsItem.title}
-          description="ライト・ダークを切り替えられます"
         />
 
         <ThemeSetting />

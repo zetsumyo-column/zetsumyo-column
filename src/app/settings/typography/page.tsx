@@ -11,7 +11,6 @@ export default function SettingsTypographyPage() {
         <SettingsPageHeader
           Icon={settingsItem.Icon}
           title={settingsItem.title}
-          description="文字サイズ・行間・段落の広さ・字間を調整できます"
         />
 
         <ColumnTypographySetting />

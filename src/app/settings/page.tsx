@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { signOut } from "@/app/actions/auth";
-import { BackLink } from "@/components/ui/back-link";
 import { SETTINGS_ITEMS } from "@/lib/settings/items";
 
 export default function SettingsPage() {
@@ -21,18 +19,6 @@ export default function SettingsPage() {
             </li>
           ))}
         </ul>
-
-        <div className="divider">
-          <form action={signOut}>
-            <button type="submit" className="link">
-              ログアウト
-            </button>
-          </form>
-        </div>
-
-        <p className="mt-8 text-center">
-          <BackLink href="/mypage">マイページに戻る</BackLink>
-        </p>
     </div>
   );
 }

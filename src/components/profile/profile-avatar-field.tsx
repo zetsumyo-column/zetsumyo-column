@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { AVATAR_ALLOWED_TYPES } from "@/lib/validation/avatar";
+import { getAvatarInitial } from "@/lib/profile/avatar";
 
 type ProfileAvatarFieldProps = {
   displayName: string;
@@ -43,7 +44,7 @@ export function ProfileAvatarField({
             unoptimized={previewUrl.startsWith("blob:")}
           />
         ) : (
-          <div className="avatar h-20 w-20 text-2xl">{displayName.charAt(0)}</div>
+          <div className="avatar h-20 w-20 text-2xl">{getAvatarInitial(displayName)}</div>
         )}
         <div>
           <input
