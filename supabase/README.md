@@ -29,6 +29,7 @@ https://<project-ref>.supabase.co/auth/v1/callback
 7. `supabase/sql/008_columns_char_limit_1400.sql`（文字数上限を1400文字に変更・002適用済みなら不要）
 8. `supabase/sql/009_column_likes.sql`（いいね機能）
 9. `supabase/sql/010_user_follows.sql`（フォロー機能）
+10. `supabase/sql/011_avatars_storage.sql`（プロフィール画像のアップロード）
 
 ### 既にセットアップ済みの場合
 
@@ -41,8 +42,9 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - 文字数上限を変更する → `008_columns_char_limit_1400.sql` のみ
 - いいね機能を使う → `009_column_likes.sql` のみ
 - フォロー機能を使う → `010_user_follows.sql` のみ
+- プロフィール画像を変更する → `011_avatars_storage.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜010 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜011 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 

@@ -7,6 +7,8 @@ import {
   validateDisplayName,
   validateUserId,
 } from "@/lib/validation/profile";
+import { validateAvatarFile } from "@/lib/validation/avatar";
+import { uploadProfileAvatar } from "@/lib/profile/avatar";
 import { getProfileSaveErrorMessage } from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
@@ -39,6 +41,14 @@ export async function updateProfile(
     return { error: bioError };
   }
 
+  const avatarFile = formData.get("avatar");
+  if (avatarFile instanceof File && avatarFile.size > 0) {
+    const avatarError = validateAvatarFile(avatarFile);
+    if (avatarError) {
+      return { error: avatarError };
+    }
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -48,10 +58,21 @@ export async function updateProfile(
     return { error: "ログインが必要です" };
   }
 
+  let avatarUrl: string | undefined;
+
+  if (avatarFile instanceof File && avatarFile.size > 0) {
+    const uploadResult = await uploadProfileAvatar(supabase, user.id, avatarFile);
+    if ("error" in uploadResult) {
+      return { error: uploadResult.error };
+    }
+    avatarUrl = uploadResult.avatarUrl;
+  }
+
   const updatePayload = {
     user_id: userId,
     display_name: displayName,
     bio: bio.length > 0 ? bio : null,
+    ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
   };
 
   let { error } = await supabase
@@ -71,12 +92,14 @@ export async function updateProfile(
       .update({
         user_id: userId,
         display_name: displayName,
+        ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
       })
       .eq("id", user.id));
 
     if (!error) {
       revalidatePath("/mypage");
       revalidatePath("/settings");
+      revalidatePath(`/users/${userId}`);
       if (bioProvided) {
         return {
           warning:
@@ -95,5 +118,6 @@ export async function updateProfile(
 
   revalidatePath("/mypage");
   revalidatePath("/settings");
+  revalidatePath(`/users/${userId}`);
   return { success: true };
 }

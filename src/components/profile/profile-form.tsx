@@ -6,6 +6,7 @@ import {
   updateProfile,
   type ProfileFormState,
 } from "@/app/actions/profile";
+import { ProfileAvatarField } from "@/components/profile/profile-avatar-field";
 import { BIO_MAX_LENGTH } from "@/lib/validation/profile";
 import type { Profile } from "@/types/database";
 
@@ -25,6 +26,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
 
   return (
     <form action={formAction} className="stack">
+      <ProfileAvatarField
+        displayName={profile.display_name}
+        avatarUrl={profile.avatar_url}
+      />
+
       <div className="field">
         <label htmlFor="user_id" className="label">
           ID

@@ -8,7 +8,7 @@ type BackLinkProps = {
 export function BackLink({ href, children }: BackLinkProps) {
   return (
     <Link href={href} className="link">
-      ← {children}
+      {children}
     </Link>
   );
 }
