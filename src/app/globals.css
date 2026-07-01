@@ -56,6 +56,22 @@ body {
     @apply text-sm text-zinc-500;
   }
 
+  .profile-follow-stats {
+    @apply mt-3 flex items-center gap-1;
+  }
+
+  .profile-follow-stat {
+    @apply inline-flex items-baseline gap-1 rounded-md px-2.5 py-1.5 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900/60;
+  }
+
+  .profile-follow-stat-value {
+    @apply text-sm font-semibold tabular-nums;
+  }
+
+  .profile-follow-stat-label {
+    @apply text-sm text-zinc-500;
+  }
+
   .hint {
     @apply text-xs text-zinc-500;
   }

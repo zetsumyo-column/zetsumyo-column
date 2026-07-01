@@ -12,14 +12,15 @@ export function ProfileFollowStats({
   followingCount,
 }: ProfileFollowStatsProps) {
   return (
-    <p className="hint mt-2">
-      <Link href={`/users/${userId}/followers`} className="link">
-        {followerCount} フォロワー
+    <div className="profile-follow-stats">
+      <Link href={`/users/${userId}/followers`} className="profile-follow-stat">
+        <span className="profile-follow-stat-value">{followerCount}</span>
+        <span className="profile-follow-stat-label">フォロワー</span>
       </Link>
-      <span className="mx-1.5">·</span>
-      <Link href={`/users/${userId}/following`} className="link">
-        {followingCount} フォロー中
+      <Link href={`/users/${userId}/following`} className="profile-follow-stat">
+        <span className="profile-follow-stat-value">{followingCount}</span>
+        <span className="profile-follow-stat-label">フォロー中</span>
       </Link>
-    </p>
+    </div>
   );
 }
