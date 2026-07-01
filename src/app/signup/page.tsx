@@ -41,9 +41,9 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
           </Link>
         </p>
 
-        <p className="hint mt-4 text-center">
-          <BackLink href="/">トップに戻る</BackLink>
-        </p>
+        <BackLink href="/" className="hint mt-4 block text-center">
+          トップに戻る
+        </BackLink>
       </div>
     </div>
   );

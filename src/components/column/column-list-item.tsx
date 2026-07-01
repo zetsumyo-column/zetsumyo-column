@@ -19,25 +19,25 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
 
   if (!hasAuthor(column)) {
     return (
-      <article className="column-feed-item">
-        <Link href={`/columns/${column.id}`} className="block">
-          <p className="text-base font-medium">{column.title}</p>
+      <li className="column-feed-item">
+        <Link href={`/columns/${column.id}`} className="block text-base font-medium">
+          {column.title}
         </Link>
         <p className="hint mt-2">
           <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
           <span className="mx-1.5">·</span>
           <span>{plainTextLength}文字</span>
         </p>
-      </article>
+      </li>
     );
   }
 
   const { profiles: author } = column;
 
   return (
-    <article className="column-feed-item">
-      <Link href={`/columns/${column.id}`} className="block">
-        <p className="text-base font-medium">{column.title}</p>
+    <li className="column-feed-item">
+      <Link href={`/columns/${column.id}`} className="block text-base font-medium">
+        {column.title}
       </Link>
       <p className="hint mt-2">
         <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
@@ -46,14 +46,14 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
         <span className="mx-1.5">·</span>
         <Link href={`/users/${author.user_id}`}>{author.display_name}</Link>
       </p>
-    </article>
+    </li>
   );
 }
 
 export function ColumnListEmpty() {
   return (
-    <div className="empty">
-      <p className="muted">まだコラムがありません</p>
+    <div className="empty muted">
+      まだコラムがありません
       <Link href="/columns/new" className="link mt-3 inline-block">
         最初のコラムを投稿する
       </Link>

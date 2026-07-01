@@ -21,7 +21,6 @@ export function ThemeSetting() {
   if (!mounted) {
     return (
       <OptionGroup
-        label="カラーモード"
         options={THEMES}
         value="light"
         onChange={() => {}}
@@ -33,7 +32,6 @@ export function ThemeSetting() {
 
   return (
     <OptionGroup
-      label="カラーモード"
       options={THEMES}
       value={currentTheme}
       onChange={setTheme}

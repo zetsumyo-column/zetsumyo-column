@@ -35,7 +35,7 @@ export function ColumnLikeButton({
   }
 
   return (
-    <div>
+    <>
       <button
         type="button"
         className={liked ? "like-button like-button-active" : "like-button"}
@@ -61,6 +61,6 @@ export function ColumnLikeButton({
         <span>{count}</span>
       </button>
       {error && <p className="hint mt-1 text-red-600">{error}</p>}
-    </div>
+    </>
   );
 }

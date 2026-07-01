@@ -1,12 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { ProfileForm } from "@/components/profile/profile-form";
-import { SettingsPageHeader } from "@/components/settings/settings-page-header";
-import { BackLink } from "@/components/ui/back-link";
-import { getSettingsItem } from "@/lib/settings/items";
+import { SettingsPageShell } from "@/components/settings/settings-page-shell";
 import { createClient } from "@/lib/supabase/server";
-
-const settingsItem = getSettingsItem("/settings/profile")!;
 
 export default async function SettingsProfilePage() {
   const supabase = await createClient();
@@ -33,17 +29,8 @@ export default async function SettingsProfilePage() {
   }
 
   return (
-    <div className="page">
-      <SettingsPageHeader
-        Icon={settingsItem.Icon}
-        title={settingsItem.title}
-      />
-
+    <SettingsPageShell title="プロフィール">
       <ProfileForm profile={profile} />
-
-      <p className="mt-8 text-center">
-        <BackLink href="/settings">設定に戻る</BackLink>
-      </p>
-    </div>
+    </SettingsPageShell>
   );
 }

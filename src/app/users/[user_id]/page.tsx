@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ColumnListItem } from "@/components/column/column-list-item";
 import { FollowButton } from "@/components/profile/follow-button";
 import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
+import { ProfileListEmpty } from "@/components/profile/profile-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
 import { getAvatarInitial } from "@/lib/profile/avatar";
@@ -83,13 +84,12 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
             {profile.bio && (
               <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
             )}
-            <div className="mt-4">
-              <FollowButton
-                targetProfileId={profile.id}
-                initialFollowing={followInfo.isFollowing}
-                isLoggedIn={!!user}
-              />
-            </div>
+            <FollowButton
+              className="mt-4"
+              targetProfileId={profile.id}
+              initialFollowing={followInfo.isFollowing}
+              isLoggedIn={!!user}
+            />
           </div>
         </div>
 
@@ -99,17 +99,13 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
           )}
 
           {!columnsError && (!columns || columns.length === 0) && (
-            <div className="empty mt-4">
-              <p className="muted">まだコラムがありません</p>
-            </div>
+            <ProfileListEmpty message="まだコラムがありません" className="mt-4" />
           )}
 
           {!columnsError && columns && columns.length > 0 && (
             <ul className="column-feed-list">
               {(columns as ColumnListItemType[]).map((column) => (
-                <li key={column.id}>
-                  <ColumnListItem column={column} />
-                </li>
+                <ColumnListItem key={column.id} column={column} />
               ))}
             </ul>
           )}

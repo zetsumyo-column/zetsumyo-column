@@ -24,11 +24,11 @@ export function ColumnTypographySetting() {
   }, []);
 
   if (!mounted) {
-    return <p className="muted">文字組みを読み込み中...</p>;
+    return <p className="muted text-sm">読み込み中...</p>;
   }
 
   return (
-    <div className="stack">
+    <div className="typography-settings">
       <OptionGroup<ColumnFontSize>
         label="文字サイズ"
         options={FONT_SIZE_OPTIONS}
@@ -58,8 +58,8 @@ export function ColumnTypographySetting() {
         }
       />
 
-      <div className="card">
-        <p className="hint mb-2">プレビュー</p>
+      <div className="settings-preview">
+        <p className="settings-preview-label">プレビュー</p>
         <div className="column-content w-full break-words" style={style}>
           <p>
             絶妙な味わいのコラムを、好みの文字組みで読めます。文字サイズや行間、段落の広さ、字間を変えると、同じ文章でも読み心地がまったく違って感じられます。

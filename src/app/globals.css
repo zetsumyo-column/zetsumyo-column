@@ -45,19 +45,11 @@ body {
   }
 
   .column-article {
-    @apply flex flex-col;
-  }
-
-  .column-main {
-    @apply flex flex-col gap-6 py-16;
+    @apply flex flex-col gap-6 pt-16 pb-16;
   }
 
   .column-footer {
     @apply flex flex-col gap-4 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-800;
-  }
-
-  .column-footer-author {
-    @apply pt-2;
   }
 
   .muted {
@@ -73,27 +65,27 @@ body {
   }
 
   .field {
-    @apply flex flex-col gap-1;
+    @apply flex flex-col gap-1.5;
   }
 
   .label {
-    @apply text-sm;
+    @apply text-sm font-medium;
   }
 
   .input {
-    @apply w-full border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-zinc-700;
+    @apply w-full rounded-md border border-zinc-300 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50 dark:border-zinc-700 dark:focus-visible:ring-zinc-500/50;
   }
 
   .textarea {
-    @apply w-full resize-none border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-zinc-700;
+    @apply w-full resize-none rounded-md border border-zinc-300 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50 dark:border-zinc-700 dark:focus-visible:ring-zinc-500/50;
   }
 
   .btn {
-    @apply border border-zinc-900 bg-zinc-900 px-4 py-3 text-sm text-white disabled:opacity-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900;
+    @apply rounded-md border border-zinc-900 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors outline-none hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-zinc-400/50 disabled:opacity-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:ring-zinc-500/50;
   }
 
   .btn-outline {
-    @apply border border-zinc-300 bg-transparent px-4 py-3 text-sm dark:border-zinc-700;
+    @apply rounded-md border border-zinc-300 bg-transparent px-4 py-2.5 text-sm font-medium transition-colors outline-none hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-zinc-400/50 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900/60 dark:focus-visible:ring-zinc-500/50;
   }
 
   .btn-row {
@@ -110,19 +102,59 @@ body {
   }
 
   .card {
-    @apply border border-zinc-200 px-4 py-3 dark:border-zinc-800;
+    @apply rounded-md border border-zinc-300 px-4 py-3 dark:border-zinc-700;
   }
 
   .card-link {
-    @apply block border border-zinc-200 px-4 py-3 dark:border-zinc-800;
+    @apply block rounded-md border border-zinc-300 px-4 py-3 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900/60;
   }
 
-  .settings-item {
-    @apply flex items-center gap-3 py-2;
+  .settings-nav {
+    @apply mt-8 flex flex-col;
   }
 
-  .settings-item-icon {
-    @apply h-5 w-5 shrink-0 text-zinc-500;
+  .settings-nav-item {
+    @apply flex items-center gap-3 border-b border-dashed border-zinc-200 py-4 text-sm transition-colors hover:text-zinc-600 dark:border-zinc-800 dark:hover:text-zinc-300;
+  }
+
+  .settings-nav-icon {
+    @apply h-5 w-5 shrink-0 text-zinc-400;
+  }
+
+  .settings-nav-chevron {
+    @apply ml-auto h-4 w-4 shrink-0 text-zinc-300 dark:text-zinc-600;
+  }
+
+  .settings-form {
+    @apply flex flex-col gap-8;
+  }
+
+  .settings-preview {
+    @apply rounded-md border border-dashed border-zinc-300 px-4 py-6 dark:border-zinc-700;
+  }
+
+  .settings-preview-label {
+    @apply mb-4 text-xs text-zinc-500;
+  }
+
+  .typography-settings {
+    @apply flex flex-col gap-8;
+  }
+
+  .segmented-control {
+    @apply grid w-full overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-700;
+  }
+
+  .segmented-item {
+    @apply flex min-w-0 items-center justify-center border-r border-zinc-300 bg-transparent px-3 py-2.5 text-sm transition-colors outline-none last:border-r-0 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400/50 dark:border-zinc-700 dark:hover:bg-zinc-900/60 dark:focus-visible:ring-zinc-500/50;
+  }
+
+  .segmented-item-active {
+    @apply bg-zinc-100 font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100;
+  }
+
+  .segmented-item-active:hover {
+    @apply bg-zinc-100 dark:bg-zinc-800;
   }
 
   .like-button {
@@ -134,23 +166,23 @@ body {
   }
 
   .empty {
-    @apply border border-dashed border-zinc-300 px-6 py-12 text-center dark:border-zinc-700;
+    @apply rounded-md border border-dashed border-zinc-300 px-6 py-12 text-center dark:border-zinc-700;
   }
 
   .alert-error {
-    @apply px-4 py-3 text-sm bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300;
+    @apply rounded-md px-4 py-3 text-sm bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300;
   }
 
   .alert-warning {
-    @apply px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
+    @apply rounded-md px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
   }
 
   .draft-banner {
-    @apply mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
+    @apply mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
   }
 
   .alert-success {
-    @apply px-4 py-3 text-sm bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300;
+    @apply rounded-md px-4 py-3 text-sm bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300;
   }
 
   .header {
@@ -174,15 +206,11 @@ body {
   }
 
   .header-menu-popup {
-    @apply absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg dark:border-zinc-800 dark:bg-zinc-950;
+    @apply absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-800 dark:bg-zinc-950;
   }
 
   .header-menu-head {
     @apply border-b border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900;
-  }
-
-  .header-menu-list {
-    @apply py-1;
   }
 
   .header-menu-divider {
@@ -198,23 +226,11 @@ body {
   }
 
   .nav-link {
-    @apply text-sm;
-  }
-
-  .options {
-    @apply flex flex-wrap gap-2;
-  }
-
-  .option {
-    @apply border border-zinc-300 px-3 py-1.5 text-sm dark:border-zinc-700;
-  }
-
-  .option-active {
-    @apply border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900;
+    @apply text-sm transition-colors hover:text-zinc-600 dark:hover:text-zinc-300;
   }
 
   .editor {
-    @apply border border-zinc-300 dark:border-zinc-700;
+    @apply overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-700;
   }
 
   .editor-footer {
@@ -234,11 +250,11 @@ body {
   }
 
   .list {
-    @apply mt-4 flex flex-col gap-2;
+    @apply m-0 mt-4 flex list-none flex-col gap-2 p-0;
   }
 
   .column-feed-list {
-    @apply flex flex-col;
+    @apply m-0 flex list-none flex-col p-0;
   }
 
   .column-feed-item {
@@ -252,7 +268,7 @@ body {
 
 /* TipTap エディター */
 .column-editor .tiptap {
-  @apply min-h-[280px] px-4 py-3 text-sm leading-relaxed outline-none;
+  @apply min-h-[280px] px-4 py-3 text-base leading-relaxed outline-none;
 }
 
 .column-editor .tiptap p {

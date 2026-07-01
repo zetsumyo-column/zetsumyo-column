@@ -31,20 +31,22 @@ export function ProfileAvatarField({
   }, [previewUrl]);
 
   return (
-    <div className="field">
+    <div className="field border-b border-dashed border-zinc-200 pb-8 dark:border-zinc-800">
       <p className="label">プロフィール画像</p>
-      <div className="flex items-center gap-4">
+      <div className="mt-2 flex items-center gap-5">
         {previewUrl ? (
           <Image
             src={previewUrl}
             alt={displayName}
-            width={80}
-            height={80}
+            width={64}
+            height={64}
             className="rounded-full"
             unoptimized={previewUrl.startsWith("blob:")}
           />
         ) : (
-          <div className="avatar h-20 w-20 text-2xl">{getAvatarInitial(displayName)}</div>
+          <div className="avatar h-16 w-16 text-xl">
+            {getAvatarInitial(displayName)}
+          </div>
         )}
         <div>
           <input

@@ -21,9 +21,7 @@ export default async function HomePage() {
         {!error && columns && columns.length > 0 && (
           <ul className="column-feed-list mt-0">
             {(columns as ColumnListItemWithAuthor[]).map((column) => (
-              <li key={column.id}>
-                <ColumnListItem column={column} />
-              </li>
+              <ColumnListItem key={column.id} column={column} />
             ))}
           </ul>
         )}

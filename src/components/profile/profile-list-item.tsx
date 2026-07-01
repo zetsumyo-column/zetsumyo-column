@@ -11,32 +11,39 @@ type ProfileListItemProps = {
 
 export function ProfileListItem({ profile, href }: ProfileListItemProps) {
   return (
-    <Link href={href} className="card-link flex items-center gap-3">
-      {profile.avatar_url ? (
-        <Image
-          src={profile.avatar_url}
-          alt={profile.display_name}
-          width={40}
-          height={40}
-          className="rounded-full"
-        />
-      ) : (
-        <div className="avatar h-10 w-10 text-sm">
-          {getAvatarInitial(profile.display_name, profile.user_id)}
+    <li>
+      <Link href={href} className="card-link flex items-center gap-3">
+        {profile.avatar_url ? (
+          <Image
+            src={profile.avatar_url}
+            alt={profile.display_name}
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+        ) : (
+          <div className="avatar h-10 w-10 text-sm">
+            {getAvatarInitial(profile.display_name, profile.user_id)}
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">{profile.display_name}</p>
+          <p className="hint truncate">@{profile.user_id}</p>
         </div>
-      )}
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{profile.display_name}</p>
-        <p className="hint truncate">@{profile.user_id}</p>
-      </div>
-    </Link>
+      </Link>
+    </li>
   );
 }
 
-export function ProfileListEmpty({ message }: { message: string }) {
+type ProfileListEmptyProps = {
+  message: string;
+  className?: string;
+};
+
+export function ProfileListEmpty({ message, className }: ProfileListEmptyProps) {
   return (
-    <div className="empty">
-      <p className="muted">{message}</p>
-    </div>
+    <p className={className ? `empty muted ${className}` : "empty muted"}>
+      {message}
+    </p>
   );
 }

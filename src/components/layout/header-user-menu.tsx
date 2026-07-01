@@ -95,47 +95,49 @@ export function HeaderUserMenu({
       </button>
 
       {open && (
-        <div className="header-menu-popup" role="menu" aria-label="ユーザーメニュー">
+        <nav
+          className="header-menu-popup"
+          role="menu"
+          aria-label="ユーザーメニュー"
+        >
           <div className="header-menu-head">
-            <p className="truncate text-sm font-medium">{displayName || userId}</p>
-            <p className="hint mt-0.5 truncate">@{userId}</p>
+            <span className="block truncate text-sm font-medium">
+              {displayName || userId}
+            </span>
+            <span className="hint mt-0.5 block truncate">@{userId}</span>
           </div>
 
-          <nav className="header-menu-list">
-            {MENU_ITEMS(userId).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                role="menuitem"
-                className="header-menu-item"
-                onClick={() => setOpen(false)}
-              >
-                <item.Icon className="header-menu-icon" aria-hidden />
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-
-          <div className="header-menu-divider" />
-
-          <nav className="header-menu-list">
+          {MENU_ITEMS(userId).map((item) => (
             <Link
-              href="/columns/new"
+              key={item.href}
+              href={item.href}
               role="menuitem"
               className="header-menu-item"
               onClick={() => setOpen(false)}
             >
-              <PencilSquareIcon className="header-menu-icon" aria-hidden />
-              <span>投稿</span>
+              <item.Icon className="header-menu-icon" aria-hidden />
+              <span>{item.label}</span>
             </Link>
-            <form action={signOut}>
-              <button type="submit" role="menuitem" className="header-menu-item w-full">
-                <ArrowRightOnRectangleIcon className="header-menu-icon" aria-hidden />
-                <span>ログアウト</span>
-              </button>
-            </form>
-          </nav>
-        </div>
+          ))}
+
+          <div className="header-menu-divider" />
+
+          <Link
+            href="/columns/new"
+            role="menuitem"
+            className="header-menu-item"
+            onClick={() => setOpen(false)}
+          >
+            <PencilSquareIcon className="header-menu-icon" aria-hidden />
+            <span>投稿</span>
+          </Link>
+          <form action={signOut}>
+            <button type="submit" role="menuitem" className="header-menu-item w-full">
+              <ArrowRightOnRectangleIcon className="header-menu-icon" aria-hidden />
+              <span>ログアウト</span>
+            </button>
+          </form>
+        </nav>
       )}
     </div>
   );

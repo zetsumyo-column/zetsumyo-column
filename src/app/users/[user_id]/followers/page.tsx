@@ -49,9 +49,7 @@ export default async function FollowersPage({ params }: FollowersPageProps) {
     <>
       <SiteHeader />
       <div className="page">
-        <div className="mb-8">
-          <h1 className="title">フォロワー</h1>
-        </div>
+        <h1 className="title mb-8">フォロワー</h1>
 
         {followsError && (
           <p className="alert-error">フォロワーの取得に失敗しました。</p>
@@ -64,24 +62,23 @@ export default async function FollowersPage({ params }: FollowersPageProps) {
         {!followsError && follows && follows.length > 0 && (
           <ul className="list mt-0">
             {follows.map((follow) => (
-                <li key={follow.profiles.id}>
-                  <ProfileListItem
-                    profile={follow.profiles}
-                    href={getProfileHref(
-                      follow.profiles.user_id,
-                      user?.id,
-                      follow.profiles.id,
-                    )}
-                  />
-                </li>
-              ))}
+              <ProfileListItem
+                key={follow.profiles.id}
+                profile={follow.profiles}
+                href={getProfileHref(
+                  follow.profiles.user_id,
+                  user?.id,
+                  follow.profiles.id,
+                )}
+              />
+            ))}
           </ul>
         )}
 
         {!isOwnProfile && (
-          <p className="mt-8 text-center">
-            <BackLink href={backHref}>プロフィールに戻る</BackLink>
-          </p>
+          <BackLink href={backHref} className="mt-8 block text-center">
+            プロフィールに戻る
+          </BackLink>
         )}
       </div>
     </>

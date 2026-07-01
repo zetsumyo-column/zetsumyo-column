@@ -83,9 +83,7 @@ export default async function MypagePage() {
             <h2 className="subtitle">下書き</h2>
             <ul className="column-feed-list">
               {draftColumns.map((column) => (
-                <li key={column.id}>
-                  <MyColumnListItem column={column} />
-                </li>
+                <MyColumnListItem key={column.id} column={column} />
               ))}
             </ul>
           </section>
@@ -97,17 +95,13 @@ export default async function MypagePage() {
           )}
 
           {!columnsError && publishedColumns.length === 0 && (
-            <div className="mt-4">
-              <MyColumnListEmpty />
-            </div>
+            <MyColumnListEmpty className="mt-4" />
           )}
 
           {!columnsError && publishedColumns.length > 0 && (
             <ul className="column-feed-list">
               {publishedColumns.map((column) => (
-                <li key={column.id}>
-                  <MyColumnListItem column={column} />
-                </li>
+                <MyColumnListItem key={column.id} column={column} />
               ))}
             </ul>
           )}

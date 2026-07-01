@@ -25,7 +25,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   const isBioOverLimit = bio.length > BIO_MAX_LENGTH;
 
   return (
-    <form action={formAction} className="stack">
+    <form action={formAction} className="settings-form">
       <ProfileAvatarField
         displayName={profile.display_name}
         avatarUrl={profile.avatar_url}

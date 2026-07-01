@@ -10,6 +10,7 @@ type FollowButtonProps = {
   initialFollowing: boolean;
   isLoggedIn: boolean;
   columnId?: string;
+  className?: string;
 };
 
 export function FollowButton({
@@ -17,6 +18,7 @@ export function FollowButton({
   initialFollowing,
   isLoggedIn,
   columnId,
+  className,
 }: FollowButtonProps) {
   const [following, setFollowing] = useState(initialFollowing);
   const [error, setError] = useState<string | null>(null);
@@ -24,17 +26,23 @@ export function FollowButton({
 
   if (!isLoggedIn) {
     return (
-      <Link href="/login" className="btn">
+      <Link href="/login" className={className ? `btn ${className}` : "btn"}>
         フォロー
       </Link>
     );
   }
 
   return (
-    <div>
+    <>
       <button
         type="button"
-        className={following ? "btn-outline" : "btn"}
+        className={
+          className
+            ? `${following ? "btn-outline" : "btn"} ${className}`
+            : following
+              ? "btn-outline"
+              : "btn"
+        }
         disabled={isPending}
         onClick={() => {
           setError(null);
@@ -51,6 +59,6 @@ export function FollowButton({
         {following ? "フォロー中" : "フォロー"}
       </button>
       {error && <p className="hint mt-1 text-red-600">{error}</p>}
-    </div>
+    </>
   );
 }

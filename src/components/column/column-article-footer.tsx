@@ -51,45 +51,43 @@ export function ColumnArticleFooter({
         />
       )}
 
-      <div className="column-footer-author">
-        <div className="flex items-start justify-between gap-3">
-          <Link
-            href={`/users/${author.user_id}`}
-            className="flex min-w-0 flex-1 items-center gap-3"
-          >
-            {author.avatar_url ? (
-              <Image
-                src={author.avatar_url}
-                alt={author.display_name}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="avatar h-10 w-10 text-sm">
-                {getAvatarInitial(author.display_name, author.user_id)}
-              </div>
-            )}
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium">{author.display_name}</p>
-              <p className="hint truncate">@{author.user_id}</p>
-            </div>
-          </Link>
-
-          {!isOwner && (
-            <FollowButton
-              targetProfileId={authorId}
-              initialFollowing={isFollowing}
-              isLoggedIn={isLoggedIn}
-              columnId={columnId}
+      <div className="flex items-start justify-between gap-3 pt-2">
+        <Link
+          href={`/users/${author.user_id}`}
+          className="flex min-w-0 flex-1 items-center gap-3"
+        >
+          {author.avatar_url ? (
+            <Image
+              src={author.avatar_url}
+              alt={author.display_name}
+              width={40}
+              height={40}
+              className="rounded-full"
             />
+          ) : (
+            <div className="avatar h-10 w-10 text-sm">
+              {getAvatarInitial(author.display_name, author.user_id)}
+            </div>
           )}
-        </div>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium">{author.display_name}</p>
+            <p className="hint truncate">@{author.user_id}</p>
+          </div>
+        </Link>
 
-        {author.bio && (
-          <p className="mt-3 whitespace-pre-wrap text-sm">{author.bio}</p>
+        {!isOwner && (
+          <FollowButton
+            targetProfileId={authorId}
+            initialFollowing={isFollowing}
+            isLoggedIn={isLoggedIn}
+            columnId={columnId}
+          />
         )}
       </div>
+
+      {author.bio && (
+        <p className="whitespace-pre-wrap text-sm">{author.bio}</p>
+      )}
     </footer>
   );
 }

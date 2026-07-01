@@ -80,8 +80,8 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
       <SiteHeader />
       <div className="page">
         {isDraft && (
-          <div className="draft-banner">
-            <p className="text-sm">このコラムは下書きです</p>
+          <div className="draft-banner text-sm">
+            このコラムは下書きです
             <Link href={`/columns/${column.id}/edit`} className="link">
               編集する
             </Link>
@@ -89,10 +89,8 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
         )}
 
         <article className="column-article">
-          <div className="column-main">
-            <ColumnTitle>{column.title}</ColumnTitle>
-            <ColumnContent content={column.content} />
-          </div>
+          <ColumnTitle>{column.title}</ColumnTitle>
+          <ColumnContent content={column.content} />
 
           <ColumnArticleFooter
             author={author}
