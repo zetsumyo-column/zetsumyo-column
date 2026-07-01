@@ -227,11 +227,3 @@ body {
 .column-content p {
   margin: 0;
 }
-
-.column-content strong {
-  font-weight: 700;
-}
-
-.column-content em {
-  font-style: italic;
-}

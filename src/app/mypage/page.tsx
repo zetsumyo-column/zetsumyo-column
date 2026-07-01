@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 import { signOut } from "@/app/actions/auth";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
 import { getMyColumns } from "@/lib/column/queries";
+import { getFollowInfo } from "@/lib/profile/follows";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
@@ -19,10 +21,11 @@ export default async function MypagePage() {
     redirect("/login");
   }
 
-  const [{ data: profile, error: profileError }, { data: columns, error: columnsError }] =
+  const [{ data: profile, error: profileError }, { data: columns, error: columnsError }, followInfo] =
     await Promise.all([
       supabase.from("profiles").select("*").eq("id", user.id).single(),
       getMyColumns(user.id),
+      getFollowInfo(user.id),
     ]);
 
   if (profileError || !profile) {
@@ -63,6 +66,10 @@ export default async function MypagePage() {
           <div className="min-w-0 flex-1">
             <h1 className="title">{profile.display_name}</h1>
             <p className="muted mt-1">@{profile.user_id}</p>
+            <ProfileFollowStats
+              followerCount={followInfo.followerCount}
+              followingCount={followInfo.followingCount}
+            />
             {profile.bio && (
               <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
             )}

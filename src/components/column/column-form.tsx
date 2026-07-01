@@ -11,6 +11,7 @@ import {
   TITLE_MAX_LENGTH,
 } from "@/lib/constants/column";
 import { getPlainTextLength } from "@/lib/column/content";
+import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import type { Column } from "@/types/database";
 
 const initialState: ColumnFormState = {};
@@ -31,9 +32,11 @@ export function ColumnForm({ column }: ColumnFormProps) {
     initialState,
   );
   const [title, setTitle] = useState(() => getInitialTitle(column));
-  const [content, setContent] = useState(column?.content ?? "");
+  const [content, setContent] = useState(() =>
+    sanitizeToParagraphsOnly(column?.content ?? ""),
+  );
   const [plainTextLength, setPlainTextLength] = useState(() =>
-    getPlainTextLength(column?.content ?? ""),
+    getPlainTextLength(sanitizeToParagraphsOnly(column?.content ?? "")),
   );
 
   const isContentTooShort = plainTextLength < CONTENT_MIN_LENGTH;

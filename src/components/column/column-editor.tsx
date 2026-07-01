@@ -6,6 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 
 import { getPlainTextLength } from "@/lib/column/content";
+import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import {
   CONTENT_MAX_LENGTH,
   CONTENT_MIN_LENGTH,
@@ -20,30 +21,45 @@ export function ColumnEditor({
   initialContent = "",
   onChange,
 }: ColumnEditorProps) {
+  const sanitizedInitial = sanitizeToParagraphsOnly(initialContent);
+
   const [plainTextLength, setPlainTextLength] = useState(() =>
-    getPlainTextLength(initialContent),
+    getPlainTextLength(sanitizedInitial),
   );
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        heading: false,
+        blockquote: false,
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+        codeBlock: false,
+        code: false,
+        horizontalRule: false,
         bold: false,
         italic: false,
+        strike: false,
+        hardBreak: false,
       }),
       CharacterCount.configure({
         limit: CONTENT_MAX_LENGTH,
       }),
     ],
-    content: initialContent,
+    content: sanitizedInitial,
     immediatelyRender: false,
     editorProps: {
       attributes: {
         class: "tiptap",
         "data-placeholder": "絶妙なコラムを書いてみましょう",
       },
+      transformPastedHTML(html) {
+        return sanitizeToParagraphsOnly(html);
+      },
     },
     onUpdate: ({ editor: currentEditor }) => {
-      const html = currentEditor.getHTML();
+      const html = sanitizeToParagraphsOnly(currentEditor.getHTML());
       const length = getPlainTextLength(html);
       setPlainTextLength(length);
       onChange(html, length);

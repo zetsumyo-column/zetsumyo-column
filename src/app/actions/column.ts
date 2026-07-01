@@ -13,6 +13,7 @@ import {
   validateColumnDraft,
   validateColumnTitle,
 } from "@/lib/validation/column";
+import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import { getColumnSaveErrorMessage } from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
@@ -54,7 +55,7 @@ export async function saveColumn(
   const intent = parseIntent(formData.get("intent"));
   const columnId = String(formData.get("column_id") ?? "").trim();
   const title = String(formData.get("title") ?? "");
-  const content = String(formData.get("content") ?? "");
+  const content = sanitizeToParagraphsOnly(String(formData.get("content") ?? ""));
   const status: ColumnStatus = intent === "draft" ? "draft" : "published";
 
   if (intent === "publish") {

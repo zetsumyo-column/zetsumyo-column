@@ -1,7 +1,7 @@
 "use client";
 
 import { useColumnTypography } from "@/components/column/column-typography-provider";
-import { isHtmlContent } from "@/lib/column/content";
+import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 
 type ColumnContentProps = {
   content: string;
@@ -9,20 +9,13 @@ type ColumnContentProps = {
 
 export function ColumnContent({ content }: ColumnContentProps) {
   const { style } = useColumnTypography();
-
-  if (isHtmlContent(content)) {
-    return (
-      <div
-        className="column-content w-full break-words"
-        style={style}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-    );
-  }
+  const html = sanitizeToParagraphsOnly(content);
 
   return (
-    <div className="column-content w-full break-words" style={style}>
-      <p className="whitespace-pre-wrap">{content}</p>
-    </div>
+    <div
+      className="column-content w-full break-words"
+      style={style}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }

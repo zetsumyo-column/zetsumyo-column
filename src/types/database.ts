@@ -35,6 +35,13 @@ export type ColumnLike = {
   created_at: string;
 };
 
+export type UserFollow = {
+  id: string;
+  follower_id: string;
+  following_id: string;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -90,6 +97,21 @@ export type Database = {
         Update: {
           user_id?: string;
           column_id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      user_follows: {
+        Row: UserFollow;
+        Insert: {
+          id?: string;
+          follower_id: string;
+          following_id: string;
+          created_at?: string;
+        };
+        Update: {
+          follower_id?: string;
+          following_id?: string;
           created_at?: string;
         };
         Relationships: [];

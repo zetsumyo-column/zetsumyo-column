@@ -8,6 +8,7 @@ import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getColumnLikeInfo } from "@/lib/column/likes";
+import { getPlainTextLength } from "@/lib/column/content";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnWithAuthor } from "@/types/database";
 
@@ -74,6 +75,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
   }
 
   const { profiles: author } = column;
+  const plainTextLength = getPlainTextLength(column.content);
   const likeInfo = !isDraft
     ? await getColumnLikeInfo(column.id, user?.id)
     : null;
@@ -98,23 +100,28 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            {author.avatar_url ? (
-              <Image
-                src={author.avatar_url}
-                alt={author.display_name}
-                width={36}
-                height={36}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="avatar h-9 w-9 text-xs">
-                {author.display_name.charAt(0)}
+            <Link
+              href={`/users/${author.user_id}`}
+              className="flex min-w-0 flex-1 items-center gap-3"
+            >
+              {author.avatar_url ? (
+                <Image
+                  src={author.avatar_url}
+                  alt={author.display_name}
+                  width={36}
+                  height={36}
+                  className="rounded-full"
+                />
+              ) : (
+                <div className="avatar h-9 w-9 text-xs">
+                  {author.display_name.charAt(0)}
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{author.display_name}</p>
+                <p className="hint truncate">@{author.user_id}</p>
               </div>
-            )}
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium">{author.display_name}</p>
-              <p className="hint truncate">@{author.user_id}</p>
-            </div>
+            </Link>
             <time className="hint shrink-0">{formatDate(column.created_at)}</time>
           </div>
 
@@ -127,6 +134,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             />
           )}
 
+          <p className="hint">{plainTextLength}文字</p>
         </article>
       </div>
     </>
