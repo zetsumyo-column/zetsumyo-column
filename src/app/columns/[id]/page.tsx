@@ -22,7 +22,7 @@ async function getColumn(id: string): Promise<ColumnWithAuthor | null> {
   const { data, error } = await supabase
     .from("columns")
     .select(
-      "*, profiles!columns_author_id_fkey(user_id, display_name, avatar_url)",
+      "*, profiles!columns_author_id_fkey(user_id, display_name, avatar_url, bio)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -92,30 +92,35 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             <ColumnContent content={column.content} />
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/users/${author.user_id}`}
-              className="flex min-w-0 flex-1 items-center gap-3"
-            >
-              {author.avatar_url ? (
-                <Image
-                  src={author.avatar_url}
-                  alt={author.display_name}
-                  width={36}
-                  height={36}
-                  className="rounded-full"
-                />
-              ) : (
-                <div className="avatar h-9 w-9 text-xs">
-                  {author.display_name.charAt(0)}
+          <div>
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/users/${author.user_id}`}
+                className="flex min-w-0 flex-1 items-center gap-3"
+              >
+                {author.avatar_url ? (
+                  <Image
+                    src={author.avatar_url}
+                    alt={author.display_name}
+                    width={36}
+                    height={36}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="avatar h-9 w-9 text-xs">
+                    {author.display_name.charAt(0)}
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{author.display_name}</p>
+                  <p className="hint truncate">@{author.user_id}</p>
                 </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{author.display_name}</p>
-                <p className="hint truncate">@{author.user_id}</p>
-              </div>
-            </Link>
-            <time className="hint shrink-0">{formatDate(column.created_at)}</time>
+              </Link>
+              <time className="hint shrink-0">{formatDate(column.created_at)}</time>
+            </div>
+            {author.bio && (
+              <p className="mt-3 whitespace-pre-wrap text-sm">{author.bio}</p>
+            )}
           </div>
 
           {!isDraft && likeInfo && (

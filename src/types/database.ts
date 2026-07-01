@@ -20,7 +20,7 @@ export type Column = {
 };
 
 export type ColumnWithAuthor = Column & {
-  profiles: Pick<Profile, "user_id" | "display_name" | "avatar_url">;
+  profiles: Pick<Profile, "user_id" | "display_name" | "avatar_url" | "bio">;
 };
 
 export type ColumnListItem = Pick<

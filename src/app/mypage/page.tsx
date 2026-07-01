@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Cog6ToothIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 
 import { signOut } from "@/app/actions/auth";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
@@ -75,10 +76,12 @@ export default async function MypagePage() {
               <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
             )}
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <Link href="/columns/new" className="btn">
+              <Link href="/columns/new" className="btn inline-flex items-center gap-1.5">
+                <PencilSquareIcon className="h-4 w-4" aria-hidden />
                 投稿
               </Link>
-              <Link href="/settings" className="link">
+              <Link href="/settings" className="link inline-flex items-center gap-1.5">
+                <Cog6ToothIcon className="h-4 w-4" aria-hidden />
                 設定
               </Link>
             </div>
