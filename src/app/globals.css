@@ -25,30 +25,176 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* TipTap エディター（コラム投稿） */
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-2xl flex-1 px-4 py-8;
+  }
+
+  .page-narrow {
+    @apply mx-auto w-full max-w-md;
+  }
+
+  .auth-page {
+    @apply flex flex-1 items-center justify-center px-4 py-16;
+  }
+
+  .title {
+    @apply text-2xl font-semibold;
+  }
+
+  .subtitle {
+    @apply text-lg font-semibold;
+  }
+
+  .muted {
+    @apply text-sm text-zinc-500;
+  }
+
+  .hint {
+    @apply text-xs text-zinc-500;
+  }
+
+  .stack {
+    @apply flex w-full flex-col gap-6;
+  }
+
+  .field {
+    @apply flex flex-col gap-1;
+  }
+
+  .label {
+    @apply text-sm;
+  }
+
+  .input {
+    @apply w-full border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-zinc-700;
+  }
+
+  .textarea {
+    @apply w-full resize-none border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-zinc-700;
+  }
+
+  .btn {
+    @apply border border-zinc-900 bg-zinc-900 px-4 py-3 text-sm text-white disabled:opacity-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900;
+  }
+
+  .btn-outline {
+    @apply border border-zinc-300 bg-transparent px-4 py-3 text-sm dark:border-zinc-700;
+  }
+
+  .btn-row {
+    @apply flex flex-col gap-3 sm:flex-row;
+  }
+
+  .btn-row .btn,
+  .btn-row .btn-outline {
+    @apply flex-1;
+  }
+
+  .link {
+    @apply text-sm text-zinc-500 underline;
+  }
+
+  .card {
+    @apply border border-zinc-200 px-4 py-3 dark:border-zinc-800;
+  }
+
+  .card-link {
+    @apply block border border-zinc-200 px-4 py-3 dark:border-zinc-800;
+  }
+
+  .empty {
+    @apply border border-dashed border-zinc-300 px-6 py-12 text-center dark:border-zinc-700;
+  }
+
+  .alert-error {
+    @apply px-4 py-3 text-sm bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300;
+  }
+
+  .alert-warning {
+    @apply px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
+  }
+
+  .draft-banner {
+    @apply mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200;
+  }
+
+  .alert-success {
+    @apply px-4 py-3 text-sm bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300;
+  }
+
+  .header {
+    @apply border-b border-zinc-200 dark:border-zinc-800;
+  }
+
+  .header-inner {
+    @apply flex h-14 items-center justify-between px-4 sm:px-6;
+  }
+
+  .nav-link {
+    @apply text-sm;
+  }
+
+  .options {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .option {
+    @apply border border-zinc-300 px-3 py-1.5 text-sm dark:border-zinc-700;
+  }
+
+  .option-active {
+    @apply border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900;
+  }
+
+  .editor {
+    @apply border border-zinc-300 dark:border-zinc-700;
+  }
+
+  .editor-footer {
+    @apply border-t border-zinc-200 px-4 py-2 text-right text-sm text-zinc-500 dark:border-zinc-800;
+  }
+
+  .badge {
+    @apply text-xs text-zinc-500;
+  }
+
+  .divider {
+    @apply mt-10 border-t border-zinc-200 pt-8 text-center dark:border-zinc-800;
+  }
+
+  .article-body {
+    @apply mt-6;
+  }
+
+  .section {
+    @apply mt-10;
+  }
+
+  .list {
+    @apply mt-4 flex flex-col gap-2;
+  }
+
+  .avatar {
+    @apply flex items-center justify-center rounded-full bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400;
+  }
+}
+
+/* TipTap エディター */
 .column-editor .tiptap {
-  outline: none;
+  @apply min-h-[280px] px-4 py-3 text-sm leading-relaxed outline-none;
 }
 
 .column-editor .tiptap p {
-  margin: 0;
-  position: relative;
+  margin: 0.25em 0;
 }
 
-.column-editor .tiptap p + p {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px dashed #d4d4d8;
+.column-editor .tiptap p:first-child {
+  margin-top: 0;
 }
 
-.dark .column-editor .tiptap p + p {
-  border-top-color: #52525c;
-}
-
-.column-editor .tiptap br {
-  display: block;
-  margin-top: 0.625rem;
-  content: "";
+.column-editor .tiptap p:last-child {
+  margin-bottom: 0;
 }
 
 .column-editor .tiptap p.is-editor-empty:first-child::before {
@@ -59,7 +205,7 @@ body {
   pointer-events: none;
 }
 
-/* コラム表示（TipTap HTML） */
+/* コラム表示 */
 .column-content p {
   margin: 0;
 }

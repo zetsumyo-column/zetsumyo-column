@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 import { ColumnTypographySetting } from "@/components/settings/column-typography-setting";
 import { ProfileForm } from "@/components/profile/profile-form";
@@ -28,10 +27,8 @@ export default async function SettingsPage() {
     return (
       <>
         <SiteHeader />
-        <div className="flex flex-1 items-center justify-center px-4 py-16">
-          <p className="text-sm text-zinc-500">
-            プロフィールの取得に失敗しました。再度ログインしてください。
-          </p>
+        <div className="auth-page">
+          <p className="muted">プロフィールの取得に失敗しました。再度ログインしてください。</p>
         </div>
       </>
     );
@@ -40,19 +37,16 @@ export default async function SettingsPage() {
   return (
     <>
       <SiteHeader />
-      <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
-        <div className="mx-auto w-full max-w-md">
+      <div className="page">
+        <div className="page-narrow">
           <div className="mb-8">
-            <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
-              <Cog6ToothIcon className="h-6 w-6" aria-hidden />
-              設定
-            </h1>
-            <p className="mt-2 text-sm text-zinc-500">
+            <h1 className="title">設定</h1>
+            <p className="muted mt-2">
               ID・ユーザー名・自己紹介文・表示設定を変更できます
             </p>
           </div>
 
-          <div className="mb-8 space-y-8">
+          <div className="mb-8 stack">
             <ThemeSetting />
             <ColumnTypographySetting />
           </div>

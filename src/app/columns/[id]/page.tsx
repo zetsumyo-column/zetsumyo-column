@@ -2,15 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  DocumentTextIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
 
-import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { ColumnContent } from "@/components/column/column-content";
 import { SiteHeader } from "@/components/layout/site-header";
-import { BackLink } from "@/components/ui/back-link";
 import { getPlainTextLength } from "@/lib/column/content";
 import {
   CONTENT_MAX_LENGTH,
@@ -24,12 +18,10 @@ type ColumnPageProps = {
 };
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleString("ja-JP", {
+  return new Date(iso).toLocaleDateString("ja-JP", {
     year: "numeric",
     month: "short",
     day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   });
 }
 
@@ -89,44 +81,24 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
   return (
     <>
       <SiteHeader />
-      <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
-        <p className="mb-6">
-          <BackLink href="/">コラム一覧に戻る</BackLink>
-        </p>
-
+      <div className="page">
         {isDraft && (
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900 dark:bg-amber-950">
-            <p className="inline-flex items-center gap-1.5 text-sm text-amber-800 dark:text-amber-200">
-              <DocumentTextIcon className="h-4 w-4 shrink-0" aria-hidden />
-              このコラムは下書きです
-            </p>
-            <div className="flex items-center gap-4">
-              <Link
-                href={`/columns/${column.id}/edit`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-900 underline dark:text-amber-100"
-              >
-                <PencilSquareIcon className="h-4 w-4 shrink-0" aria-hidden />
-                編集する
-              </Link>
-              <DeleteColumnButton columnId={column.id} />
-            </div>
+          <div className="draft-banner">
+            <p className="text-sm">このコラムは下書きです</p>
+            <Link href={`/columns/${column.id}/edit`} className="link">
+              編集する
+            </Link>
           </div>
         )}
 
         <article>
-          <div className="flex items-start justify-between gap-4">
-            <h1 className="text-2xl font-semibold tracking-tight leading-snug">
-              {column.title}
-            </h1>
-            {isOwner && !isDraft && (
-              <DeleteColumnButton
-                columnId={column.id}
-                className="inline-flex shrink-0 items-center gap-1 text-sm text-red-600 underline hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-              />
-            )}
+          <h1 className="title">{column.title}</h1>
+
+          <div className="article-body">
+            <ColumnContent content={column.content} />
           </div>
 
-          <div className="mt-4 flex items-center gap-3">
+          <div className="mt-6 flex items-center gap-3">
             {author.avatar_url ? (
               <Image
                 src={author.avatar_url}
@@ -136,24 +108,18 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
                 className="rounded-full"
               />
             ) : (
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+              <div className="avatar h-9 w-9 text-xs">
                 {author.display_name.charAt(0)}
               </div>
             )}
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{author.display_name}</p>
-              <p className="truncate text-xs text-zinc-500">@{author.user_id}</p>
+              <p className="hint truncate">@{author.user_id}</p>
             </div>
-            <time className="shrink-0 text-xs text-zinc-400">
-              {formatDate(column.created_at)}
-            </time>
+            <time className="hint shrink-0">{formatDate(column.created_at)}</time>
           </div>
 
-          <div className="mt-6 border-t border-zinc-200 pt-6 dark:border-zinc-800">
-            <ColumnContent content={column.content} />
-          </div>
-
-          <p className="mt-6 text-xs text-zinc-400">
+          <p className="hint mt-6">
             {plainTextLength}文字（{CONTENT_MIN_LENGTH}〜{CONTENT_MAX_LENGTH}文字）
           </p>
         </article>

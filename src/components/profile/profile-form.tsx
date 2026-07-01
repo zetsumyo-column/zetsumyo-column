@@ -24,9 +24,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   const isBioOverLimit = bio.length > BIO_MAX_LENGTH;
 
   return (
-    <form action={formAction} className="flex w-full flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="user_id" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+    <form action={formAction} className="stack">
+      <div className="field">
+        <label htmlFor="user_id" className="label">
           ID
         </label>
         <input
@@ -37,18 +37,13 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           defaultValue={profile.user_id}
           pattern="[a-zA-Z0-9_]{3,30}"
           title="英数字とアンダースコアのみ、3〜30文字"
-          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+          className="input"
         />
-        <p className="text-xs text-zinc-500">
-          英数字とアンダースコアのみ、3〜30文字
-        </p>
+        <p className="hint">英数字とアンダースコアのみ、3〜30文字</p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="display_name"
-          className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
+      <div className="field">
+        <label htmlFor="display_name" className="label">
           ユーザー名
         </label>
         <input
@@ -58,15 +53,12 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           required
           maxLength={50}
           defaultValue={profile.display_name}
-          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+          className="input"
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="bio"
-          className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
+      <div className="field">
+        <label htmlFor="bio" className="label">
           自己紹介文
         </label>
         <textarea
@@ -77,38 +69,18 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           placeholder="自己紹介を書いてみましょう"
-          className="resize-none rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+          className="textarea"
         />
-        <p
-          className={`text-xs ${isBioOverLimit ? "text-red-600" : "text-zinc-500"}`}
-        >
+        <p className={`hint ${isBioOverLimit ? "text-red-600" : ""}`}>
           {bio.length} / {BIO_MAX_LENGTH} 文字
         </p>
       </div>
 
-      {state.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
-          {state.error}
-        </p>
-      )}
+      {state.error && <p className="alert-error">{state.error}</p>}
+      {state.warning && <p className="alert-warning">{state.warning}</p>}
+      {state.success && <p className="alert-success">保存しました</p>}
 
-      {state.warning && (
-        <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-          {state.warning}
-        </p>
-      )}
-
-      {state.success && (
-        <p className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700 dark:bg-green-950 dark:text-green-300">
-          保存しました
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={isPending || isBioOverLimit}
-        className="h-12 rounded-lg bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-      >
+      <button type="submit" disabled={isPending || isBioOverLimit} className="btn">
         {isPending ? "保存中..." : "保存する"}
       </button>
     </form>

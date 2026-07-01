@@ -43,13 +43,11 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
   return (
     <>
       <SiteHeader />
-      <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
+      <div className="page">
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">下書きを編集</h1>
-            <p className="mt-2 text-sm text-zinc-500">
-              下書き保存または公開できます
-            </p>
+            <h1 className="title">下書きを編集</h1>
+            <p className="muted mt-2">下書き保存または公開できます</p>
           </div>
           <DeleteColumnButton columnId={column.id} />
         </div>

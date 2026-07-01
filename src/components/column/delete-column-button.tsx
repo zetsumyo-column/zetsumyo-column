@@ -1,7 +1,5 @@
 "use client";
 
-import { TrashIcon } from "@heroicons/react/24/outline";
-
 import { deleteColumn } from "@/app/actions/column";
 
 type DeleteColumnButtonProps = {
@@ -11,7 +9,7 @@ type DeleteColumnButtonProps = {
 
 export function DeleteColumnButton({
   columnId,
-  className = "inline-flex items-center gap-1 text-xs text-red-600 underline hover:text-red-700 dark:text-red-400 dark:hover:text-red-300",
+  className = "link text-red-600 dark:text-red-400",
 }: DeleteColumnButtonProps) {
   return (
     <form action={deleteColumn}>
@@ -25,7 +23,6 @@ export function DeleteColumnButton({
           }
         }}
       >
-        <TrashIcon className="h-4 w-4 shrink-0" aria-hidden />
         削除
       </button>
     </form>

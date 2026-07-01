@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  DocumentArrowDownIcon,
-  PaperAirplaneIcon,
-} from "@heroicons/react/24/outline";
 import { useActionState, useState } from "react";
 
 import { saveColumn, type ColumnFormState } from "@/app/actions/column";
@@ -48,14 +44,11 @@ export function ColumnForm({ column }: ColumnFormProps) {
   const isEditingDraft = column?.status === "draft";
 
   return (
-    <form action={formAction} className="flex w-full flex-col gap-6">
+    <form action={formAction} className="stack">
       {column && <input type="hidden" name="column_id" value={column.id} />}
 
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="title"
-          className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
+      <div className="field">
+        <label htmlFor="title" className="label">
           タイトル
         </label>
         <input
@@ -66,22 +59,17 @@ export function ColumnForm({ column }: ColumnFormProps) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="コラムのタイトル"
-          className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+          className="input"
         />
-        <p
-          className={`text-xs ${isTitleOverLimit ? "text-red-600" : "text-zinc-500"}`}
-        >
+        <p className={`hint ${isTitleOverLimit ? "text-red-600" : ""}`}>
           {title.length} / {TITLE_MAX_LENGTH} 文字
         </p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          コラム本文
-        </label>
-        <p className="text-xs text-zinc-500">
-          投稿時は{CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内。
-          段落と改行はエディター内の区切り線で確認できます。
+      <div className="field">
+        <label className="label">コラム本文</label>
+        <p className="hint">
+          投稿時は{CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内
         </p>
         <input type="hidden" name="content" value={content} />
         <ColumnEditor
@@ -93,13 +81,9 @@ export function ColumnForm({ column }: ColumnFormProps) {
         />
       </div>
 
-      {state.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
-          {state.error}
-        </p>
-      )}
+      {state.error && <p className="alert-error">{state.error}</p>}
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="btn-row">
         <button
           type="submit"
           name="intent"
@@ -110,9 +94,8 @@ export function ColumnForm({ column }: ColumnFormProps) {
             isTitleEmpty ||
             isTitleOverLimit
           }
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="btn"
         >
-          <PaperAirplaneIcon className="h-4 w-4" aria-hidden />
           {isPending ? "保存中..." : isEditingDraft ? "公開する" : "投稿する"}
         </button>
         <button
@@ -120,15 +103,14 @@ export function ColumnForm({ column }: ColumnFormProps) {
           name="intent"
           value="draft"
           disabled={isPending || isDraftEmpty || isTitleOverLimit}
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-300 text-sm font-medium transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          className="btn-outline"
         >
-          <DocumentArrowDownIcon className="h-4 w-4" aria-hidden />
           {isPending ? "保存中..." : "下書き保存"}
         </button>
       </div>
 
       {isContentTooShort && plainTextLength > 0 && (
-        <p className="text-center text-xs text-zinc-500">
+        <p className="hint text-center">
           投稿するには本文があと{charsUntilMin}文字必要です
         </p>
       )}
