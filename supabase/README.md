@@ -16,7 +16,10 @@ https://<project-ref>.supabase.co/auth/v1/callback
 
 ## 2. SQL を実行
 
-**SQL Editor** で `supabase/sql/001_profiles.sql` の内容をすべて実行。
+**SQL Editor** で以下を順番に実行:
+
+1. `supabase/sql/001_profiles.sql`（未実行の場合）
+2. `supabase/sql/002_columns.sql`（コラム投稿機能）
 
 ## 3. 環境変数を設定
 

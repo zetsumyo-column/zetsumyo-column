@@ -7,6 +7,19 @@ export type Profile = {
   updated_at: string;
 };
 
+export type Column = {
+  id: string;
+  author_id: string;
+  content: string;
+  char_limit: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ColumnWithAuthor = Column & {
+  profiles: Pick<Profile, "user_id" | "display_name" | "avatar_url">;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -24,6 +37,23 @@ export type Database = {
           user_id?: string;
           display_name?: string;
           avatar_url?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      columns: {
+        Row: Column;
+        Insert: {
+          id?: string;
+          author_id: string;
+          content: string;
+          char_limit: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          content?: string;
+          char_limit?: number;
           updated_at?: string;
         };
         Relationships: [];

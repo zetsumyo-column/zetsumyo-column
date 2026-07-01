@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { SiteHeader } from "@/components/layout/site-header";
 import { signOut } from "@/app/actions/auth";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { createClient } from "@/lib/supabase/server";
@@ -33,7 +34,9 @@ export default async function MypagePage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-16">
+    <>
+      <SiteHeader />
+      <div className="flex flex-1 items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
           {profile.avatar_url && (
@@ -65,13 +68,14 @@ export default async function MypagePage() {
             </button>
           </form>
           <Link
-            href="/"
+            href="/columns"
             className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
           >
-            トップに戻る
+            コラム一覧
           </Link>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
