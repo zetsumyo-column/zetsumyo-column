@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/server";
@@ -7,6 +8,16 @@ export async function SiteHeader() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const profile = user
+    ? (
+        await supabase
+          .from("profiles")
+          .select("avatar_url, display_name")
+          .eq("id", user.id)
+          .single()
+      ).data
+    : null;
 
   return (
     <header className="w-full border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
@@ -29,9 +40,22 @@ export async function SiteHeader() {
               </Link>
               <Link
                 href="/mypage"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="shrink-0 rounded-full ring-2 ring-transparent transition-[box-shadow] hover:ring-zinc-200 dark:hover:ring-zinc-700"
+                aria-label="マイページ"
               >
-                マイページ
+                {profile?.avatar_url ? (
+                  <Image
+                    src={profile.avatar_url}
+                    alt={profile.display_name}
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    {profile?.display_name?.charAt(0) ?? "?"}
+                  </div>
+                )}
               </Link>
               <Link
                 href="/settings"

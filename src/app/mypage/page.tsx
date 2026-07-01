@@ -42,32 +42,39 @@ export default async function MypagePage() {
     <>
       <SiteHeader />
       <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
-        <div className="flex flex-col items-center gap-4 text-center">
-          {profile.avatar_url ? (
-            <Image
-              src={profile.avatar_url}
-              alt={profile.display_name}
-              width={80}
-              height={80}
-              className="rounded-full"
-            />
-          ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-zinc-200 text-2xl font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-              {profile.display_name.charAt(0)}
-            </div>
-          )}
-          <div>
+        <div className="flex items-start gap-4">
+          <div className="shrink-0">
+            {profile.avatar_url ? (
+              <Image
+                src={profile.avatar_url}
+                alt={profile.display_name}
+                width={80}
+                height={80}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-zinc-200 text-2xl font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                {profile.display_name.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-semibold tracking-tight">
               {profile.display_name}
             </h1>
             <p className="mt-1 text-sm text-zinc-500">@{profile.user_id}</p>
+            {profile.bio && (
+              <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                {profile.bio}
+              </p>
+            )}
+            <Link
+              href="/settings"
+              className="mt-3 inline-block text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              設定
+            </Link>
           </div>
-          <Link
-            href="/settings"
-            className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            設定
-          </Link>
         </div>
 
         <section className="mt-10">

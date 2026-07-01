@@ -10,17 +10,20 @@ create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   user_id text not null,
   display_name text not null,
+  bio text,
   avatar_url text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint profiles_user_id_format check (user_id ~ '^[a-zA-Z0-9_]{3,30}$'),
-  constraint profiles_user_id_unique unique (user_id)
+  constraint profiles_user_id_unique unique (user_id),
+  constraint profiles_bio_max_length check (bio is null or char_length(bio) <= 200)
 );
 
 comment on table public.profiles is 'ユーザープロフィール';
 comment on column public.profiles.id is 'Supabase Auth の UUID（auth.users.id と同一）';
 comment on column public.profiles.user_id is 'ユーザーが設定する固有 ID（例: zetsumyo_user）';
 comment on column public.profiles.display_name is '画面表示用のユーザー名';
+comment on column public.profiles.bio is '自己紹介文（200文字以内）';
 comment on column public.profiles.avatar_url is 'プロフィール画像 URL（初期値は Google アバター）';
 
 -- updated_at 自動更新

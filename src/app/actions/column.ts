@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { CHAR_LIMIT } from "@/lib/constants/column";
 import {
-  parseCharLimit,
   validateColumnContent,
   validateColumnTitle,
 } from "@/lib/validation/column";
@@ -20,14 +20,13 @@ export async function createColumn(
 ): Promise<ColumnFormState> {
   const title = String(formData.get("title") ?? "");
   const content = String(formData.get("content") ?? "");
-  const charLimit = parseCharLimit(formData.get("char_limit"));
 
   const titleError = validateColumnTitle(title);
   if (titleError) {
     return { error: titleError };
   }
 
-  const validationError = validateColumnContent(content, charLimit);
+  const validationError = validateColumnContent(content);
   if (validationError) {
     return { error: validationError };
   }
@@ -45,7 +44,7 @@ export async function createColumn(
     author_id: user.id,
     title: title.trim(),
     content,
-    char_limit: charLimit,
+    char_limit: CHAR_LIMIT,
   });
 
   if (error) {

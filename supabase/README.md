@@ -22,6 +22,8 @@ https://<project-ref>.supabase.co/auth/v1/callback
 2. `supabase/sql/002_columns.sql`（コラム投稿機能）
 3. `supabase/sql/003_columns_tiptap.sql`（TipTap HTML 対応）
 4. `supabase/sql/004_columns_title.sql`（タイトル列の追加）
+5. `supabase/sql/005_columns_char_limit_fixed.sql`（文字数上限を140文字に固定）
+6. `supabase/sql/006_profiles_bio.sql`（自己紹介文の追加）
 
 ## 3. 環境変数を設定
 

@@ -42,7 +42,7 @@ export default async function SettingsPage() {
           <div className="mb-8">
             <h1 className="text-2xl font-semibold tracking-tight">設定</h1>
             <p className="mt-2 text-sm text-zinc-500">
-              ID とユーザー名を変更できます
+              ID・ユーザー名・自己紹介文を変更できます
             </p>
           </div>
 

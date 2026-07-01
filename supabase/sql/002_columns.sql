@@ -14,14 +14,13 @@ create table public.columns (
   constraint columns_title_not_empty check (char_length(trim(title)) >= 1),
   constraint columns_title_max_length check (char_length(title) <= 80),
   constraint columns_content_not_empty check (char_length(trim(content)) >= 1),
-  constraint columns_content_within_limit check (char_length(content) <= char_limit),
-  constraint columns_char_limit_allowed check (char_limit in (50, 100, 140, 200))
+  constraint columns_char_limit_fixed check (char_limit = 140)
 );
 
 comment on table public.columns is '文字数制限付きコラム投稿';
 comment on column public.columns.title is 'コラムタイトル（80文字以内）';
 comment on column public.columns.content is 'コラム本文';
-comment on column public.columns.char_limit is '投稿時に設定した文字数上限';
+comment on column public.columns.char_limit is '文字数上限（140文字）';
 
 create index columns_created_at_idx on public.columns (created_at desc);
 create index columns_author_id_idx on public.columns (author_id);

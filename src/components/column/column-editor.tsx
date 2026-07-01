@@ -1,14 +1,17 @@
 "use client";
 
+import CharacterCount from "@tiptap/extension-character-count";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
+import { useState } from "react";
 
-import type { CharLimit } from "@/lib/constants/column";
+import { getPlainTextLength } from "@/lib/column/content";
+import {
+  CONTENT_MAX_LENGTH,
+  CONTENT_MIN_LENGTH,
+} from "@/lib/constants/column";
 
 type ColumnEditorProps = {
-  charLimit: CharLimit;
-  content: string;
   onChange: (html: string, plainTextLength: number) => void;
 };
 
@@ -39,14 +42,17 @@ function ToolbarButton({
   );
 }
 
-export function ColumnEditor({
-  charLimit,
-  content,
-  onChange,
-}: ColumnEditorProps) {
+export function ColumnEditor({ onChange }: ColumnEditorProps) {
+  const [plainTextLength, setPlainTextLength] = useState(0);
+
   const editor = useEditor({
-    extensions: [StarterKit],
-    content: content || "",
+    extensions: [
+      StarterKit,
+      CharacterCount.configure({
+        limit: CONTENT_MAX_LENGTH,
+      }),
+    ],
+    content: "",
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -56,18 +62,12 @@ export function ColumnEditor({
       },
     },
     onUpdate: ({ editor: currentEditor }) => {
-      onChange(currentEditor.getHTML(), currentEditor.getText().trim().length);
+      const html = currentEditor.getHTML();
+      const length = getPlainTextLength(html);
+      setPlainTextLength(length);
+      onChange(html, length);
     },
   });
-
-  useEffect(() => {
-    if (!editor) return;
-    const currentText = editor.getText().trim();
-    const incomingText = content.replace(/<[^>]*>/g, "").trim();
-    if (editor.getHTML() !== content && currentText !== incomingText) {
-      editor.commands.setContent(content || "");
-    }
-  }, [content, editor]);
 
   if (!editor) {
     return (
@@ -75,8 +75,8 @@ export function ColumnEditor({
     );
   }
 
-  const plainTextLength = editor.getText().trim().length;
-  const isOverLimit = plainTextLength > charLimit;
+  const isTooShort = plainTextLength > 0 && plainTextLength < CONTENT_MIN_LENGTH;
+  const charsUntilMin = Math.max(0, CONTENT_MIN_LENGTH - plainTextLength);
 
   return (
     <div className="overflow-hidden rounded-lg border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900">
@@ -99,13 +99,18 @@ export function ColumnEditor({
 
       <EditorContent editor={editor} />
 
-      <p
+      <div
         className={`border-t border-zinc-200 px-4 py-2 text-right text-sm dark:border-zinc-800 ${
-          isOverLimit ? "text-red-600" : "text-zinc-500"
+          isTooShort ? "text-red-600" : "text-zinc-500"
         }`}
       >
-        {plainTextLength} / {charLimit}
-      </p>
+        <p>
+          {plainTextLength} / {CONTENT_MAX_LENGTH}
+        </p>
+        {isTooShort && (
+          <p className="mt-0.5 text-xs">あと{charsUntilMin}文字で投稿できます</p>
+        )}
+      </div>
     </div>
   );
 }
