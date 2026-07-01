@@ -30,7 +30,7 @@ export default async function NewColumnPage() {
 
         <p className="mt-8 text-center">
           <Link
-            href="/columns"
+            href="/"
             className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
           >
             コラム一覧に戻る

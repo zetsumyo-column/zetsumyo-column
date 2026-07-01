@@ -55,5 +55,6 @@ export async function updateProfile(
   }
 
   revalidatePath("/mypage");
+  revalidatePath("/settings");
   return { success: true };
 }

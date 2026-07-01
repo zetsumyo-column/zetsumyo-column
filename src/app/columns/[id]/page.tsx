@@ -70,7 +70,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
       <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
         <p className="mb-6">
           <Link
-            href="/columns"
+            href="/"
             className="text-sm text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
           >
             コラム一覧に戻る

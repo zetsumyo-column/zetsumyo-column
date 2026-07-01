@@ -21,7 +21,10 @@ export type ColumnWithAuthor = Column & {
   profiles: Pick<Profile, "user_id" | "display_name" | "avatar_url">;
 };
 
-export type ColumnListItem = Pick<Column, "id" | "title" | "created_at">;
+export type ColumnListItem = Pick<
+  Column,
+  "id" | "title" | "created_at" | "content"
+>;
 
 export type Database = {
   public: {

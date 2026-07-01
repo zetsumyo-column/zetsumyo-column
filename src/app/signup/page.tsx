@@ -16,7 +16,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/mypage");
+    redirect("/");
   }
 
   return (

@@ -52,7 +52,7 @@ export async function createColumn(
     return { error: "投稿に失敗しました。もう一度お試しください" };
   }
 
-  revalidatePath("/columns");
   revalidatePath("/");
-  redirect("/columns");
+  revalidatePath("/mypage");
+  redirect("/");
 }

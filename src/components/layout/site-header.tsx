@@ -9,21 +9,16 @@ export async function SiteHeader() {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-4">
-        <Link
-          href="/"
-          className="text-sm font-semibold tracking-tight"
-        >
-          絶妙コラム
+    <header className="w-full border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+      <div className="flex h-14 w-full items-center justify-between px-4 sm:px-6">
+        <Link href="/" className="flex items-center">
+          <img
+            src="/logo.svg"
+            alt="絶妙コラム"
+            className="h-4 w-auto sm:h-5"
+          />
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-          <Link
-            href="/columns"
-            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
-            コラム一覧
-          </Link>
           {user ? (
             <>
               <Link
@@ -37,6 +32,12 @@ export async function SiteHeader() {
                 className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
               >
                 マイページ
+              </Link>
+              <Link
+                href="/settings"
+                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              >
+                設定
               </Link>
             </>
           ) : (
