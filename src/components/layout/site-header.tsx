@@ -20,7 +20,7 @@ export async function SiteHeader() {
     : null;
 
   return (
-    <header className="w-full">
+    <header className="header">
       <div className="header-inner">
         <Link href="/">
           <img
@@ -31,26 +31,21 @@ export async function SiteHeader() {
         </Link>
         <nav className="flex items-center gap-4">
           {user ? (
-            <>
-              <Link href="/columns/new" className="nav-link">
-                投稿
-              </Link>
-              <Link href="/mypage" aria-label="マイページ">
-                {profile?.avatar_url ? (
-                  <Image
-                    src={profile.avatar_url}
-                    alt={profile.display_name}
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                  />
-                ) : (
-                  <div className="avatar h-8 w-8 text-xs">
-                    {profile?.display_name?.charAt(0) ?? "?"}
-                  </div>
-                )}
-              </Link>
-            </>
+            <Link href="/mypage" aria-label="マイページ">
+              {profile?.avatar_url ? (
+                <Image
+                  src={profile.avatar_url}
+                  alt={profile.display_name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              ) : (
+                <div className="avatar h-8 w-8 text-xs">
+                  {profile?.display_name?.charAt(0) ?? "?"}
+                </div>
+              )}
+            </Link>
           ) : (
             <Link href="/login" className="nav-link">
               ログイン

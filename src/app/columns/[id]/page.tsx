@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ColumnContent } from "@/components/column/column-content";
+import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
+import { getColumnLikeInfo } from "@/lib/column/likes";
 import {
   CONTENT_MAX_LENGTH,
   CONTENT_MIN_LENGTH,
@@ -78,6 +80,9 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
 
   const { profiles: author } = column;
   const plainTextLength = getPlainTextLength(column.content);
+  const likeInfo = !isDraft
+    ? await getColumnLikeInfo(column.id, user?.id)
+    : null;
 
   return (
     <>
@@ -118,6 +123,15 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             </div>
             <time className="hint shrink-0">{formatDate(column.created_at)}</time>
           </div>
+
+          {!isDraft && likeInfo && (
+            <ColumnLikeButton
+              columnId={column.id}
+              initialCount={likeInfo.count}
+              initialLiked={likeInfo.liked}
+              isLoggedIn={!!user}
+            />
+          )}
 
           <p className="hint">
             {plainTextLength}文字（{CONTENT_MIN_LENGTH}〜{CONTENT_MAX_LENGTH}文字）

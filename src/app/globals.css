@@ -25,7 +25,7 @@ body {
 
 @layer components {
   .page {
-    @apply mx-auto w-full max-w-[900px] flex-1 px-4 py-8;
+    @apply mx-auto w-full max-w-[900px] flex-1 px-4 pt-12 pb-8;
   }
 
   .page-narrow {
@@ -117,6 +117,14 @@ body {
     @apply h-5 w-5 shrink-0 text-zinc-500;
   }
 
+  .like-button {
+    @apply inline-flex items-center gap-1.5 text-sm text-zinc-500;
+  }
+
+  .like-button-active {
+    @apply text-red-600 dark:text-red-400;
+  }
+
   .empty {
     @apply border border-dashed border-zinc-300 px-6 py-12 text-center dark:border-zinc-700;
   }
@@ -135,6 +143,10 @@ body {
 
   .alert-success {
     @apply px-4 py-3 text-sm bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300;
+  }
+
+  .header {
+    @apply w-full pt-8;
   }
 
   .header-inner {

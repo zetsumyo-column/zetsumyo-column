@@ -28,6 +28,13 @@ export type ColumnListItem = Pick<
   "id" | "title" | "created_at" | "content" | "status"
 >;
 
+export type ColumnLike = {
+  id: string;
+  user_id: string;
+  column_id: string;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -69,6 +76,21 @@ export type Database = {
           char_limit?: number;
           status?: "draft" | "published";
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      column_likes: {
+        Row: ColumnLike;
+        Insert: {
+          id?: string;
+          user_id: string;
+          column_id: string;
+          created_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          column_id?: string;
+          created_at?: string;
         };
         Relationships: [];
       };
