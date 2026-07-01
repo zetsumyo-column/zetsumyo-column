@@ -7,12 +7,7 @@ import { ColumnContent } from "@/components/column/column-content";
 import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
-import { getPlainTextLength } from "@/lib/column/content";
 import { getColumnLikeInfo } from "@/lib/column/likes";
-import {
-  CONTENT_MAX_LENGTH,
-  CONTENT_MIN_LENGTH,
-} from "@/lib/constants/column";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnWithAuthor } from "@/types/database";
 
@@ -79,7 +74,6 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
   }
 
   const { profiles: author } = column;
-  const plainTextLength = getPlainTextLength(column.content);
   const likeInfo = !isDraft
     ? await getColumnLikeInfo(column.id, user?.id)
     : null;
@@ -133,9 +127,6 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             />
           )}
 
-          <p className="hint">
-            {plainTextLength}文字（{CONTENT_MIN_LENGTH}〜{CONTENT_MAX_LENGTH}文字）
-          </p>
         </article>
       </div>
     </>

@@ -66,9 +66,14 @@ export default async function MypagePage() {
             {profile.bio && (
               <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
             )}
-            <Link href="/settings" className="link mt-3 inline-block">
-              設定
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Link href="/columns/new" className="btn">
+                投稿
+              </Link>
+              <Link href="/settings" className="link">
+                設定
+              </Link>
+            </div>
           </div>
         </div>
 

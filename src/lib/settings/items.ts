@@ -24,7 +24,7 @@ export const SETTINGS_ITEMS: SettingsItem[] = [
   },
   {
     href: "/settings/typography",
-    title: "コラムの文字組み",
+    title: "文字組み",
     Icon: Bars3BottomLeftIcon,
   },
 ];

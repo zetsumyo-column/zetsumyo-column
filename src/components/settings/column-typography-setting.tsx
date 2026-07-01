@@ -24,7 +24,7 @@ export function ColumnTypographySetting() {
   }, []);
 
   if (!mounted) {
-    return <p className="muted">コラムの文字組みを読み込み中...</p>;
+    return <p className="muted">文字組みを読み込み中...</p>;
   }
 
   return (
@@ -61,8 +61,15 @@ export function ColumnTypographySetting() {
       <div className="card">
         <p className="hint mb-2">プレビュー</p>
         <div className="column-content w-full break-words" style={style}>
-          <p>絶妙な味わいのコラムを、好みの文字組みで読めます。</p>
-          <p>設定はこの端末に保存され、コラム本文に反映されます。</p>
+          <p>
+            絶妙な味わいのコラムを、好みの文字組みで読めます。文字サイズや行間、段落の広さ、字間を変えると、同じ文章でも読み心地がまったく違って感じられます。
+          </p>
+          <p>
+            設定はこの端末に保存され、コラム本文に反映されます。長めの文章を読んでみて、目に心地よい組み方を探してみてください。句読点の間や改行のあいだにも、ほんの少しの余白が積み重なって、全体のリズムをつくっていきます。
+          </p>
+          <p>
+            プレビューはあくまで目安です。実際のコラムでは、見出しや引用、強調なども加わりますが、本文の基本となる読みやすさは、ここで選んだ文字組みが土台になります。
+          </p>
         </div>
       </div>
     </div>
