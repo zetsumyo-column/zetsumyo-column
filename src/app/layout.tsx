@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ColumnTypographyProvider } from "@/components/column/column-typography-provider";
+import { THEME_INIT_SCRIPT } from "@/lib/theme/init-script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,6 +29,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
+        </Script>
         <ThemeProvider>
           <ColumnTypographyProvider>{children}</ColumnTypographyProvider>
         </ThemeProvider>

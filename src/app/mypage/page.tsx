@@ -86,8 +86,6 @@ export default async function MypagePage() {
         )}
 
         <section className="section">
-          <h2 className="subtitle">投稿したコラム</h2>
-
           {columnsError && (
             <p className="alert-error mt-4">コラムの取得に失敗しました。</p>
           )}
