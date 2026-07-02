@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { toggleFollow } from "@/app/actions/follow";
 
@@ -9,7 +10,6 @@ type FollowButtonProps = {
   targetProfileId: string;
   initialFollowing: boolean;
   isLoggedIn: boolean;
-  columnId?: string;
   className?: string;
 };
 
@@ -17,12 +17,17 @@ export function FollowButton({
   targetProfileId,
   initialFollowing,
   isLoggedIn,
-  columnId,
   className,
 }: FollowButtonProps) {
+  const router = useRouter();
   const [following, setFollowing] = useState(initialFollowing);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
+  const isPendingRef = useRef(false);
+
+  useEffect(() => {
+    setFollowing(initialFollowing);
+  }, [initialFollowing]);
 
   if (!isLoggedIn) {
     return (
@@ -43,16 +48,35 @@ export function FollowButton({
               ? "btn-outline"
               : "btn"
         }
-        disabled={isPending}
+        aria-pressed={following}
         onClick={() => {
+          if (isPendingRef.current) {
+            return;
+          }
+
           setError(null);
+
+          const previousFollowing = following;
+          const nextFollowing = !following;
+
+          setFollowing(nextFollowing);
+          isPendingRef.current = true;
+
           startTransition(async () => {
-            const result = await toggleFollow(targetProfileId, columnId);
-            if ("error" in result) {
-              setError(result.error);
-              return;
+            try {
+              const result = await toggleFollow(targetProfileId);
+
+              if ("error" in result) {
+                setFollowing(previousFollowing);
+                setError(result.error);
+                return;
+              }
+
+              setFollowing(result.isFollowing);
+              router.refresh();
+            } finally {
+              isPendingRef.current = false;
             }
-            setFollowing(result.isFollowing);
           });
         }}
       >

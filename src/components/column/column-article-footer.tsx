@@ -96,7 +96,6 @@ export function ColumnArticleFooter({
             targetProfileId={authorId}
             initialFollowing={isFollowing}
             isLoggedIn={isLoggedIn}
-            columnId={columnId}
           />
         )}
       </div>

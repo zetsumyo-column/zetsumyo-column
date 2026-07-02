@@ -72,7 +72,7 @@ export function ColumnForm({ column }: ColumnFormProps) {
       <div className="field">
         <label className="label">コラム本文</label>
         <p className="hint">
-          投稿時は{CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内
+          {CONTENT_MIN_LENGTH}文字以上{CONTENT_MAX_LENGTH}文字以内でコラムを書いてください
         </p>
         <input type="hidden" name="content" value={content} />
         <ColumnEditor

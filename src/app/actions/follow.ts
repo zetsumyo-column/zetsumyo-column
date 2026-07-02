@@ -1,20 +1,13 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { getFollowInfo } from "@/lib/profile/follows";
-import { getFollowersPath, getFollowingPath, getProfilePath } from "@/lib/profile/paths";
-import { getProfileUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
 
-export type ToggleFollowResult =
-  | { isFollowing: boolean; followerCount: number; followingCount: number }
-  | { error: string };
+export type ToggleFollowResult = { isFollowing: boolean } | { error: string };
 
 export async function toggleFollow(
   targetProfileId: string,
-  columnId?: string,
 ): Promise<ToggleFollowResult> {
   const supabase = await createClient();
   const {
@@ -59,34 +52,18 @@ export async function toggleFollow(
     if (error) {
       return { error: "フォロー解除に失敗しました" };
     }
-  } else {
-    const { error } = await supabase.from("user_follows").insert({
-      follower_id: user.id,
-      following_id: targetProfileId,
-    });
 
-    if (error) {
-      return { error: "フォローに失敗しました" };
-    }
+    return { isFollowing: false };
   }
 
-  const profileUserId = await getProfileUserId(targetProfileId);
-  const currentUserProfileUserId = await getProfileUserId(user.id);
+  const { error } = await supabase.from("user_follows").insert({
+    follower_id: user.id,
+    following_id: targetProfileId,
+  });
 
-  if (profileUserId) {
-    revalidatePath(getProfilePath(profileUserId));
-    revalidatePath(getFollowersPath(profileUserId));
+  if (error) {
+    return { error: "フォローに失敗しました" };
   }
 
-  if (currentUserProfileUserId) {
-    revalidatePath(getFollowingPath(currentUserProfileUserId));
-  }
-
-  revalidatePath("/mypage");
-
-  if (columnId) {
-    revalidatePath(`/columns/${columnId}`);
-  }
-
-  return getFollowInfo(targetProfileId, user.id);
+  return { isFollowing: true };
 }

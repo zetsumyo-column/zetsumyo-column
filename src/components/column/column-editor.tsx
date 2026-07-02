@@ -5,7 +5,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 
-import { getPlainTextLength } from "@/lib/column/content";
+import { countTextCharacters, getPlainTextLength } from "@/lib/column/content";
 import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import {
   CONTENT_MAX_LENGTH,
@@ -45,6 +45,7 @@ export function ColumnEditor({
       }),
       CharacterCount.configure({
         limit: CONTENT_MAX_LENGTH,
+        textCounter: countTextCharacters,
       }),
     ],
     content: sanitizedInitial,

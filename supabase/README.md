@@ -33,6 +33,7 @@ https://<project-ref>.supabase.co/auth/v1/callback
 11. `supabase/sql/012_column_views.sql`（閲覧数）
 12. `supabase/sql/013_columns_plain_text_length.sql`（一覧用の文字数列）
 13. `supabase/sql/014_columns_draft_only_mutations.sql`（公開コラムの改ざん防止）
+14. `supabase/sql/015_columns_plain_text_length_no_whitespace.sql`（文字数から空白・改行を除外）
 
 ### 既にセットアップ済みの場合
 
@@ -49,8 +50,9 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - 閲覧数を表示する → `012_column_views.sql` のみ
 - 一覧の文字数表示を最適化する → `013_columns_plain_text_length.sql` のみ
 - 公開コラムの DB 保護を強化する → `014_columns_draft_only_mutations.sql` のみ
+- 文字数を空白・改行なしで数える → `015_columns_plain_text_length_no_whitespace.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜014 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜015 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 

@@ -2,7 +2,7 @@
 alter table public.columns
   add column if not exists plain_text_length integer not null default 0;
 
-comment on column public.columns.plain_text_length is '本文のプレーンテキスト文字数（HTML タグ除外）';
+comment on column public.columns.plain_text_length is '本文の文字数（HTML・空白・改行を除く）';
 
 alter table public.columns
   drop constraint if exists columns_plain_text_length_non_negative;
