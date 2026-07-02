@@ -23,19 +23,14 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
   return (
     <div className="auth-page">
       <div className="page-narrow w-full">
-        <div className="mb-8 text-center">
-          <h1 className="title">新規登録</h1>
-          <p className="muted mt-2">Googleアカウントで絶妙コラムに登録できます</p>
-        </div>
+        <h1 className="title mb-8 text-center">新規登録</h1>
 
-        {error && (
-          <p className="alert-error mb-4">{decodeURIComponent(error)}</p>
-        )}
+        {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
 
         <GoogleAuthButton mode="signup" />
 
         <p className="muted mt-6 text-center">
-          すでにアカウントをお持ちの方は{" "}
+          すでにアカウントをお持ちの方は
           <Link href="/login" className="link">
             ログイン
           </Link>
