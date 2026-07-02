@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { getPlainTextLength } from "@/lib/column/content";
 import { formatDate } from "@/lib/format-date";
 import { getProfilePath } from "@/lib/profile/paths";
 import type { ColumnListItem, ColumnListItemWithAuthor } from "@/types/database";
@@ -16,7 +15,7 @@ function hasAuthor(
 }
 
 export function ColumnListItem({ column }: ColumnListItemProps) {
-  const plainTextLength = getPlainTextLength(column.content);
+  const plainTextLength = column.plain_text_length;
 
   if (!hasAuthor(column)) {
     return (
@@ -51,11 +50,14 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
   );
 }
 
-export function ColumnListEmpty() {
+export function ColumnListEmpty({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   return (
     <div className="empty muted">
       まだコラムがありません
-      <Link href="/columns/new" className="link mt-3 inline-block">
+      <Link
+        href={isLoggedIn ? "/columns/new" : "/login?next=/columns/new"}
+        className="link mt-3 inline-block"
+      >
         最初のコラムを投稿する
       </Link>
     </div>

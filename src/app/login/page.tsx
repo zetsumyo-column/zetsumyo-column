@@ -3,21 +3,23 @@ import { redirect } from "next/navigation";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
+import { getSafeRedirectPath } from "@/lib/auth/safe-redirect";
 import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { error } = await searchParams;
+  const { error, next } = await searchParams;
+  const safeNext = getSafeRedirectPath(next);
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/");
+    redirect(safeNext);
   }
 
   return (
@@ -32,7 +34,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <p className="alert-error mb-4">{decodeURIComponent(error)}</p>
         )}
 
-        <GoogleAuthButton mode="login" />
+        <GoogleAuthButton mode="login" next={safeNext === "/" ? undefined : safeNext} />
 
         <p className="muted mt-6 text-center">
           アカウントをお持ちでない方は{" "}

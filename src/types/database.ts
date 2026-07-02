@@ -15,6 +15,7 @@ export type Column = {
   content: string;
   char_limit: number;
   status: "draft" | "published";
+  plain_text_length: number;
   view_count: number;
   created_at: string;
   updated_at: string;
@@ -26,7 +27,7 @@ export type ColumnWithAuthor = Column & {
 
 export type ColumnListItem = Pick<
   Column,
-  "id" | "title" | "created_at" | "content" | "status"
+  "id" | "title" | "created_at" | "plain_text_length" | "status"
 >;
 
 export type ColumnListItemWithAuthor = ColumnListItem & {
@@ -85,6 +86,7 @@ export type Database = {
           content: string;
           char_limit: number;
           status?: "draft" | "published";
+          plain_text_length?: number;
           view_count?: number;
           created_at?: string;
           updated_at?: string;
@@ -94,6 +96,7 @@ export type Database = {
           content?: string;
           char_limit?: number;
           status?: "draft" | "published";
+          plain_text_length?: number;
           view_count?: number;
           updated_at?: string;
         };

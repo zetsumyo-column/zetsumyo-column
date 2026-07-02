@@ -1,14 +1,12 @@
-import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ColumnListItem } from "@/components/column/column-list-item";
 import { FollowButton } from "@/components/profile/follow-button";
-import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
 import { ProfileListEmpty } from "@/components/profile/profile-list-item";
+import { ProfilePageHeader } from "@/components/profile/profile-page-header";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
-import { getAvatarInitial } from "@/lib/profile/avatar";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { getProfileByUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -57,41 +55,19 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
     <>
       <SiteHeader />
       <div className="page">
-        <div className="flex items-start gap-4">
-          <div className="shrink-0">
-            {profile.avatar_url ? (
-              <Image
-                src={profile.avatar_url}
-                alt={profile.display_name}
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="avatar h-20 w-20 text-2xl">
-                {getAvatarInitial(profile.display_name, profile.user_id)}
-              </div>
-            )}
-          </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="title">{profile.display_name}</h1>
-            <p className="muted mt-1">@{profile.user_id}</p>
-            <ProfileFollowStats
-              userId={profile.user_id}
-              followerCount={followInfo.followerCount}
-              followingCount={followInfo.followingCount}
-            />
-            {profile.bio && (
-              <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
-            )}
+        <ProfilePageHeader
+          profile={profile}
+          followerCount={followInfo.followerCount}
+          followingCount={followInfo.followingCount}
+          actions={
             <FollowButton
               className="mt-4"
               targetProfileId={profile.id}
               initialFollowing={followInfo.isFollowing}
               isLoggedIn={!!user}
             />
-          </div>
-        </div>
+          }
+        />
 
         <section className="section">
           {columnsError && (

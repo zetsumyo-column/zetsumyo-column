@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
-import { getPlainTextLength } from "@/lib/column/content";
 import { formatDate } from "@/lib/format-date";
 import type { ColumnListItem } from "@/types/database";
 
@@ -10,7 +9,7 @@ type MyColumnListItemProps = {
 };
 
 export function MyColumnListItem({ column }: MyColumnListItemProps) {
-  const plainTextLength = getPlainTextLength(column.content);
+  const plainTextLength = column.plain_text_length;
   const isDraft = column.status === "draft";
   const href = isDraft ? `/columns/${column.id}/edit` : `/columns/${column.id}`;
 
@@ -31,7 +30,7 @@ export function MyColumnListItem({ column }: MyColumnListItemProps) {
             <span>{plainTextLength}文字</span>
           </p>
         </div>
-        <DeleteColumnButton columnId={column.id} />
+        {isDraft && <DeleteColumnButton columnId={column.id} />}
       </div>
     </li>
   );

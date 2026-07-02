@@ -31,6 +31,8 @@ https://<project-ref>.supabase.co/auth/v1/callback
 9. `supabase/sql/010_user_follows.sql`（フォロー機能）
 10. `supabase/sql/011_avatars_storage.sql`（プロフィール画像のアップロード）
 11. `supabase/sql/012_column_views.sql`（閲覧数）
+12. `supabase/sql/013_columns_plain_text_length.sql`（一覧用の文字数列）
+13. `supabase/sql/014_columns_draft_only_mutations.sql`（公開コラムの改ざん防止）
 
 ### 既にセットアップ済みの場合
 
@@ -45,30 +47,58 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - フォロー機能を使う → `010_user_follows.sql` のみ
 - プロフィール画像を変更する → `011_avatars_storage.sql` のみ
 - 閲覧数を表示する → `012_column_views.sql` のみ
+- 一覧の文字数表示を最適化する → `013_columns_plain_text_length.sql` のみ
+- 公開コラムの DB 保護を強化する → `014_columns_draft_only_mutations.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜012 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜014 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 
+### 必須の環境変数
+
+| 変数 | 用途 |
+|------|------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase プロジェクト URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon public key |
+| `NEXT_PUBLIC_SITE_URL` | OAuth コールバック後のサイト URL（**本番では必須**） |
+
+`NEXT_PUBLIC_SITE_URL` が未設定だと OAuth リダイレクトが `http://localhost:3000` にフォールバックし、本番ログインが失敗します。
+
+取得先（Supabase）: Dashboard → **Project Settings** → **API**
+
 ### ローカル開発（`npm run dev`）
 
-```bash
-cp .env.local.example .env.local
+`.env.local` を作成し、上記3変数を記入:
+
 ```
-
-`.env.local` に Supabase の **Project URL** と **anon public key** を記入。
-
-取得先: Dashboard → **Project Settings** → **API**
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
 ### Cloudflare プレビュー（`npm run preview`）
 
-`.dev.vars` にも同じ値を追加:
+`.dev.vars` に同じ値を設定:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 NEXT_PUBLIC_SITE_URL=http://localhost:8787
 ```
+
+### Cloudflare 本番デプロイ（`npm run deploy`）
+
+1. 初回デプロイ後に表示された Workers URL を確認
+2. `.env.production.local.example` を参考に、Cloudflare Dashboard の **Workers → 対象 Worker → Settings → Variables** に以下を設定:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_SITE_URL=https://zetsumyo-column.<your-subdomain>.workers.dev
+```
+
+3. `NEXT_PUBLIC_SITE_URL` を設定したうえで **再デプロイ**
+4. Supabase の **Redirect URLs** に `https://<本番URL>/auth/callback` を追加
 
 ## 4. Supabase の Redirect URLs を設定
 
@@ -97,8 +127,7 @@ Next.js 側の実装済み:
 ### 動作確認
 
 ```bash
-cp .env.local.example .env.local
-# .env.local に Supabase の URL / Anon Key を記入
+# .env.local に上記の環境変数を記入
 
 npm run dev
 ```

@@ -6,38 +6,21 @@ import { ColumnArticleFooter } from "@/components/column/column-article-footer";
 import { ColumnContent } from "@/components/column/column-content";
 import { ColumnTitle } from "@/components/column/column-title";
 import { SiteHeader } from "@/components/layout/site-header";
-import { getFollowInfo } from "@/lib/profile/follows";
-import { getColumnLikeInfo } from "@/lib/column/likes";
 import { getPlainTextLength } from "@/lib/column/content";
+import { getColumnById } from "@/lib/column/queries";
+import { getColumnLikeInfo } from "@/lib/column/likes";
+import { getFollowInfo } from "@/lib/profile/follows";
 import { createClient } from "@/lib/supabase/server";
-import type { ColumnWithAuthor } from "@/types/database";
 
 type ColumnPageProps = {
   params: Promise<{ id: string }>;
 };
 
-async function getColumn(id: string): Promise<ColumnWithAuthor | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("columns")
-    .select(
-      "*, profiles!columns_author_id_fkey(user_id, display_name, avatar_url, bio)",
-    )
-    .eq("id", id)
-    .maybeSingle();
-
-  if (error || !data) {
-    return null;
-  }
-
-  return data as ColumnWithAuthor;
-}
-
 export async function generateMetadata({
   params,
 }: ColumnPageProps): Promise<Metadata> {
   const { id } = await params;
-  const column = await getColumn(id);
+  const column = await getColumnById(id);
 
   if (!column) {
     return { title: "コラムが見つかりません" };
@@ -48,7 +31,7 @@ export async function generateMetadata({
 
 export default async function ColumnPage({ params }: ColumnPageProps) {
   const { id } = await params;
-  const column = await getColumn(id);
+  const column = await getColumnById(id);
 
   if (!column) {
     notFound();

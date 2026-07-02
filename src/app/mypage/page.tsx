@@ -1,16 +1,19 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
-import { getAvatarInitial } from "@/lib/profile/avatar";
+import { ProfilePageHeader } from "@/components/profile/profile-page-header";
 import { getMyColumns } from "@/lib/column/queries";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
-export default async function MypagePage() {
+type MypagePageProps = {
+  searchParams: Promise<{ error?: string }>;
+};
+
+export default async function MypagePage({ searchParams }: MypagePageProps) {
+  const { error: pageError } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -48,35 +51,15 @@ export default async function MypagePage() {
     <>
       <SiteHeader />
       <div className="page">
-        <div className="flex items-start gap-4">
-          <div className="shrink-0">
-            {profile.avatar_url ? (
-              <Image
-                src={profile.avatar_url}
-                alt={profile.display_name}
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="avatar h-20 w-20 text-2xl">
-                {getAvatarInitial(profile.display_name, profile.user_id)}
-              </div>
-            )}
-          </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="title">{profile.display_name}</h1>
-            <p className="muted mt-1">@{profile.user_id}</p>
-            <ProfileFollowStats
-              userId={profile.user_id}
-              followerCount={followInfo.followerCount}
-              followingCount={followInfo.followingCount}
-            />
-            {profile.bio && (
-              <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
-            )}
-          </div>
-        </div>
+        <ProfilePageHeader
+          profile={profile}
+          followerCount={followInfo.followerCount}
+          followingCount={followInfo.followingCount}
+        />
+
+        {pageError && (
+          <p className="alert-error mt-6">{decodeURIComponent(pageError)}</p>
+        )}
 
         {draftColumns.length > 0 && (
           <section className="section">

@@ -3,7 +3,7 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { toggleLike } from "@/app/actions/like";
 
@@ -23,7 +23,13 @@ export function ColumnLikeButton({
   const [count, setCount] = useState(initialCount);
   const [liked, setLiked] = useState(initialLiked);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
+  const isPendingRef = useRef(false);
+
+  useEffect(() => {
+    setCount(initialCount);
+    setLiked(initialLiked);
+  }, [initialCount, initialLiked]);
 
   if (!isLoggedIn) {
     return (
@@ -39,17 +45,41 @@ export function ColumnLikeButton({
       <button
         type="button"
         className={liked ? "like-button like-button-active" : "like-button"}
-        disabled={isPending}
+        aria-pressed={liked}
+        aria-label={liked ? "いいねを解除" : "いいね"}
         onClick={() => {
+          if (isPendingRef.current) {
+            return;
+          }
+
           setError(null);
+
+          const previousLiked = liked;
+          const previousCount = count;
+          const nextLiked = !liked;
+          const nextCount = nextLiked
+            ? count + 1
+            : Math.max(0, count - 1);
+
+          setLiked(nextLiked);
+          setCount(nextCount);
+          isPendingRef.current = true;
+
           startTransition(async () => {
-            const result = await toggleLike(columnId);
-            if ("error" in result) {
-              setError(result.error);
-              return;
+            try {
+              const result = await toggleLike(columnId);
+
+              if ("error" in result) {
+                setLiked(previousLiked);
+                setCount(previousCount);
+                setError(result.error);
+                return;
+              }
+
+              setLiked(result.liked);
+            } finally {
+              isPendingRef.current = false;
             }
-            setLiked(result.liked);
-            setCount(result.count);
           });
         }}
       >

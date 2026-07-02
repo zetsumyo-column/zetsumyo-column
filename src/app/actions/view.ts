@@ -1,8 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-
-const VIEWER_KEY_REGEX = /^[a-zA-Z0-9_-]{8,128}$/;
+import { getOrCreateViewerSessionKey } from "@/lib/column/viewer-session";
 
 export type RecordColumnViewResult =
   | { viewCount: number }
@@ -10,12 +9,7 @@ export type RecordColumnViewResult =
 
 export async function recordColumnView(
   columnId: string,
-  viewerKey: string,
 ): Promise<RecordColumnViewResult> {
-  if (!VIEWER_KEY_REGEX.test(viewerKey)) {
-    return { error: "閲覧の記録に失敗しました" };
-  }
-
   const supabase = await createClient();
   const {
     data: { user },
@@ -34,6 +28,8 @@ export async function recordColumnView(
   if (user?.id === column.author_id) {
     return { viewCount: column.view_count ?? 0 };
   }
+
+  const viewerKey = await getOrCreateViewerSessionKey();
 
   const { data, error } = await supabase.rpc("record_column_view", {
     p_column_id: columnId,

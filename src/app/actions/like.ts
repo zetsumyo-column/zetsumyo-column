@@ -1,14 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { getColumnLikeInfo } from "@/lib/column/likes";
 import { createClient } from "@/lib/supabase/server";
 
-export type ToggleLikeResult =
-  | { liked: boolean; count: number }
-  | { error: string };
+export type ToggleLikeResult = { liked: boolean } | { error: string };
 
 export async function toggleLike(columnId: string): Promise<ToggleLikeResult> {
   const supabase = await createClient();
@@ -50,18 +46,18 @@ export async function toggleLike(columnId: string): Promise<ToggleLikeResult> {
     if (error) {
       return { error: "いいねの解除に失敗しました" };
     }
-  } else {
-    const { error } = await supabase.from("column_likes").insert({
-      column_id: columnId,
-      user_id: user.id,
-    });
 
-    if (error) {
-      return { error: "いいねに失敗しました" };
-    }
+    return { liked: false };
   }
 
-  revalidatePath(`/columns/${columnId}`);
+  const { error } = await supabase.from("column_likes").insert({
+    column_id: columnId,
+    user_id: user.id,
+  });
 
-  return getColumnLikeInfo(columnId, user.id);
+  if (error) {
+    return { error: "いいねに失敗しました" };
+  }
+
+  return { liked: true };
 }

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import { recordColumnView } from "@/app/actions/view";
-import { getViewerSessionKey } from "@/lib/column/viewer-session";
 
 type ColumnViewTrackerProps = {
   columnId: string;
@@ -36,13 +35,12 @@ export function ColumnViewTracker({
     recordedRef.current = true;
     sessionStorage.setItem(recordedKey, "1");
 
-    const viewerKey = getViewerSessionKey();
-    void recordColumnView(columnId, viewerKey).then((result) => {
+    void recordColumnView(columnId).then((result) => {
       if ("viewCount" in result) {
         setViewCount(result.viewCount);
       }
     });
   }, [columnId, recordView]);
 
-  return <span>{viewCount.toLocaleString("ja-JP")} 閲覧</span>;
+  return <span>{viewCount.toLocaleString("ja-JP")}回読まれました</span>;
 }

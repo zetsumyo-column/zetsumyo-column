@@ -1,12 +1,24 @@
-const VIEWER_SESSION_STORAGE_KEY = "column_viewer_session";
+import { cookies } from "next/headers";
 
-export function getViewerSessionKey(): string {
-  const existing = sessionStorage.getItem(VIEWER_SESSION_STORAGE_KEY);
-  if (existing) {
+const VIEWER_SESSION_COOKIE = "column_viewer_session";
+const VIEWER_KEY_REGEX = /^[a-zA-Z0-9_-]{8,128}$/;
+
+export async function getOrCreateViewerSessionKey(): Promise<string> {
+  const cookieStore = await cookies();
+  const existing = cookieStore.get(VIEWER_SESSION_COOKIE)?.value;
+
+  if (existing && VIEWER_KEY_REGEX.test(existing)) {
     return existing;
   }
 
   const sessionKey = crypto.randomUUID();
-  sessionStorage.setItem(VIEWER_SESSION_STORAGE_KEY, sessionKey);
+  cookieStore.set(VIEWER_SESSION_COOKIE, sessionKey, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+  });
+
   return sessionKey;
 }

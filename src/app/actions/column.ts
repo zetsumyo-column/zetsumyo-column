@@ -174,11 +174,38 @@ export async function deleteColumn(formData: FormData): Promise<void> {
     redirect("/login");
   }
 
-  await supabase
+  const { data: existing, error: fetchError } = await supabase
+    .from("columns")
+    .select("id, status")
+    .eq("id", columnId)
+    .eq("author_id", user.id)
+    .maybeSingle();
+
+  if (fetchError || !existing) {
+    redirect(
+      `/mypage?error=${encodeURIComponent("コラムが見つかりません")}`,
+    );
+  }
+
+  if (existing.status !== "draft") {
+    redirect(
+      `/mypage?error=${encodeURIComponent("公開済みのコラムは削除できません")}`,
+    );
+  }
+
+  const { error } = await supabase
     .from("columns")
     .delete()
     .eq("id", columnId)
-    .eq("author_id", user.id);
+    .eq("author_id", user.id)
+    .eq("status", "draft");
+
+  if (error) {
+    console.error("column delete error:", error);
+    redirect(
+      `/mypage?error=${encodeURIComponent("削除に失敗しました")}`,
+    );
+  }
 
   revalidateColumnPaths();
   redirect("/mypage");
