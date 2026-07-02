@@ -5,6 +5,7 @@ import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { FollowButton } from "@/components/profile/follow-button";
 import { formatDate } from "@/lib/format-date";
 import { getAvatarInitial } from "@/lib/profile/avatar";
+import { getProfilePath } from "@/lib/profile/paths";
 import type { Profile } from "@/types/database";
 
 type ColumnArticleFooterProps = {
@@ -53,7 +54,7 @@ export function ColumnArticleFooter({
 
       <div className="flex items-start justify-between gap-3 pt-2">
         <Link
-          href={`/users/${author.user_id}`}
+          href={getProfilePath(author.user_id)}
           className="flex min-w-0 flex-1 items-center gap-3"
         >
           {author.avatar_url ? (

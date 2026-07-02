@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getPlainTextLength } from "@/lib/column/content";
 import { formatDate } from "@/lib/format-date";
+import { getProfilePath } from "@/lib/profile/paths";
 import type { ColumnListItem, ColumnListItemWithAuthor } from "@/types/database";
 
 type ColumnListItemProps = {
@@ -44,7 +45,7 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
         <span className="mx-1.5">·</span>
         <span>{plainTextLength}文字</span>
         <span className="mx-1.5">·</span>
-        <Link href={`/users/${author.user_id}`}>{author.display_name}</Link>
+        <Link href={getProfilePath(author.user_id)}>{author.display_name}</Link>
       </p>
     </li>
   );

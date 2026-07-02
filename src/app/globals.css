@@ -145,6 +145,18 @@ body {
     @apply flex flex-col gap-8;
   }
 
+  .profile-avatar-card {
+    @apply flex items-center justify-between gap-4 rounded-2xl bg-zinc-100 px-4 py-4 dark:bg-zinc-900/60;
+  }
+
+  .profile-avatar-card-info {
+    @apply flex min-w-0 flex-1 items-center gap-4;
+  }
+
+  .profile-avatar-change-btn {
+    @apply shrink-0 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors outline-none hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500/50;
+  }
+
   .settings-preview {
     @apply rounded-md border border-dashed border-zinc-300 px-4 py-6 dark:border-zinc-700;
   }

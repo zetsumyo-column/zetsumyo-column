@@ -36,6 +36,25 @@ const nextConfig: NextConfig = {
       ...(supabaseImagePattern ? [supabaseImagePattern] : []),
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/users/:user_id",
+        destination: "/:user_id",
+        permanent: true,
+      },
+      {
+        source: "/users/:user_id/followers",
+        destination: "/:user_id/followers",
+        permanent: true,
+      },
+      {
+        source: "/users/:user_id/following",
+        destination: "/:user_id/following",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

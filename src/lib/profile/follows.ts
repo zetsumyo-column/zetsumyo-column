@@ -1,6 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/types/database";
 
+import {
+  getFollowersPath,
+  getFollowingPath,
+  getProfilePath,
+} from "@/lib/profile/paths";
+
 export type FollowProfile = Pick<
   Profile,
   "id" | "user_id" | "display_name" | "avatar_url"
@@ -112,5 +118,5 @@ export function getProfileHref(
     return "/mypage";
   }
 
-  return `/users/${profileUserId}`;
+  return getProfilePath(profileUserId);
 }

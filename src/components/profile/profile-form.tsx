@@ -27,6 +27,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   return (
     <form action={formAction} className="settings-form">
       <ProfileAvatarField
+        userId={profile.user_id}
         displayName={profile.display_name}
         avatarUrl={profile.avatar_url}
       />

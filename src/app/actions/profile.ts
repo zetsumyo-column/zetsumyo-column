@@ -9,6 +9,7 @@ import {
 } from "@/lib/validation/profile";
 import { validateAvatarFile } from "@/lib/validation/avatar";
 import { uploadProfileAvatar } from "@/lib/profile/avatar";
+import { getProfilePath } from "@/lib/profile/paths";
 import { getProfileSaveErrorMessage } from "@/lib/supabase/errors";
 import { createClient } from "@/lib/supabase/server";
 
@@ -99,7 +100,7 @@ export async function updateProfile(
     if (!error) {
       revalidatePath("/mypage");
       revalidatePath("/settings");
-      revalidatePath(`/users/${userId}`);
+      revalidatePath(getProfilePath(userId));
       if (bioProvided) {
         return {
           warning:
@@ -118,6 +119,6 @@ export async function updateProfile(
 
   revalidatePath("/mypage");
   revalidatePath("/settings");
-  revalidatePath(`/users/${userId}`);
+  revalidatePath(getProfilePath(userId));
   return { success: true };
 }

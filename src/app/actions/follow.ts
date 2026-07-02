@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { getFollowInfo } from "@/lib/profile/follows";
+import { getFollowersPath, getFollowingPath, getProfilePath } from "@/lib/profile/paths";
 import { getProfileUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
 
@@ -73,12 +74,12 @@ export async function toggleFollow(
   const currentUserProfileUserId = await getProfileUserId(user.id);
 
   if (profileUserId) {
-    revalidatePath(`/users/${profileUserId}`);
-    revalidatePath(`/users/${profileUserId}/followers`);
+    revalidatePath(getProfilePath(profileUserId));
+    revalidatePath(getFollowersPath(profileUserId));
   }
 
   if (currentUserProfileUserId) {
-    revalidatePath(`/users/${currentUserProfileUserId}/following`);
+    revalidatePath(getFollowingPath(currentUserProfileUserId));
   }
 
   revalidatePath("/mypage");

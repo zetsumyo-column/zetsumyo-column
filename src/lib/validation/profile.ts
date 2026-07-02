@@ -1,3 +1,5 @@
+import { isReservedUserId } from "@/lib/profile/paths";
+
 export const USER_ID_REGEX = /^[a-zA-Z0-9_]{3,30}$/;
 
 export const BIO_MAX_LENGTH = 200;
@@ -5,6 +7,9 @@ export const BIO_MAX_LENGTH = 200;
 export function validateUserId(userId: string): string | null {
   if (!USER_ID_REGEX.test(userId)) {
     return "IDは英数字とアンダースコアのみ、3〜30文字で入力してください";
+  }
+  if (isReservedUserId(userId)) {
+    return "このIDは使用できません";
   }
   return null;
 }
