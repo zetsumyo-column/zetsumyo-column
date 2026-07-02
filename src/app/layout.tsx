@@ -4,6 +4,7 @@ import Script from "next/script";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ColumnTypographyProvider } from "@/components/column/column-typography-provider";
+import { columnFontVariables } from "@/lib/fonts/column-fonts";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/init-script";
 import "./globals.css";
 
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${geistSans.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${columnFontVariables} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">
