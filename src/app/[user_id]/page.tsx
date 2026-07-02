@@ -6,7 +6,7 @@ import { FollowButton } from "@/components/profile/follow-button";
 import { ProfileListEmpty } from "@/components/profile/profile-list-item";
 import { ProfilePageHeader } from "@/components/profile/profile-page-header";
 import { SiteHeader } from "@/components/layout/site-header";
-import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
+import { getPublishedColumnsByAuthor, sumPlainTextLength } from "@/lib/column/queries";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { getProfileByUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -51,12 +51,16 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
     getFollowInfo(profile.id, user?.id),
   ]);
 
+  const publishedColumns = (columns ?? []) as ColumnListItemType[];
+
   return (
     <>
       <SiteHeader />
       <div className="page">
         <ProfilePageHeader
           profile={profile}
+          columnCount={publishedColumns.length}
+          totalCharacterCount={sumPlainTextLength(publishedColumns)}
           followerCount={followInfo.followerCount}
           followingCount={followInfo.followingCount}
           actions={
@@ -78,9 +82,9 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
             <ProfileListEmpty message="まだコラムがありません" className="mt-4" />
           )}
 
-          {!columnsError && columns && columns.length > 0 && (
+          {!columnsError && publishedColumns.length > 0 && (
             <ul className="column-feed-list">
-              {(columns as ColumnListItemType[]).map((column) => (
+              {publishedColumns.map((column) => (
                 <ColumnListItem key={column.id} column={column} />
               ))}
             </ul>

@@ -108,7 +108,7 @@ create trigger on_auth_user_created
   execute function public.handle_new_user();
 
 -- -----------------------------------------------------------------------------
--- 3. 再ログイン時に Google アバターを同期（display_name / user_id は保持）
+-- 3. 再ログイン時に Google アバターを同期（カスタム画像は上書きしない）
 -- -----------------------------------------------------------------------------
 create or replace function public.handle_user_updated()
 returns trigger
@@ -128,7 +128,11 @@ begin
   set
     avatar_url = coalesce(latest_avatar_url, avatar_url),
     updated_at = now()
-  where id = new.id;
+  where id = new.id
+    and (
+      avatar_url is null
+      or avatar_url !~ '/storage/v1/object/public/avatars/'
+    );
 
   return new;
 end;

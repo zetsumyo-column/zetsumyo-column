@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ProfilePageHeader } from "@/components/profile/profile-page-header";
-import { getMyColumns } from "@/lib/column/queries";
+import { getMyColumns, sumPlainTextLength } from "@/lib/column/queries";
 import { getFollowInfo } from "@/lib/profile/follows";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
@@ -53,6 +53,8 @@ export default async function MypagePage({ searchParams }: MypagePageProps) {
       <div className="page">
         <ProfilePageHeader
           profile={profile}
+          columnCount={publishedColumns.length}
+          totalCharacterCount={sumPlainTextLength(publishedColumns)}
           followerCount={followInfo.followerCount}
           followingCount={followInfo.followingCount}
         />

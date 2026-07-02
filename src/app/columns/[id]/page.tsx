@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ColumnArticleFooter } from "@/components/column/column-article-footer";
 import { ColumnContent } from "@/components/column/column-content";
 import { ColumnTitle } from "@/components/column/column-title";
+import { ColumnTypographyFab } from "@/components/column/column-typography-fab";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
 import { getColumnById } from "@/lib/column/queries";
@@ -92,6 +93,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
           />
         </article>
       </div>
+      <ColumnTypographyFab />
     </>
   );
 }

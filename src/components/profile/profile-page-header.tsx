@@ -6,6 +6,8 @@ import type { Profile } from "@/types/database";
 
 type ProfilePageHeaderProps = {
   profile: Pick<Profile, "user_id" | "display_name" | "avatar_url" | "bio">;
+  columnCount: number;
+  totalCharacterCount: number;
   followerCount: number;
   followingCount: number;
   actions?: React.ReactNode;
@@ -13,6 +15,8 @@ type ProfilePageHeaderProps = {
 
 export function ProfilePageHeader({
   profile,
+  columnCount,
+  totalCharacterCount,
   followerCount,
   followingCount,
   actions,
@@ -39,6 +43,8 @@ export function ProfilePageHeader({
         <p className="muted mt-1">@{profile.user_id}</p>
         <ProfileFollowStats
           userId={profile.user_id}
+          columnCount={columnCount}
+          totalCharacterCount={totalCharacterCount}
           followerCount={followerCount}
           followingCount={followingCount}
         />

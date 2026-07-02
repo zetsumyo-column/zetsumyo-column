@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 import { createClient } from "@/lib/supabase/server";
-import type { ColumnWithAuthor } from "@/types/database";
+import type { ColumnListItem, ColumnWithAuthor } from "@/types/database";
 
 export const getColumnById = cache(async (id: string): Promise<ColumnWithAuthor | null> => {
   const supabase = await createClient();
@@ -49,3 +49,9 @@ export const getPublishedColumnsByAuthor = cache(async (authorId: string) => {
     .eq("status", "published")
     .order("created_at", { ascending: false });
 });
+
+export function sumPlainTextLength(
+  columns: Pick<ColumnListItem, "plain_text_length">[],
+): number {
+  return columns.reduce((sum, column) => sum + column.plain_text_length, 0);
+}
