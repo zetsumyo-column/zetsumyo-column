@@ -7,12 +7,11 @@ import { ColumnContent } from "@/components/column/column-content";
 import { ColumnTitle } from "@/components/column/column-title";
 import { ColumnTypographyFab } from "@/components/column/column-typography-fab";
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
-import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
 import { getColumnById } from "@/lib/column/queries";
 import { getColumnLikeInfo } from "@/lib/column/likes";
 import { getFollowInfo } from "@/lib/profile/follows";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 
 type ColumnPageProps = {
   params: Promise<{ id: string }>;
@@ -31,16 +30,11 @@ export async function generateMetadata({ params }: ColumnPageProps): Promise<Met
 
 export default async function ColumnPage({ params }: ColumnPageProps) {
   const { id } = await params;
-  const column = await getColumnById(id);
+  const [{ user }, column] = await Promise.all([getAuthUser(), getColumnById(id)]);
 
   if (!column) {
     notFound();
   }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const isOwner = user?.id === column.author_id;
   const isDraft = column.status === "draft";
@@ -51,11 +45,13 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
 
   const { profiles: author } = column;
   const plainTextLength = getPlainTextLength(column.content);
-  const [likeInfo, followInfo] = await Promise.all([!isDraft ? getColumnLikeInfo(column.id, user?.id) : Promise.resolve(null), !isOwner ? getFollowInfo(column.author_id, user?.id) : Promise.resolve(null)]);
+  const [likeInfo, followInfo] = await Promise.all([
+    !isDraft ? getColumnLikeInfo(column.id, user?.id) : Promise.resolve(null),
+    !isOwner ? getFollowInfo(column.author_id, user?.id) : Promise.resolve(null),
+  ]);
 
   return (
     <>
-      <SiteHeader />
       <div className="page">
         {isDraft && (
           <div className="draft-banner text-sm">

@@ -1,13 +1,10 @@
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
 export default async function MypagePublishedPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     return null;

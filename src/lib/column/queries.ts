@@ -69,6 +69,27 @@ export const getFollowingColumnList = cache(async (userId: string) => {
     .order("created_at", { ascending: false });
 });
 
+export const getPublishedColumnStats = cache(async (authorId: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("columns")
+    .select("plain_text_length")
+    .eq("author_id", authorId)
+    .eq("status", "published");
+
+  if (error) {
+    return { columnCount: 0, totalCharacterCount: 0, error };
+  }
+
+  const rows = data ?? [];
+
+  return {
+    columnCount: rows.length,
+    totalCharacterCount: sumPlainTextLength(rows),
+    error: null,
+  };
+});
+
 export const getPublishedColumnsByAuthor = cache(async (authorId: string) => {
   const supabase = await createClient();
   return supabase

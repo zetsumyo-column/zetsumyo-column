@@ -1,23 +1,11 @@
 import Link from "next/link";
 
 import { HeaderUserMenu } from "@/components/layout/header-user-menu";
-import { createClient } from "@/lib/supabase/server";
+import { getHeaderProfile } from "@/lib/profile/header";
+import { getAuthUser } from "@/lib/supabase/auth";
 
 export async function SiteHeader() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const profile = user
-    ? (
-        await supabase
-          .from("profiles")
-          .select("avatar_url, display_name, user_id")
-          .eq("id", user.id)
-          .single()
-      ).data
-    : null;
+  const [{ user }, profile] = await Promise.all([getAuthUser(), getHeaderProfile()]);
 
   return (
     <header className="header">

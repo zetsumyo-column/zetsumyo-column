@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
 import { getRequestSiteUrl } from "@/lib/auth/site-url";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 
 type SignupPageProps = {
   searchParams: Promise<{ error?: string }>;
@@ -12,10 +12,7 @@ type SignupPageProps = {
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
   const { error } = await searchParams;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (user) {
     redirect("/");

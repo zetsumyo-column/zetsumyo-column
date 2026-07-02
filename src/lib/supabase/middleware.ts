@@ -4,7 +4,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/types/database";
 import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
 
+function hasSupabaseAuthCookie(request: NextRequest): boolean {
+  return request.cookies.getAll().some((cookie) => cookie.name.includes("-auth-token"));
+}
+
 export async function updateSession(request: NextRequest) {
+  if (!hasSupabaseAuthCookie(request)) {
+    return NextResponse.next({ request });
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient<Database>(

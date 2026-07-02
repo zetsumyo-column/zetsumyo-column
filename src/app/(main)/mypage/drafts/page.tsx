@@ -1,6 +1,6 @@
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { getMyDraftColumns } from "@/lib/column/queries";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
 type MypageDraftsPageProps = {
@@ -9,10 +9,7 @@ type MypageDraftsPageProps = {
 
 export default async function MypageDraftsPage({ searchParams }: MypageDraftsPageProps) {
   const { error: pageError } = await searchParams;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     return null;

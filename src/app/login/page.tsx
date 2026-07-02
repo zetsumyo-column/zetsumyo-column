@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
 import { getSafeRedirectPath } from "@/lib/auth/safe-redirect";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { getRequestSiteUrl } from "@/lib/auth/site-url";
-import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
   searchParams: Promise<{ error?: string; next?: string; deleted?: string }>;
@@ -14,10 +14,7 @@ type LoginPageProps = {
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { error, next, deleted } = await searchParams;
   const safeNext = getSafeRedirectPath(next);
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (user) {
     redirect(safeNext);

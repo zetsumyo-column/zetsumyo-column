@@ -3,19 +3,18 @@ import Link from "next/link";
 import { ColumnListItem } from "@/components/column/column-list-item";
 import { getFollowingColumnList } from "@/lib/column/queries";
 import { getFollowingPath } from "@/lib/profile/paths";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnListItemWithAuthor } from "@/types/database";
 
 export default async function MypageFollowingPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     return null;
   }
 
+  const supabase = await createClient();
   const [{ data: profile }, { data: columns, error }] = await Promise.all([
     supabase.from("profiles").select("user_id").eq("id", user.id).single(),
     getFollowingColumnList(user.id),

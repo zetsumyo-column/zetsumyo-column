@@ -2,8 +2,8 @@ import { notFound, redirect } from "next/navigation";
 
 import { ColumnForm } from "@/components/column/column-form";
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
-import { SiteHeader } from "@/components/layout/site-header";
 import { BackLink } from "@/components/ui/back-link";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { Column } from "@/types/database";
 
@@ -13,15 +13,13 @@ type EditColumnPageProps = {
 
 export default async function EditColumnPage({ params }: EditColumnPageProps) {
   const { id } = await params;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     redirect("/login");
   }
 
+  const supabase = await createClient();
   const { data: column, error } = await supabase
     .from("columns")
     .select("id, title, content, status, author_id")
@@ -41,23 +39,20 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
   }
 
   return (
-    <>
-      <SiteHeader />
-      <div className="page">
-        <div className="mb-8 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="title">下書きを編集</h1>
-            <p className="muted mt-2">下書き保存または公開できます</p>
-          </div>
-          <DeleteColumnButton columnId={column.id} />
+    <div className="page">
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="title">下書きを編集</h1>
+          <p className="muted mt-2">下書き保存または公開できます</p>
         </div>
-
-        <ColumnForm column={column as Pick<Column, "id" | "title" | "content" | "status">} />
-
-        <BackLink href="/mypage/drafts" className="mt-8 block text-center">
-          下書き一覧に戻る
-        </BackLink>
+        <DeleteColumnButton columnId={column.id} />
       </div>
-    </>
+
+      <ColumnForm column={column as Pick<Column, "id" | "title" | "content" | "status">} />
+
+      <BackLink href="/mypage/drafts" className="mt-8 block text-center">
+        下書き一覧に戻る
+      </BackLink>
+    </div>
   );
 }
