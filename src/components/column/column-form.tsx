@@ -9,8 +9,9 @@ import {
   CONTENT_MIN_LENGTH,
   DRAFT_TITLE_PLACEHOLDER,
   TITLE_MAX_LENGTH,
+  TITLE_MIN_LENGTH,
 } from "@/lib/constants/column";
-import { getPlainTextLength } from "@/lib/column/content";
+import { getPlainTextLength, getTitleCharacterCount } from "@/lib/column/content";
 import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import type { Column } from "@/types/database";
 
@@ -40,10 +41,13 @@ export function ColumnForm({ column }: ColumnFormProps) {
   );
 
   const isContentTooShort = plainTextLength < CONTENT_MIN_LENGTH;
-  const isTitleEmpty = title.trim().length === 0;
-  const isTitleOverLimit = title.length > TITLE_MAX_LENGTH;
+  const titleLength = getTitleCharacterCount(title);
+  const isTitleEmpty = titleLength === 0;
+  const isTitleTooShort = titleLength > 0 && titleLength < TITLE_MIN_LENGTH;
+  const isTitleOverLimit = titleLength > TITLE_MAX_LENGTH;
   const isDraftEmpty = isTitleEmpty && plainTextLength === 0;
   const charsUntilMin = Math.max(0, CONTENT_MIN_LENGTH - plainTextLength);
+  const titleCharsUntilMin = Math.max(0, TITLE_MIN_LENGTH - titleLength);
   const isEditingDraft = column?.status === "draft";
 
   return (
@@ -54,18 +58,22 @@ export function ColumnForm({ column }: ColumnFormProps) {
         <label htmlFor="title" className="label">
           タイトル
         </label>
+        <p className="hint">
+          {TITLE_MIN_LENGTH}文字以上{TITLE_MAX_LENGTH}文字以内で入力してください
+        </p>
         <input
           id="title"
           name="title"
           type="text"
-          maxLength={TITLE_MAX_LENGTH}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="コラムのタイトル"
           className="input"
         />
-        <p className={`hint ${isTitleOverLimit ? "text-red-600" : ""}`}>
-          {title.length} / {TITLE_MAX_LENGTH} 文字
+        <p
+          className={`hint ${isTitleTooShort || isTitleOverLimit ? "text-red-600" : ""}`}
+        >
+          {titleLength} / {TITLE_MAX_LENGTH} 文字
         </p>
       </div>
 
@@ -95,6 +103,7 @@ export function ColumnForm({ column }: ColumnFormProps) {
             isPending ||
             isContentTooShort ||
             isTitleEmpty ||
+            isTitleTooShort ||
             isTitleOverLimit
           }
           className="btn"
@@ -111,6 +120,12 @@ export function ColumnForm({ column }: ColumnFormProps) {
           {isPending ? "保存中..." : "下書き保存"}
         </button>
       </div>
+
+      {isTitleTooShort && (
+        <p className="hint text-center">
+          投稿するにはタイトルがあと{titleCharsUntilMin}文字必要です
+        </p>
+      )}
 
       {isContentTooShort && plainTextLength > 0 && (
         <p className="hint text-center">

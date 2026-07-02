@@ -6,6 +6,7 @@ import { ColumnArticleFooter } from "@/components/column/column-article-footer";
 import { ColumnContent } from "@/components/column/column-content";
 import { ColumnTitle } from "@/components/column/column-title";
 import { ColumnTypographyFab } from "@/components/column/column-typography-fab";
+import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getPlainTextLength } from "@/lib/column/content";
 import { getColumnById } from "@/lib/column/queries";
@@ -17,9 +18,7 @@ type ColumnPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({
-  params,
-}: ColumnPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ColumnPageProps): Promise<Metadata> {
   const { id } = await params;
   const column = await getColumnById(id);
 
@@ -52,12 +51,7 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
 
   const { profiles: author } = column;
   const plainTextLength = getPlainTextLength(column.content);
-  const [likeInfo, followInfo] = await Promise.all([
-    !isDraft ? getColumnLikeInfo(column.id, user?.id) : Promise.resolve(null),
-    !isOwner
-      ? getFollowInfo(column.author_id, user?.id)
-      : Promise.resolve(null),
-  ]);
+  const [likeInfo, followInfo] = await Promise.all([!isDraft ? getColumnLikeInfo(column.id, user?.id) : Promise.resolve(null), !isOwner ? getFollowInfo(column.author_id, user?.id) : Promise.resolve(null)]);
 
   return (
     <>
@@ -65,10 +59,13 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
       <div className="page">
         {isDraft && (
           <div className="draft-banner text-sm">
-            このコラムは下書きです
-            <Link href={`/columns/${column.id}/edit`} className="link">
-              編集する
-            </Link>
+            <span>このコラムは下書きです</span>
+            <div className="flex items-center gap-4">
+              <Link href={`/columns/${column.id}/edit`} className="link">
+                編集する
+              </Link>
+              <DeleteColumnButton columnId={column.id} />
+            </div>
           </div>
         )}
 

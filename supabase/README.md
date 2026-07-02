@@ -35,6 +35,7 @@ https://<project-ref>.supabase.co/auth/v1/callback
 13. `supabase/sql/014_columns_draft_only_mutations.sql`（公開コラムの改ざん防止）
 14. `supabase/sql/015_columns_plain_text_length_no_whitespace.sql`（文字数から空白・改行を除外）
 15. `supabase/sql/016_profiles_preserve_custom_avatar.sql`（カスタムプロフィール画像の上書き防止）
+16. `supabase/sql/017_columns_title_length.sql`（タイトルを10〜30文字に制限）
 
 ### 既にセットアップ済みの場合
 
@@ -53,8 +54,9 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - 公開コラムの DB 保護を強化する → `014_columns_draft_only_mutations.sql` のみ
 - 文字数を空白・改行なしで数える → `015_columns_plain_text_length_no_whitespace.sql` のみ
 - プロフィール画像が再ログインでリセットされる → `016_profiles_preserve_custom_avatar.sql` のみ
+- タイトルを10〜30文字に制限する → `017_columns_title_length.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜016 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜017 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 

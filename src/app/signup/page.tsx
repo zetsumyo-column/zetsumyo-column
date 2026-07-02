@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
+import { getRequestSiteUrl } from "@/lib/auth/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 type SignupPageProps = {
@@ -20,6 +21,8 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
     redirect("/");
   }
 
+  const origin = await getRequestSiteUrl();
+
   return (
     <div className="auth-page">
       <div className="page-narrow w-full">
@@ -27,7 +30,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
 
         {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
 
-        <GoogleAuthButton mode="signup" />
+        <GoogleAuthButton mode="signup" origin={origin} />
 
         <p className="muted mt-6 text-center">
           すでにアカウントをお持ちの方は

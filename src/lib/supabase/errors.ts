@@ -14,6 +14,15 @@ export function isCharLimitConstraintError(error: SupabaseErrorLike): boolean {
   );
 }
 
+export function isTitleLengthConstraintError(error: SupabaseErrorLike): boolean {
+  return (
+    error.code === "23514" &&
+    (errorText(error).includes("columns_title_max_characters") ||
+      errorText(error).includes("columns_title_published_length") ||
+      errorText(error).includes("columns_title_max_length"))
+  );
+}
+
 export function isStatusColumnError(error: SupabaseErrorLike): boolean {
   return (
     error.code === "42703" ||
@@ -29,6 +38,10 @@ export function getColumnSaveErrorMessage(error: SupabaseErrorLike | null): stri
 
   if (isCharLimitConstraintError(error)) {
     return "データベースの文字数上限設定の更新が必要です。Supabase の SQL Editor で 008_columns_char_limit_1400.sql を実行してください";
+  }
+
+  if (isTitleLengthConstraintError(error)) {
+    return "データベースのタイトル文字数設定の更新が必要です。Supabase の SQL Editor で 017_columns_title_length.sql を実行してください";
   }
 
   if (isStatusColumnError(error)) {

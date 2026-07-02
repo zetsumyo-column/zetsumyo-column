@@ -19,6 +19,11 @@ export function getPlainTextLength(html: string): number {
   return countTextCharacters(getPlainTextFromHtml(html));
 }
 
+/** タイトルの文字数（空白・改行は含めない） */
+export function getTitleCharacterCount(title: string): number {
+  return countTextCharacters(title.trim());
+}
+
 /** プレーンテキストのみの既存投稿かどうか（TipTap 導入前） */
 export function isHtmlContent(content: string): boolean {
   return /<[^>]+>/.test(content);

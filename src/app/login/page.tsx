@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
 import { getSafeRedirectPath } from "@/lib/auth/safe-redirect";
+import { getRequestSiteUrl } from "@/lib/auth/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
@@ -22,17 +23,22 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     redirect(safeNext);
   }
 
+  const origin = await getRequestSiteUrl();
+
   return (
     <div className="auth-page">
       <div className="page-narrow w-full">
-        <h1 className="title mb-8 text-center">ログイン</h1>
+        <div className="mb-8 text-center">
+          <h1 className="title">ログイン</h1>
+          <p className="muted mt-2">絶妙コラムにログインしてください</p>
+        </div>
 
         {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
 
-        <GoogleAuthButton mode="login" next={safeNext === "/" ? undefined : safeNext} />
+        <GoogleAuthButton mode="login" origin={origin} next={safeNext === "/" ? undefined : safeNext} />
 
         <p className="muted mt-6 text-center">
-          アカウントをお持ちでない方は
+          アカウントをお持ちでない方は{" "}
           <Link href="/signup" className="link">
             新規登録
           </Link>

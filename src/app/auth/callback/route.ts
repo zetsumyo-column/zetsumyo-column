@@ -1,24 +1,34 @@
 import { NextResponse } from "next/server";
 
+import { AUTH_NEXT_COOKIE } from "@/lib/auth/oauth-next";
 import { getSafeRedirectPath } from "@/lib/auth/safe-redirect";
-import { getSiteUrl } from "@/lib/supabase/env";
+import { getRequestSiteUrlFromRequest } from "@/lib/auth/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = getSafeRedirectPath(searchParams.get("next"));
+  const siteUrl = getRequestSiteUrlFromRequest(request);
+
+  const next = getSafeRedirectPath(
+    request.cookies.get(AUTH_NEXT_COOKIE)?.value ??
+      searchParams.get("next"),
+  );
 
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      return NextResponse.redirect(`${getSiteUrl()}${next}`);
+      const response = NextResponse.redirect(`${siteUrl}${next}`);
+      response.cookies.delete(AUTH_NEXT_COOKIE);
+      return response;
     }
   }
 
-  return NextResponse.redirect(
-    `${getSiteUrl()}/login?error=${encodeURIComponent("認証に失敗しました")}`,
+  const response = NextResponse.redirect(
+    `${siteUrl}/login?error=${encodeURIComponent("認証に失敗しました")}`,
   );
+  response.cookies.delete(AUTH_NEXT_COOKIE);
+  return response;
 }

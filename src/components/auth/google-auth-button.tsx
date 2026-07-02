@@ -2,6 +2,7 @@ import { signInWithGoogle, signUpWithGoogle } from "@/app/actions/auth";
 
 type GoogleAuthButtonProps = {
   mode: "login" | "signup";
+  origin: string;
   next?: string;
 };
 
@@ -16,11 +17,12 @@ const config = {
   },
 } as const;
 
-export function GoogleAuthButton({ mode, next }: GoogleAuthButtonProps) {
+export function GoogleAuthButton({ mode, origin, next }: GoogleAuthButtonProps) {
   const { label, action } = config[mode];
 
   return (
     <form action={action}>
+      <input type="hidden" name="origin" value={origin} />
       {next ? <input type="hidden" name="next" value={next} /> : null}
       <button type="submit" className="btn-outline w-full">
         {label}
