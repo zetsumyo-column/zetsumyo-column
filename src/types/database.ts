@@ -15,6 +15,7 @@ export type Column = {
   content: string;
   char_limit: number;
   status: "draft" | "published";
+  view_count: number;
   created_at: string;
   updated_at: string;
 };
@@ -36,6 +37,12 @@ export type ColumnLike = {
   id: string;
   user_id: string;
   column_id: string;
+  created_at: string;
+};
+
+export type ColumnViewSession = {
+  column_id: string;
+  viewer_key: string;
   created_at: string;
 };
 
@@ -78,6 +85,7 @@ export type Database = {
           content: string;
           char_limit: number;
           status?: "draft" | "published";
+          view_count?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -86,9 +94,18 @@ export type Database = {
           content?: string;
           char_limit?: number;
           status?: "draft" | "published";
+          view_count?: number;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "columns_author_id_fkey";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       column_likes: {
         Row: ColumnLike;
@@ -101,6 +118,20 @@ export type Database = {
         Update: {
           user_id?: string;
           column_id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      column_view_sessions: {
+        Row: ColumnViewSession;
+        Insert: {
+          column_id: string;
+          viewer_key: string;
+          created_at?: string;
+        };
+        Update: {
+          column_id?: string;
+          viewer_key?: string;
           created_at?: string;
         };
         Relationships: [];
@@ -122,7 +153,15 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      record_column_view: {
+        Args: {
+          p_column_id: string;
+          p_viewer_key: string;
+        };
+        Returns: number;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

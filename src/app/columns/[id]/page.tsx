@@ -101,6 +101,8 @@ export default async function ColumnPage({ params }: ColumnPageProps) {
             isDraft={isDraft}
             isLoggedIn={!!user}
             isOwner={isOwner}
+            viewCount={column.view_count ?? 0}
+            recordView={!isDraft && !isOwner}
             likeCount={likeInfo?.count}
             liked={likeInfo?.liked}
             isFollowing={followInfo?.isFollowing}

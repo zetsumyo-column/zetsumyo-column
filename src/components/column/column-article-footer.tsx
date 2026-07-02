@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ColumnLikeButton } from "@/components/column/column-like-button";
+import { ColumnViewTracker } from "@/components/column/column-view-tracker";
 import { FollowButton } from "@/components/profile/follow-button";
 import { formatDate } from "@/lib/format-date";
 import { getAvatarInitial } from "@/lib/profile/avatar";
@@ -17,6 +18,8 @@ type ColumnArticleFooterProps = {
   isDraft: boolean;
   isLoggedIn: boolean;
   isOwner: boolean;
+  viewCount?: number;
+  recordView?: boolean;
   likeCount?: number;
   liked?: boolean;
   isFollowing?: boolean;
@@ -31,6 +34,8 @@ export function ColumnArticleFooter({
   isDraft,
   isLoggedIn,
   isOwner,
+  viewCount = 0,
+  recordView = false,
   likeCount = 0,
   liked = false,
   isFollowing = false,
@@ -41,6 +46,16 @@ export function ColumnArticleFooter({
         <time dateTime={createdAt}>{formatDate(createdAt)}</time>
         <span className="mx-1.5">·</span>
         <span>{plainTextLength}文字</span>
+        {!isDraft && (
+          <>
+            <span className="mx-1.5">·</span>
+            <ColumnViewTracker
+              columnId={columnId}
+              initialViewCount={viewCount}
+              recordView={recordView}
+            />
+          </>
+        )}
       </p>
 
       {!isDraft && (
