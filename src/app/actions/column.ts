@@ -40,6 +40,9 @@ function resolveDraftTitle(title: string): string {
 function revalidateColumnPaths() {
   revalidatePath("/");
   revalidatePath("/mypage");
+  revalidatePath("/mypage/published");
+  revalidatePath("/mypage/drafts");
+  revalidatePath("/mypage/following");
 }
 
 function buildPayload(
@@ -128,7 +131,7 @@ export async function saveColumn(
       redirect(`/columns/${columnId}`);
     }
 
-    redirect("/mypage");
+    redirect("/mypage/drafts");
   }
 
   const { data, error } = await supabase
@@ -155,14 +158,14 @@ export async function saveColumn(
     redirect(`/columns/${data.id}`);
   }
 
-  redirect("/mypage");
+  redirect("/mypage/drafts");
 }
 
 export async function deleteColumn(formData: FormData): Promise<void> {
   const columnId = String(formData.get("column_id") ?? "").trim();
 
   if (!columnId) {
-    redirect("/mypage");
+    redirect("/mypage/drafts");
   }
 
   const supabase = await createClient();
@@ -183,13 +186,13 @@ export async function deleteColumn(formData: FormData): Promise<void> {
 
   if (fetchError || !existing) {
     redirect(
-      `/mypage?error=${encodeURIComponent("コラムが見つかりません")}`,
+      `/mypage/drafts?error=${encodeURIComponent("コラムが見つかりません")}`,
     );
   }
 
   if (existing.status !== "draft") {
     redirect(
-      `/mypage?error=${encodeURIComponent("公開済みのコラムは削除できません")}`,
+      `/mypage/drafts?error=${encodeURIComponent("公開済みのコラムは削除できません")}`,
     );
   }
 
@@ -203,10 +206,10 @@ export async function deleteColumn(formData: FormData): Promise<void> {
   if (error) {
     console.error("column delete error:", error);
     redirect(
-      `/mypage?error=${encodeURIComponent("削除に失敗しました")}`,
+      `/mypage/drafts?error=${encodeURIComponent("削除に失敗しました")}`,
     );
   }
 
   revalidateColumnPaths();
-  redirect("/mypage");
+  redirect("/mypage/drafts");
 }

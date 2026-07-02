@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
@@ -53,6 +54,7 @@ export async function toggleFollow(
       return { error: "フォロー解除に失敗しました" };
     }
 
+    revalidatePath("/mypage/following");
     return { isFollowing: false };
   }
 
@@ -65,5 +67,6 @@ export async function toggleFollow(
     return { error: "フォローに失敗しました" };
   }
 
+  revalidatePath("/mypage/following");
   return { isFollowing: true };
 }

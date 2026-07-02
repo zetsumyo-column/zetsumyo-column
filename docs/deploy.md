@@ -18,6 +18,7 @@ Cloudflare Dashboard → **Workers** → `zetsumyo-column` → **Settings** → 
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://xxxx.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_...` |
 | `NEXT_PUBLIC_SITE_URL` | 本番 URL（例: `https://zetsumyo-column.xxxxx.workers.dev`） |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key（**アカウント削除に必要・サーバーのみ**） |
 | `NEXTJS_ENV` | `production` |
 
 ### Supabase Redirect URLs
@@ -42,4 +43,4 @@ npm run deploy
 npm run preview
 ```
 
-`.dev.vars` に Supabase の環境変数を設定してください。
+`.dev.vars` に Supabase の環境変数を設定してください（`SUPABASE_SERVICE_ROLE_KEY` も含む）。

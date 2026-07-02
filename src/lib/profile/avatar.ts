@@ -64,3 +64,30 @@ export async function uploadProfileAvatar(
     avatarUrl: `${publicUrl}?v=${Date.now()}`,
   };
 }
+
+export async function deleteProfileAvatars(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+): Promise<void> {
+  const { data: files, error: listError } = await supabase.storage
+    .from(AVATAR_BUCKET)
+    .list(userId);
+
+  if (listError) {
+    console.error("avatar list error:", listError);
+    return;
+  }
+
+  if (!files?.length) {
+    return;
+  }
+
+  const paths = files.map((file) => `${userId}/${file.name}`);
+  const { error: removeError } = await supabase.storage
+    .from(AVATAR_BUCKET)
+    .remove(paths);
+
+  if (removeError) {
+    console.error("avatar delete error:", removeError);
+  }
+}

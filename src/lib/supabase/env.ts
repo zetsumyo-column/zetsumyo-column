@@ -15,6 +15,14 @@ export function getSupabaseAnonKey(): string {
   return key;
 }
 
+export function getSupabaseServiceRoleKey(): string {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!key) {
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY が設定されていません");
+  }
+  return key;
+}
+
 export function getSiteUrl(): string {
   const configured =
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";

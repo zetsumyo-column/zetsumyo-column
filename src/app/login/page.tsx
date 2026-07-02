@@ -8,11 +8,11 @@ import { getRequestSiteUrl } from "@/lib/auth/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
-  searchParams: Promise<{ error?: string; next?: string }>;
+  searchParams: Promise<{ error?: string; next?: string; deleted?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { error, next } = await searchParams;
+  const { error, next, deleted } = await searchParams;
   const safeNext = getSafeRedirectPath(next);
   const supabase = await createClient();
   const {
@@ -32,6 +32,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h1 className="title">ログイン</h1>
           <p className="muted mt-2">絶妙コラムにログインしてください</p>
         </div>
+
+        {deleted && (
+          <p className="alert-success mb-4">アカウントを削除しました。</p>
+        )}
 
         {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
 

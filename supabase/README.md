@@ -67,10 +67,11 @@ https://<project-ref>.supabase.co/auth/v1/callback
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase プロジェクト URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon public key |
 | `NEXT_PUBLIC_SITE_URL` | OAuth コールバック後のサイト URL（**本番では必須**） |
+| `SUPABASE_SERVICE_ROLE_KEY` | アカウント削除用（**サーバーのみ・クライアントに露出しない**） |
 
 `NEXT_PUBLIC_SITE_URL` が未設定だと OAuth リダイレクトが `http://localhost:3000` にフォールバックし、本番ログインが失敗します。
 
-取得先（Supabase）: Dashboard → **Project Settings** → **API**
+取得先（Supabase）: Dashboard → **Project Settings** → **API**（service role key は **service_role** の secret）
 
 ### ローカル開発（`npm run dev`）
 
@@ -80,6 +81,7 @@ https://<project-ref>.supabase.co/auth/v1/callback
 NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ```
 
 ### Cloudflare プレビュー（`npm run preview`）
@@ -90,6 +92,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_URL=https://...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 NEXT_PUBLIC_SITE_URL=http://localhost:8787
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ```
 
 ### Cloudflare 本番デプロイ（`npm run deploy`）
@@ -101,6 +104,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:8787
 NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 NEXT_PUBLIC_SITE_URL=https://zetsumyo-column.<your-subdomain>.workers.dev
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ```
 
 3. `NEXT_PUBLIC_SITE_URL` を設定したうえで **再デプロイ**

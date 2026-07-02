@@ -31,12 +31,41 @@ export const getColumnList = cache(async () => {
     .order("created_at", { ascending: false });
 });
 
-export const getMyColumns = cache(async (authorId: string) => {
+export const getMyDraftColumns = cache(async (authorId: string) => {
   const supabase = await createClient();
   return supabase
     .from("columns")
     .select("id, title, created_at, plain_text_length, status")
     .eq("author_id", authorId)
+    .eq("status", "draft")
+    .order("created_at", { ascending: false });
+});
+
+export const getFollowingColumnList = cache(async (userId: string) => {
+  const supabase = await createClient();
+
+  const { data: follows, error: followsError } = await supabase
+    .from("user_follows")
+    .select("following_id")
+    .eq("follower_id", userId);
+
+  if (followsError) {
+    return { data: null, error: followsError };
+  }
+
+  const followingIds = follows?.map((follow) => follow.following_id) ?? [];
+
+  if (followingIds.length === 0) {
+    return { data: [], error: null };
+  }
+
+  return supabase
+    .from("columns")
+    .select(
+      "id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
+    )
+    .eq("status", "published")
+    .in("author_id", followingIds)
     .order("created_at", { ascending: false });
 });
 

@@ -1,5 +1,6 @@
 import {
   Bars3BottomLeftIcon,
+  ExclamationTriangleIcon,
   SunIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
@@ -26,6 +27,11 @@ export const SETTINGS_ITEMS: SettingsItem[] = [
     href: "/settings/typography",
     title: "文字組み",
     Icon: Bars3BottomLeftIcon,
+  },
+  {
+    href: "/settings/account",
+    title: "アカウント",
+    Icon: ExclamationTriangleIcon,
   },
 ];
 

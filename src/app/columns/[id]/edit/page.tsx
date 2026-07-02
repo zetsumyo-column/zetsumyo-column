@@ -54,8 +54,8 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
 
         <ColumnForm column={column as Pick<Column, "id" | "title" | "content" | "status">} />
 
-        <BackLink href="/mypage" className="mt-8 block text-center">
-          マイページに戻る
+        <BackLink href="/mypage/drafts" className="mt-8 block text-center">
+          下書き一覧に戻る
         </BackLink>
       </div>
     </>
