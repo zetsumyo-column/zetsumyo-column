@@ -25,7 +25,7 @@ export async function SiteHeader() {
               userId={profile.user_id}
             />
           ) : (
-            <Link href="/login" className="btn px-3 py-1.5">
+            <Link href="/login" className="btn btn-sm">
               ログイン
             </Link>
           )}

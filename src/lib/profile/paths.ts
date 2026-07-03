@@ -1,10 +1,13 @@
 const RESERVED_USER_IDS = new Set([
   "auth",
   "columns",
+  "design",
   "login",
   "mypage",
+  "privacy",
   "settings",
   "signup",
+  "terms",
   "users",
 ]);
 

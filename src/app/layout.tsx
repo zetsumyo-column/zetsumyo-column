@@ -4,6 +4,7 @@ import Script from "next/script";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ColumnTypographyProvider } from "@/components/column/column-typography-provider";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/init-script";
 import "./globals.css";
 
@@ -33,7 +34,10 @@ export default function RootLayout({
           {THEME_INIT_SCRIPT}
         </Script>
         <ThemeProvider>
-          <ColumnTypographyProvider>{children}</ColumnTypographyProvider>
+          <ColumnTypographyProvider>
+            <div className="flex min-h-full flex-1 flex-col">{children}</div>
+            <SiteFooter />
+          </ColumnTypographyProvider>
         </ThemeProvider>
       </body>
     </html>

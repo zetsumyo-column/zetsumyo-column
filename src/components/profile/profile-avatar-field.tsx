@@ -78,7 +78,7 @@ export function ProfileAvatarField({
       />
       <button
         type="button"
-        className="btn-outline shrink-0"
+        className="btn-outline btn-sm shrink-0"
         onClick={() => inputRef.current?.click()}
       >
         写真を変更

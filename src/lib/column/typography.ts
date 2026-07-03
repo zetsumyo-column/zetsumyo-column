@@ -109,15 +109,15 @@ const LETTER_SPACING_VALUES = new Set<ColumnLetterSpacing>(
   LETTER_SPACING_OPTIONS.map((option) => option.value),
 );
 
-export function getColumnTitleFontSize(fontSize: ColumnFontSize): string {
-  const titleFontSizeByBody: Record<ColumnFontSize, string> = {
-    sm: "1.125rem",
-    base: "1.25rem",
-    lg: "1.5rem",
-    xl: "1.625rem",
-  };
+export const COLUMN_TITLE_FONT_SIZE_BY_BODY: Record<ColumnFontSize, string> = {
+  sm: "1.125rem",
+  base: "1.25rem",
+  lg: "1.5rem",
+  xl: "1.625rem",
+};
 
-  return titleFontSizeByBody[fontSize];
+export function getColumnTitleFontSize(fontSize: ColumnFontSize): string {
+  return COLUMN_TITLE_FONT_SIZE_BY_BODY[fontSize];
 }
 
 export function getColumnTitleStyle(typography: ColumnTypography): {

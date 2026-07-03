@@ -82,12 +82,12 @@ body {
   }
 
   .profile-header-actions {
-    @apply w-full sm:w-auto;
+    @apply w-auto;
   }
 
   .profile-header-actions .btn,
   .profile-header-actions .btn-outline {
-    @apply w-full sm:w-auto;
+    @apply w-auto;
   }
 
   .profile-follow-stats {
@@ -148,6 +148,10 @@ body {
 
   .btn {
     @apply rounded-md border border-zinc-900 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors outline-none hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-zinc-400/50 disabled:opacity-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:ring-zinc-500/50;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5;
   }
 
   .btn-outline {
@@ -373,6 +377,87 @@ body {
 
   .avatar {
     @apply flex items-center justify-center rounded-full bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400;
+  }
+
+  .site-footer {
+    @apply mt-auto border-t border-zinc-200 py-8 dark:border-zinc-800;
+  }
+
+  .site-footer-inner {
+    @apply mx-auto flex w-full max-w-[900px] flex-col items-center gap-3 px-4 text-center;
+  }
+
+  .site-footer-nav {
+    @apply flex flex-wrap items-center justify-center gap-x-4 gap-y-2;
+  }
+
+  .site-footer-link {
+    @apply text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:hover:text-zinc-200;
+  }
+
+  .site-footer-copy {
+    @apply text-xs text-zinc-400;
+  }
+
+  .legal-document {
+    @apply mx-auto w-full max-w-2xl;
+  }
+
+  .legal-document-header {
+    @apply mb-8 flex flex-col gap-2;
+  }
+
+  .legal-document-body {
+    @apply flex flex-col gap-8;
+  }
+
+  .legal-section-title {
+    @apply mb-3 text-base font-medium;
+  }
+
+  .legal-section-paragraph {
+    @apply text-sm leading-relaxed text-zinc-700 dark:text-zinc-300;
+  }
+
+  .legal-section-paragraph + .legal-section-paragraph {
+    @apply mt-3;
+  }
+
+  .legal-section-list {
+    @apply mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300;
+  }
+
+  .typography-spec-subtitle {
+    @apply mb-3 mt-6 text-sm font-medium;
+  }
+
+  .typography-spec-table-wrap {
+    @apply mt-4 overflow-x-auto;
+  }
+
+  .typography-spec-caption {
+    @apply mb-2 text-left text-sm font-medium text-zinc-800 dark:text-zinc-200;
+  }
+
+  .typography-spec-table {
+    @apply w-full min-w-[28rem] border-collapse text-left text-sm;
+  }
+
+  .typography-spec-table th,
+  .typography-spec-table td {
+    @apply border border-zinc-200 px-3 py-2 align-top dark:border-zinc-800;
+  }
+
+  .typography-spec-table thead th {
+    @apply bg-zinc-50 font-medium text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300;
+  }
+
+  .typography-spec-table tbody th[scope="row"] {
+    @apply font-medium text-zinc-800 dark:text-zinc-200;
+  }
+
+  .typography-spec-table code {
+    @apply break-all font-mono text-xs text-zinc-700 dark:text-zinc-300;
   }
 }
 

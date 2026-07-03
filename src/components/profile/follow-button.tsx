@@ -13,6 +13,11 @@ type FollowButtonProps = {
   className?: string;
 };
 
+function getFollowButtonClass(following: boolean, className?: string): string {
+  const base = following ? "btn-outline btn-sm" : "btn btn-sm";
+  return className ? `${base} ${className}` : base;
+}
+
 export function FollowButton({
   targetProfileId,
   initialFollowing,
@@ -31,7 +36,7 @@ export function FollowButton({
 
   if (!isLoggedIn) {
     return (
-      <Link href="/login" className={className ? `btn ${className}` : "btn"}>
+      <Link href="/login" className={getFollowButtonClass(false, className)}>
         フォロー
       </Link>
     );
@@ -41,13 +46,7 @@ export function FollowButton({
     <>
       <button
         type="button"
-        className={
-          className
-            ? `${following ? "btn-outline" : "btn"} ${className}`
-            : following
-              ? "btn-outline"
-              : "btn"
-        }
+        className={getFollowButtonClass(following, className)}
         aria-pressed={following}
         onClick={() => {
           if (isPendingRef.current) {

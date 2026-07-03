@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { BackLink } from "@/components/ui/back-link";
+import { getPrivacyPath, getTermsPath } from "@/lib/legal/paths";
 import { getRequestSiteUrl } from "@/lib/auth/site-url";
 import { getAuthUser } from "@/lib/supabase/auth";
 
@@ -26,6 +27,18 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
         <h1 className="title mb-8 text-center">新規登録</h1>
 
         {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
+
+        <p className="muted mb-6 text-center text-xs leading-relaxed">
+          登録することで
+          <Link href={getTermsPath()} className="link">
+            利用規約
+          </Link>
+          および
+          <Link href={getPrivacyPath()} className="link">
+            プライバシーポリシー
+          </Link>
+          に同意したものとみなします。
+        </p>
 
         <GoogleAuthButton mode="signup" origin={origin} />
 
