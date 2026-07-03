@@ -72,6 +72,22 @@ body {
     @apply text-sm text-zinc-500;
   }
 
+  .profile-sns-links {
+    @apply m-0 flex list-none flex-row flex-wrap items-center gap-4 p-0;
+  }
+
+  .profile-sns-links > li {
+    @apply m-0 p-0;
+  }
+
+  .profile-sns-link {
+    @apply inline-flex items-center justify-center text-foreground transition-opacity hover:opacity-70;
+  }
+
+  .profile-sns-icon {
+    @apply h-6 w-6;
+  }
+
   .hint {
     @apply text-xs text-zinc-500;
   }

@@ -68,5 +68,13 @@ export function getProfileSaveErrorMessage(error: SupabaseErrorLike | null): str
     return "自己紹介文の保存には 006_profiles_bio.sql の実行が必要です";
   }
 
+  if (
+    error.code === "42703" ||
+    error.code === "PGRST204" ||
+    errorText(error).includes("sns_")
+  ) {
+    return "SNSリンクの保存には 018_profiles_sns_links.sql の実行が必要です";
+  }
+
   return "保存に失敗しました。もう一度お試しください";
 }

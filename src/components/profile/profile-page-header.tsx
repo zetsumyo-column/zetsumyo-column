@@ -1,11 +1,14 @@
 import Image from "next/image";
 
+import { ProfileSnsLinks } from "@/components/profile/profile-sns-links";
 import { ProfileFollowStats } from "@/components/profile/profile-follow-stats";
 import { getAvatarInitial } from "@/lib/profile/avatar";
+import type { ProfileSnsFields } from "@/lib/profile/sns";
 import type { Profile } from "@/types/database";
 
 type ProfilePageHeaderProps = {
-  profile: Pick<Profile, "user_id" | "display_name" | "avatar_url" | "bio">;
+  profile: Pick<Profile, "user_id" | "display_name" | "avatar_url" | "bio"> &
+    ProfileSnsFields;
   columnCount: number;
   totalCharacterCount: number;
   followerCount: number;
@@ -51,6 +54,7 @@ export function ProfilePageHeader({
         {profile.bio && (
           <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
         )}
+        <ProfileSnsLinks profile={profile} className="mt-3" />
         {actions}
       </div>
     </div>

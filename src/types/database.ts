@@ -4,6 +4,12 @@ export type Profile = {
   display_name: string;
   bio: string | null;
   avatar_url: string | null;
+  sns_twitter_url: string | null;
+  sns_instagram_url: string | null;
+  sns_tiktok_url: string | null;
+  sns_youtube_url: string | null;
+  sns_threads_url: string | null;
+  sns_note_url: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -65,6 +71,12 @@ export type Database = {
           display_name: string;
           bio?: string | null;
           avatar_url?: string | null;
+          sns_twitter_url?: string | null;
+          sns_instagram_url?: string | null;
+          sns_tiktok_url?: string | null;
+          sns_youtube_url?: string | null;
+          sns_threads_url?: string | null;
+          sns_note_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -73,6 +85,12 @@ export type Database = {
           display_name?: string;
           bio?: string | null;
           avatar_url?: string | null;
+          sns_twitter_url?: string | null;
+          sns_instagram_url?: string | null;
+          sns_tiktok_url?: string | null;
+          sns_youtube_url?: string | null;
+          sns_threads_url?: string | null;
+          sns_note_url?: string | null;
           updated_at?: string;
         };
         Relationships: [];

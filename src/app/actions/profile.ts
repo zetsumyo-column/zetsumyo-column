@@ -10,6 +10,11 @@ import {
 import { validateAvatarFile } from "@/lib/validation/avatar";
 import { uploadProfileAvatar } from "@/lib/profile/avatar";
 import { getProfilePath } from "@/lib/profile/paths";
+import {
+  parseSnsUrlsFromFormData,
+  snsUrlsToDbPayload,
+  validateSnsUrls,
+} from "@/lib/profile/sns";
 import { getProfileSaveErrorMessage } from "@/lib/supabase/errors";
 import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -43,6 +48,12 @@ export async function updateProfile(
     return { error: bioError };
   }
 
+  const snsUrls = parseSnsUrlsFromFormData(formData);
+  const snsError = validateSnsUrls(snsUrls);
+  if (snsError) {
+    return { error: snsError };
+  }
+
   const avatarFile = formData.get("avatar");
   if (avatarFile instanceof File && avatarFile.size > 0) {
     const avatarError = validateAvatarFile(avatarFile);
@@ -72,6 +83,7 @@ export async function updateProfile(
     user_id: userId,
     display_name: displayName,
     bio: bio.length > 0 ? bio : null,
+    ...snsUrlsToDbPayload(snsUrls),
     ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
   };
 

@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/profile";
 import { ProfileAvatarField } from "@/components/profile/profile-avatar-field";
 import { BIO_MAX_LENGTH } from "@/lib/validation/profile";
+import { profileToSnsUrls, SNS_PLATFORMS } from "@/lib/profile/sns";
 import type { Profile } from "@/types/database";
 
 const initialState: ProfileFormState = {};
@@ -23,6 +24,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   );
   const [bio, setBio] = useState(profile.bio ?? "");
   const isBioOverLimit = bio.length > BIO_MAX_LENGTH;
+  const snsUrls = profileToSnsUrls(profile);
 
   return (
     <form action={formAction} className="settings-form">
@@ -82,6 +84,31 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           {bio.length} / {BIO_MAX_LENGTH} 文字
         </p>
       </div>
+
+      <fieldset className="field m-0 min-w-0 border-0 p-0">
+        <legend className="label">SNSリンク</legend>
+        <p className="hint mb-4">
+          プロフィールに表示するSNSのURLを入力してください。空欄のものは表示されません。
+        </p>
+        <div className="flex flex-col gap-4">
+          {SNS_PLATFORMS.map((platform) => (
+            <div key={platform.key} className="field">
+              <label htmlFor={platform.formName} className="label">
+                {platform.label}
+              </label>
+              <input
+                id={platform.formName}
+                name={platform.formName}
+                type="url"
+                inputMode="url"
+                defaultValue={snsUrls[platform.key] ?? ""}
+                placeholder={platform.placeholder}
+                className="input"
+              />
+            </div>
+          ))}
+        </div>
+      </fieldset>
 
       {state.error && <p className="alert-error">{state.error}</p>}
       {state.warning && <p className="alert-warning">{state.warning}</p>}

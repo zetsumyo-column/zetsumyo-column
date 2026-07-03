@@ -36,6 +36,8 @@ https://<project-ref>.supabase.co/auth/v1/callback
 14. `supabase/sql/015_columns_plain_text_length_no_whitespace.sql`（文字数から空白・改行を除外）
 15. `supabase/sql/016_profiles_preserve_custom_avatar.sql`（カスタムプロフィール画像の上書き防止）
 16. `supabase/sql/017_columns_title_length.sql`（タイトルを10〜30文字に制限）
+17. `supabase/sql/018_profiles_sns_links.sql`（プロフィールのSNSリンク）
+18. `supabase/sql/019_profiles_remove_facebook_sns.sql`（Facebookリンク列の削除・018適用済み向け）
 
 ### 既にセットアップ済みの場合
 
@@ -55,8 +57,10 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - 文字数を空白・改行なしで数える → `015_columns_plain_text_length_no_whitespace.sql` のみ
 - プロフィール画像が再ログインでリセットされる → `016_profiles_preserve_custom_avatar.sql` のみ
 - タイトルを10〜30文字に制限する → `017_columns_title_length.sql` のみ
+- プロフィールにSNSリンクを表示する → `018_profiles_sns_links.sql` のみ
+- Facebookリンク列を削除する → `019_profiles_remove_facebook_sns.sql` のみ（018適用済みの場合）
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜017 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜019 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 
