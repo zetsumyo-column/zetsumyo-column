@@ -25,10 +25,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <div className="auth-page">
       <div className="page-narrow w-full">
-        <div className="mb-8 text-center">
-          <h1 className="title">ログイン</h1>
-          <p className="muted mt-2">絶妙コラムにログインしてください</p>
-        </div>
+        <h1 className="title mb-8 text-center">ログイン</h1>
 
         {deleted && <p className="alert-success mb-4">アカウントを削除しました。</p>}
 
@@ -37,7 +34,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <GoogleAuthButton mode="login" origin={origin} next={safeNext === "/" ? undefined : safeNext} />
 
         <p className="muted mt-6 text-center">
-          アカウントをお持ちでない方は{" "}
+          アカウントをお持ちでない方は
           <Link href="/signup" className="link">
             新規登録
           </Link>
