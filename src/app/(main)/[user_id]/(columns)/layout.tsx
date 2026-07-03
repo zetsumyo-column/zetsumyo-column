@@ -43,7 +43,6 @@ export default async function ProfileColumnsLayout({
         actions={
           !isOwner ? (
             <FollowButton
-              className="mt-4"
               targetProfileId={profile.id}
               initialFollowing={followInfo.isFollowing}
               isLoggedIn={!!user}

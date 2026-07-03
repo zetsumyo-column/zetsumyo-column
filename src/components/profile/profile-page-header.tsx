@@ -25,25 +25,30 @@ export function ProfilePageHeader({
   actions,
 }: ProfilePageHeaderProps) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="shrink-0">
-        {profile.avatar_url ? (
-          <Image
-            src={profile.avatar_url}
-            alt={profile.display_name}
-            width={80}
-            height={80}
-            className="rounded-full"
-          />
-        ) : (
-          <div className="avatar h-20 w-20 text-2xl">
-            {getAvatarInitial(profile.display_name, profile.user_id)}
-          </div>
-        )}
+    <header className="profile-header">
+      <div className="profile-header-intro">
+        <div className="profile-header-avatar">
+          {profile.avatar_url ? (
+            <Image
+              src={profile.avatar_url}
+              alt={profile.display_name}
+              width={72}
+              height={72}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="avatar profile-header-avatar-fallback">
+              {getAvatarInitial(profile.display_name, profile.user_id)}
+            </div>
+          )}
+        </div>
+        <div className="profile-header-identity">
+          <h1 className="title">{profile.display_name}</h1>
+          <p className="muted mt-0.5">@{profile.user_id}</p>
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <h1 className="title">{profile.display_name}</h1>
-        <p className="muted mt-1">@{profile.user_id}</p>
+
+      <div className="profile-header-body">
         <ProfileFollowStats
           userId={profile.user_id}
           columnCount={columnCount}
@@ -51,12 +56,15 @@ export function ProfilePageHeader({
           followerCount={followerCount}
           followingCount={followingCount}
         />
+
         {profile.bio && (
-          <p className="mt-3 whitespace-pre-wrap text-sm">{profile.bio}</p>
+          <p className="profile-header-bio whitespace-pre-wrap">{profile.bio}</p>
         )}
-        <ProfileSnsLinks profile={profile} className="mt-3" />
-        {actions}
+
+        <ProfileSnsLinks profile={profile} />
+
+        {actions && <div className="profile-header-actions">{actions}</div>}
       </div>
-    </div>
+    </header>
   );
 }

@@ -56,24 +56,58 @@ body {
     @apply text-sm text-zinc-500;
   }
 
+  .profile-header {
+    @apply flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6;
+  }
+
+  .profile-header-intro {
+    @apply flex items-center gap-4 sm:w-28 sm:shrink-0 sm:flex-col sm:gap-3 sm:text-center;
+  }
+
+  .profile-header-avatar img,
+  .profile-header-avatar-fallback {
+    @apply h-[4.5rem] w-[4.5rem] text-2xl sm:h-20 sm:w-20;
+  }
+
+  .profile-header-identity {
+    @apply min-w-0 flex-1 sm:flex-none;
+  }
+
+  .profile-header-body {
+    @apply flex min-w-0 flex-1 flex-col gap-4;
+  }
+
+  .profile-header-bio {
+    @apply text-sm leading-relaxed text-zinc-700 dark:text-zinc-300;
+  }
+
+  .profile-header-actions {
+    @apply w-full sm:w-auto;
+  }
+
+  .profile-header-actions .btn,
+  .profile-header-actions .btn-outline {
+    @apply w-full sm:w-auto;
+  }
+
   .profile-follow-stats {
-    @apply mt-3 flex items-center gap-1;
+    @apply grid w-full grid-cols-4 gap-1;
   }
 
   .profile-follow-stat {
-    @apply inline-flex items-baseline gap-1 rounded-md px-2.5 py-1.5 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900/60;
+    @apply flex min-w-0 flex-col items-center gap-0.5 rounded-md px-1 py-2 text-center transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900/60;
   }
 
   .profile-follow-stat-value {
-    @apply text-sm font-semibold tabular-nums;
+    @apply text-base font-semibold tabular-nums leading-none sm:text-sm;
   }
 
   .profile-follow-stat-label {
-    @apply text-sm text-zinc-500;
+    @apply text-[0.6875rem] leading-tight text-zinc-500 sm:text-xs;
   }
 
   .profile-sns-links {
-    @apply m-0 flex list-none flex-row flex-wrap items-center gap-4 p-0;
+    @apply m-0 flex list-none flex-row flex-wrap items-center gap-3 p-0 sm:gap-4;
   }
 
   .profile-sns-links > li {
