@@ -3,18 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const MYPAGE_COLUMN_ITEMS = [
-  { href: "/mypage/published", label: "公開済み" },
-  { href: "/mypage/drafts", label: "下書き" },
-  { href: "/mypage/following", label: "フォローしている人のコラム" },
-] as const;
+import {
+  getProfileDraftsPath,
+  getProfileFeedPath,
+  getProfilePublishedPath,
+} from "@/lib/profile/paths";
 
-export function MypageColumnNav() {
+type MypageColumnNavProps = {
+  userId: string;
+};
+
+export function MypageColumnNav({ userId }: MypageColumnNavProps) {
   const pathname = usePathname();
+  const items = [
+    { href: getProfilePublishedPath(userId), label: "公開済み" },
+    { href: getProfileDraftsPath(userId), label: "下書き" },
+    { href: getProfileFeedPath(userId), label: "フォローしている人のコラム" },
+  ] as const;
 
   return (
     <nav aria-label="自分のコラム" className="column-feed-nav mt-10">
-      {MYPAGE_COLUMN_ITEMS.map((item) => {
+      {items.map((item) => {
         const isActive = pathname === item.href;
 
         return (

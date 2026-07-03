@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { ColumnForm } from "@/components/column/column-form";
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { BackLink } from "@/components/ui/back-link";
+import { getProfileDraftsPath } from "@/lib/profile/paths";
 import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { Column } from "@/types/database";
@@ -20,11 +21,14 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
   }
 
   const supabase = await createClient();
-  const { data: column, error } = await supabase
-    .from("columns")
-    .select("id, title, content, status, author_id")
-    .eq("id", id)
-    .maybeSingle();
+  const [{ data: column, error }, { data: profile }] = await Promise.all([
+    supabase
+      .from("columns")
+      .select("id, title, content, status, author_id")
+      .eq("id", id)
+      .maybeSingle(),
+    supabase.from("profiles").select("user_id").eq("id", user.id).single(),
+  ]);
 
   if (error || !column) {
     notFound();
@@ -50,7 +54,10 @@ export default async function EditColumnPage({ params }: EditColumnPageProps) {
 
       <ColumnForm column={column as Pick<Column, "id" | "title" | "content" | "status">} />
 
-      <BackLink href="/mypage/drafts" className="mt-8 block text-center">
+      <BackLink
+        href={profile?.user_id ? getProfileDraftsPath(profile.user_id) : "/"}
+        className="mt-8 block text-center"
+      >
         下書き一覧に戻る
       </BackLink>
     </div>

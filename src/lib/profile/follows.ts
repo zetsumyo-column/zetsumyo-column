@@ -5,6 +5,7 @@ import {
   getFollowersPath,
   getFollowingPath,
   getProfilePath,
+  getProfilePublishedPath,
 } from "@/lib/profile/paths";
 
 export type FollowProfile = Pick<
@@ -115,7 +116,7 @@ export function getProfileHref(
   profileId?: string,
 ): string {
   if (currentUserId && profileId && currentUserId === profileId) {
-    return "/mypage";
+    return getProfilePublishedPath(profileUserId);
   }
 
   return getProfilePath(profileUserId);

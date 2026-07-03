@@ -9,7 +9,12 @@ import {
 } from "@/lib/validation/profile";
 import { validateAvatarFile } from "@/lib/validation/avatar";
 import { uploadProfileAvatar } from "@/lib/profile/avatar";
-import { getProfilePath } from "@/lib/profile/paths";
+import {
+  getProfileDraftsPath,
+  getProfileFeedPath,
+  getProfilePath,
+  getProfilePublishedPath,
+} from "@/lib/profile/paths";
 import {
   parseSnsUrlsFromFormData,
   snsUrlsToDbPayload,
@@ -24,6 +29,15 @@ export type ProfileFormState = {
   warning?: string;
   success?: boolean;
 };
+
+function revalidateProfilePaths(userId: string) {
+  revalidatePath("/mypage");
+  revalidatePath("/settings");
+  revalidatePath(getProfilePath(userId));
+  revalidatePath(getProfilePublishedPath(userId));
+  revalidatePath(getProfileDraftsPath(userId));
+  revalidatePath(getProfileFeedPath(userId));
+}
 
 export async function updateProfile(
   _prevState: ProfileFormState,
@@ -109,9 +123,7 @@ export async function updateProfile(
       .eq("id", user.id));
 
     if (!error) {
-      revalidatePath("/mypage");
-      revalidatePath("/settings");
-      revalidatePath(getProfilePath(userId));
+      revalidateProfilePaths(userId);
       if (bioProvided) {
         return {
           warning:
@@ -128,8 +140,6 @@ export async function updateProfile(
     return { error: getProfileSaveErrorMessage(error) };
   }
 
-  revalidatePath("/mypage");
-  revalidatePath("/settings");
-  revalidatePath(getProfilePath(userId));
+  revalidateProfilePaths(userId);
   return { success: true };
 }

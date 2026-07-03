@@ -2,8 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createClient } from "@/lib/supabase/server";
+import { getOwnProfileUserId } from "@/lib/profile/own-profile";
+import { getProfileFeedPath, getProfilePath } from "@/lib/profile/paths";
 import { getRequiredAuthUser } from "@/lib/supabase/auth";
+import { createClient } from "@/lib/supabase/server";
 
 export type ToggleFollowResult = { isFollowing: boolean } | { error: string };
 
@@ -19,7 +21,7 @@ export async function toggleFollow(
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("id")
+    .select("id, user_id")
     .eq("id", targetProfileId)
     .maybeSingle();
 
@@ -38,6 +40,8 @@ export async function toggleFollow(
     return { error: "フォロー状態の取得に失敗しました" };
   }
 
+  const ownProfileUserId = await getOwnProfileUserId();
+
   if (existing) {
     const { error } = await supabase
       .from("user_follows")
@@ -48,7 +52,8 @@ export async function toggleFollow(
       return { error: "フォロー解除に失敗しました" };
     }
 
-    revalidatePath("/mypage/following");
+    revalidatePath(getProfileFeedPath(ownProfileUserId));
+    revalidatePath(getProfilePath(profile.user_id));
     return { isFollowing: false };
   }
 
@@ -61,6 +66,7 @@ export async function toggleFollow(
     return { error: "フォローに失敗しました" };
   }
 
-  revalidatePath("/mypage/following");
+  revalidatePath(getProfileFeedPath(ownProfileUserId));
+  revalidatePath(getProfilePath(profile.user_id));
   return { isFollowing: true };
 }

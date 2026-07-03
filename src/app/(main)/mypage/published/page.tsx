@@ -1,31 +1,9 @@
-import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
-import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
-import { getRequiredAuthUser } from "@/lib/supabase/auth";
-import type { ColumnListItem as ColumnListItemType } from "@/types/database";
+import { redirect } from "next/navigation";
 
-export default async function MypagePublishedPage() {
-  const user = await getRequiredAuthUser();
+import { getOwnProfileUserId } from "@/lib/profile/own-profile";
+import { getProfilePublishedPath } from "@/lib/profile/paths";
 
-  const { data: columns, error: columnsError } = await getPublishedColumnsByAuthor(user.id);
-  const publishedColumns = (columns ?? []) as ColumnListItemType[];
-
-  return (
-    <>
-      {columnsError && (
-        <p className="alert-error">コラムの取得に失敗しました。</p>
-      )}
-
-      {!columnsError && publishedColumns.length === 0 && (
-        <MyColumnListEmpty />
-      )}
-
-      {!columnsError && publishedColumns.length > 0 && (
-        <ul className="column-feed-list mt-0">
-          {publishedColumns.map((column) => (
-            <MyColumnListItem key={column.id} column={column} />
-          ))}
-        </ul>
-      )}
-    </>
-  );
+export default async function MypagePublishedRedirect() {
+  const userId = await getOwnProfileUserId("/mypage/published");
+  redirect(getProfilePublishedPath(userId));
 }

@@ -14,6 +14,13 @@ import {
   validateColumnTitle,
 } from "@/lib/validation/column";
 import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
+import { getOwnProfileUserId } from "@/lib/profile/own-profile";
+import {
+  getProfileDraftsPath,
+  getProfileFeedPath,
+  getProfilePath,
+  getProfilePublishedPath,
+} from "@/lib/profile/paths";
 import { getColumnSaveErrorMessage } from "@/lib/supabase/errors";
 import { getAuthUser, getRequiredAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -38,12 +45,21 @@ function resolveDraftTitle(title: string): string {
   return trimmed.length > 0 ? trimmed : DRAFT_TITLE_PLACEHOLDER;
 }
 
-function revalidateColumnPaths() {
+function revalidateColumnPaths(profileUserId: string) {
   revalidatePath("/");
   revalidatePath("/mypage");
   revalidatePath("/mypage/published");
   revalidatePath("/mypage/drafts");
   revalidatePath("/mypage/following");
+  revalidatePath(getProfilePath(profileUserId));
+  revalidatePath(getProfilePublishedPath(profileUserId));
+  revalidatePath(getProfileDraftsPath(profileUserId));
+  revalidatePath(getProfileFeedPath(profileUserId));
+}
+
+function redirectToDrafts(profileUserId: string, error?: string): never {
+  const path = getProfileDraftsPath(profileUserId);
+  redirect(error ? `${path}?error=${encodeURIComponent(error)}` : path);
 }
 
 function buildPayload(
@@ -122,7 +138,8 @@ export async function saveColumn(
       return { error: getColumnSaveErrorMessage(error) };
     }
 
-    revalidateColumnPaths();
+    const profileUserId = await getOwnProfileUserId();
+    revalidateColumnPaths(profileUserId);
     revalidatePath(`/columns/${columnId}`);
     revalidatePath(`/columns/${columnId}/edit`);
 
@@ -130,7 +147,7 @@ export async function saveColumn(
       redirect(`/columns/${columnId}`);
     }
 
-    redirect("/mypage/drafts");
+    redirectToDrafts(profileUserId);
   }
 
   const { data, error } = await supabase
@@ -151,20 +168,22 @@ export async function saveColumn(
     return { error: "保存に失敗しました。もう一度お試しください" };
   }
 
-  revalidateColumnPaths();
+  const profileUserId = await getOwnProfileUserId();
+  revalidateColumnPaths(profileUserId);
 
   if (intent === "publish") {
     redirect(`/columns/${data.id}`);
   }
 
-  redirect("/mypage/drafts");
+  redirectToDrafts(profileUserId);
 }
 
 export async function deleteColumn(formData: FormData): Promise<void> {
   const columnId = String(formData.get("column_id") ?? "").trim();
+  const profileUserId = await getOwnProfileUserId();
 
   if (!columnId) {
-    redirect("/mypage/drafts");
+    redirectToDrafts(profileUserId);
   }
 
   const user = await getRequiredAuthUser();
@@ -178,15 +197,11 @@ export async function deleteColumn(formData: FormData): Promise<void> {
     .maybeSingle();
 
   if (fetchError || !existing) {
-    redirect(
-      `/mypage/drafts?error=${encodeURIComponent("コラムが見つかりません")}`,
-    );
+    redirectToDrafts(profileUserId, "コラムが見つかりません");
   }
 
   if (existing.status !== "draft") {
-    redirect(
-      `/mypage/drafts?error=${encodeURIComponent("公開済みのコラムは削除できません")}`,
-    );
+    redirectToDrafts(profileUserId, "公開済みのコラムは削除できません");
   }
 
   const { error } = await supabase
@@ -198,11 +213,9 @@ export async function deleteColumn(formData: FormData): Promise<void> {
 
   if (error) {
     console.error("column delete error:", error);
-    redirect(
-      `/mypage/drafts?error=${encodeURIComponent("削除に失敗しました")}`,
-    );
+    redirectToDrafts(profileUserId, "削除に失敗しました");
   }
 
-  revalidateColumnPaths();
-  redirect("/mypage/drafts");
+  revalidateColumnPaths(profileUserId);
+  redirectToDrafts(profileUserId);
 }

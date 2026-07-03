@@ -15,7 +15,7 @@ import type { ComponentType, SVGProps } from "react";
 
 import { signOut } from "@/app/actions/auth";
 import { getAvatarInitial } from "@/lib/profile/avatar";
-import { getFollowersPath, getFollowingPath } from "@/lib/profile/paths";
+import { getFollowersPath, getFollowingPath, getProfilePublishedPath } from "@/lib/profile/paths";
 
 type HeaderUserMenuProps = {
   avatarUrl: string | null;
@@ -30,7 +30,7 @@ type MenuItem = {
 };
 
 const MENU_ITEMS = (userId: string): MenuItem[] => [
-  { href: "/mypage", label: "プロフィール", Icon: UserIcon },
+  { href: getProfilePublishedPath(userId), label: "プロフィール", Icon: UserIcon },
   { href: getFollowingPath(userId), label: "フォロー", Icon: UserPlusIcon },
   { href: getFollowersPath(userId), label: "フォロワー", Icon: UserGroupIcon },
   { href: "/settings", label: "設定", Icon: Cog6ToothIcon },
