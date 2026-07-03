@@ -1,4 +1,4 @@
-import { columnFontVariables } from "@/lib/fonts/column-fonts";
+import { ColumnFontsLayout } from "@/components/layout/column-fonts-layout";
 
 type TypographySettingsLayoutProps = {
   children: React.ReactNode;
@@ -7,5 +7,5 @@ type TypographySettingsLayoutProps = {
 export default function TypographySettingsLayout({
   children,
 }: TypographySettingsLayoutProps) {
-  return <div className={columnFontVariables}>{children}</div>;
+  return <ColumnFontsLayout>{children}</ColumnFontsLayout>;
 }

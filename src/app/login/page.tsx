@@ -30,9 +30,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <p className="muted mt-2">絶妙コラムにログインしてください</p>
         </div>
 
-        {deleted && (
-          <p className="alert-success mb-4">アカウントを削除しました。</p>
-        )}
+        {deleted && <p className="alert-success mb-4">アカウントを削除しました。</p>}
 
         {error && <p className="alert-error mb-4">{decodeURIComponent(error)}</p>}
 

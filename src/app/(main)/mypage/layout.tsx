@@ -1,10 +1,8 @@
-import { redirect } from "next/navigation";
-
 import { MypageColumnNav } from "@/components/column/mypage-column-nav";
 import { ProfilePageHeader } from "@/components/profile/profile-page-header";
 import { getPublishedColumnStats } from "@/lib/column/queries";
 import { getFollowInfo } from "@/lib/profile/follows";
-import { getAuthUser } from "@/lib/supabase/auth";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 type MypageLayoutProps = {
@@ -12,11 +10,7 @@ type MypageLayoutProps = {
 };
 
 export default async function MypageLayout({ children }: MypageLayoutProps) {
-  const { user } = await getAuthUser();
-
-  if (!user) {
-    redirect("/login?next=/mypage");
-  }
+  const user = await getRequiredAuthUser("/mypage");
 
   const supabase = await createClient();
   const [{ data: profile, error: profileError }, columnStats, followInfo] =

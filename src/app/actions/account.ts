@@ -4,17 +4,12 @@ import { redirect } from "next/navigation";
 
 import { deleteProfileAvatars } from "@/lib/profile/avatar";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export async function deleteAccount(): Promise<void> {
+  const user = await getRequiredAuthUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
 
   await deleteProfileAvatars(supabase, user.id);
 

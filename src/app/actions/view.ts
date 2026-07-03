@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { getOrCreateViewerSessionKey } from "@/lib/column/viewer-session";
 
 export type RecordColumnViewResult =
@@ -10,10 +11,8 @@ export type RecordColumnViewResult =
 export async function recordColumnView(
   columnId: string,
 ): Promise<RecordColumnViewResult> {
+  const { user } = await getAuthUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const { data: column, error: columnError } = await supabase
     .from("columns")

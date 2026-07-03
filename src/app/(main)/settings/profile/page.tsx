@@ -1,16 +1,10 @@
-import { redirect } from "next/navigation";
-
 import { ProfileForm } from "@/components/profile/profile-form";
 import { SettingsPageShell } from "@/components/settings/settings-page-shell";
-import { getAuthUser } from "@/lib/supabase/auth";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SettingsProfilePage() {
-  const { user } = await getAuthUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+  const user = await getRequiredAuthUser();
 
   const supabase = await createClient();
   const { data: profile, error } = await supabase

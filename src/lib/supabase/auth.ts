@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import type { User } from "@supabase/supabase-js";
@@ -15,3 +16,13 @@ export const getAuthUser = cache(async (): Promise<AuthUserResult> => {
 
   return { user };
 });
+
+export async function getRequiredAuthUser(next?: string): Promise<User> {
+  const { user } = await getAuthUser();
+
+  if (!user) {
+    redirect(next ? `/login?next=${encodeURIComponent(next)}` : "/login");
+  }
+
+  return user;
+}

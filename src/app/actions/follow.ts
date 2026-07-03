@@ -1,23 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 
 export type ToggleFollowResult = { isFollowing: boolean } | { error: string };
 
 export async function toggleFollow(
   targetProfileId: string,
 ): Promise<ToggleFollowResult> {
+  const user = await getRequiredAuthUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
 
   if (user.id === targetProfileId) {
     return { error: "自分自身をフォローすることはできません" };

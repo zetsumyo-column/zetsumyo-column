@@ -1,14 +1,10 @@
 import { MyColumnListEmpty, MyColumnListItem } from "@/components/column/my-column-list-item";
 import { getPublishedColumnsByAuthor } from "@/lib/column/queries";
-import { getAuthUser } from "@/lib/supabase/auth";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 import type { ColumnListItem as ColumnListItemType } from "@/types/database";
 
 export default async function MypagePublishedPage() {
-  const { user } = await getAuthUser();
-
-  if (!user) {
-    return null;
-  }
+  const user = await getRequiredAuthUser();
 
   const { data: columns, error: columnsError } = await getPublishedColumnsByAuthor(user.id);
   const publishedColumns = (columns ?? []) as ColumnListItemType[];

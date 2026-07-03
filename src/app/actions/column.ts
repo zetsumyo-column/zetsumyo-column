@@ -15,6 +15,7 @@ import {
 } from "@/lib/validation/column";
 import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
 import { getColumnSaveErrorMessage } from "@/lib/supabase/errors";
+import { getAuthUser, getRequiredAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type ColumnFormState = {
@@ -79,9 +80,7 @@ export async function saveColumn(
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     return { error: "ログインが必要です" };
@@ -168,14 +167,8 @@ export async function deleteColumn(formData: FormData): Promise<void> {
     redirect("/mypage/drafts");
   }
 
+  const user = await getRequiredAuthUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
 
   const { data: existing, error: fetchError } = await supabase
     .from("columns")

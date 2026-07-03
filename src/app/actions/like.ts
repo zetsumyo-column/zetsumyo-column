@@ -1,20 +1,13 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 import { createClient } from "@/lib/supabase/server";
+import { getRequiredAuthUser } from "@/lib/supabase/auth";
 
 export type ToggleLikeResult = { liked: boolean } | { error: string };
 
 export async function toggleLike(columnId: string): Promise<ToggleLikeResult> {
+  const user = await getRequiredAuthUser();
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
 
   const { data: column, error: columnError } = await supabase
     .from("columns")

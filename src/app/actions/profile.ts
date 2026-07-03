@@ -11,6 +11,7 @@ import { validateAvatarFile } from "@/lib/validation/avatar";
 import { uploadProfileAvatar } from "@/lib/profile/avatar";
 import { getProfilePath } from "@/lib/profile/paths";
 import { getProfileSaveErrorMessage } from "@/lib/supabase/errors";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type ProfileFormState = {
@@ -51,9 +52,7 @@ export async function updateProfile(
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getAuthUser();
 
   if (!user) {
     return { error: "ログインが必要です" };
