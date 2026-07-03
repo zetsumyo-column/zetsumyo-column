@@ -3,11 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* sync: src/lib/theme/color-tokens.ts THEME_BASE_COLORS.light */
   --background: #ffffff;
   --foreground: #171717;
 }
 
 .dark {
+  /* sync: src/lib/theme/color-tokens.ts THEME_BASE_COLORS.dark */
   --background: #18181b;
   --foreground: #ededed;
 }
@@ -458,6 +460,122 @@ body {
 
   .typography-spec-table code {
     @apply break-all font-mono text-xs text-zinc-700 dark:text-zinc-300;
+  }
+
+  .color-palette-group {
+    @apply mt-6;
+  }
+
+  .color-palette-grid {
+    @apply grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4;
+  }
+
+  .color-palette-swatch {
+    @apply m-0;
+  }
+
+  .color-palette-chip {
+    @apply flex h-16 items-end rounded-md border border-zinc-200 p-2 dark:border-zinc-800;
+  }
+
+  .color-palette-chip-text-dark {
+    @apply text-xs font-medium text-zinc-900;
+  }
+
+  .color-palette-chip-text-light {
+    @apply text-xs font-medium text-white;
+  }
+
+  .color-palette-caption {
+    @apply mt-2 flex flex-col gap-0.5;
+  }
+
+  .color-palette-name {
+    @apply text-xs font-medium text-zinc-800 dark:text-zinc-200;
+  }
+
+  .color-palette-hex {
+    @apply font-mono text-[0.6875rem] text-zinc-500;
+  }
+
+  .color-palette-sublabel {
+    @apply text-[0.6875rem] text-zinc-500;
+  }
+
+  .color-palette-base-grid {
+    @apply grid gap-4 sm:grid-cols-2;
+  }
+
+  .color-palette-base-card {
+    @apply rounded-md border border-zinc-200 p-4 dark:border-zinc-800;
+  }
+
+  .color-palette-base-mode {
+    @apply mb-3 text-sm font-medium;
+  }
+
+  .color-palette-base-swatches {
+    @apply grid grid-cols-2 gap-3;
+  }
+
+  .color-palette-base-preview {
+    @apply mt-4 rounded-md border border-zinc-200 p-4 dark:border-zinc-800;
+  }
+
+  .color-palette-base-preview-title {
+    @apply text-sm font-medium;
+  }
+
+  .color-palette-base-preview-body {
+    @apply mt-2 text-xs leading-relaxed opacity-80;
+  }
+
+  .color-palette-semantic-list {
+    @apply flex flex-col gap-4;
+  }
+
+  .color-palette-semantic-item {
+    @apply border-b border-dashed border-zinc-200 pb-4 last:border-b-0 last:pb-0 dark:border-zinc-800;
+  }
+
+  .color-palette-semantic-label {
+    @apply mb-2 text-sm font-medium;
+  }
+
+  .color-palette-semantic-swatches {
+    @apply grid grid-cols-2 gap-3;
+  }
+
+  .color-palette-table-cell {
+    @apply flex items-center gap-2;
+  }
+
+  .color-palette-table-chip {
+    @apply h-5 w-5 shrink-0 rounded border border-zinc-200 dark:border-zinc-700;
+  }
+
+  .ui-parts-group {
+    @apply mt-8;
+  }
+
+  .ui-parts-preview {
+    @apply mt-4 flex flex-wrap items-center gap-3;
+  }
+
+  .ui-parts-preview-stack {
+    @apply flex-col items-stretch;
+  }
+
+  .ui-parts-spec-list {
+    @apply mt-6 flex flex-col gap-6;
+  }
+
+  .ui-parts-spec-item {
+    @apply flex flex-col gap-2;
+  }
+
+  .ui-parts-spec-name {
+    @apply text-sm font-medium;
   }
 }
 
