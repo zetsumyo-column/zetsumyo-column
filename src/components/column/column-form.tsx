@@ -71,7 +71,7 @@ export function ColumnForm({ column }: ColumnFormProps) {
           className="input"
         />
         <p
-          className={`hint ${isTitleTooShort || isTitleOverLimit ? "text-red-600" : ""}`}
+          className={`hint ${isTitleTooShort || isTitleOverLimit ? "font-medium text-foreground" : ""}`}
         >
           {titleLength} / {TITLE_MAX_LENGTH} 文字
         </p>

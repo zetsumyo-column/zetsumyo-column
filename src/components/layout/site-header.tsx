@@ -14,7 +14,13 @@ export async function SiteHeader() {
           <img
             src="/logo.svg"
             alt="絶妙コラム"
-            className="h-4 w-auto sm:h-5 dark:invert"
+            className="h-4 w-auto sm:h-5 dark:hidden"
+          />
+          <img
+            src="/logo-dark.svg"
+            alt=""
+            aria-hidden
+            className="hidden h-4 w-auto sm:h-5 dark:block"
           />
         </Link>
         <nav className="flex items-center gap-4">

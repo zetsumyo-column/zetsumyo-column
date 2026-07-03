@@ -198,8 +198,9 @@ export function ColorModeSpec() {
       />
 
       <p className="legal-section-paragraph mt-3">
-        ベースカラーは <code>body</code> の背景・文字色に使われます。ボタンやボーダーなどは
-        Tailwind の zinc 系パレットをライト / ダークで組み合わせ、コントラストを反転させています。
+        ベースカラーは <code>body</code> の背景・文字色に使われます。UI 全体は zinc
+        系パレットのみで構成し、純白（#fff）・純黒（#000）は使いません。ライト /
+        ダークでは明度を反転させ、コントラストを保ちます。
       </p>
     </section>
   );

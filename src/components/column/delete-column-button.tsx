@@ -9,7 +9,7 @@ type DeleteColumnButtonProps = {
 
 export function DeleteColumnButton({
   columnId,
-  className = "link text-red-600 dark:text-red-400",
+  className = "link",
 }: DeleteColumnButtonProps) {
   return (
     <form action={deleteColumn}>

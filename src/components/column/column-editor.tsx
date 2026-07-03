@@ -77,7 +77,7 @@ export function ColumnEditor({
   return (
     <div className="column-editor editor">
       <EditorContent editor={editor} />
-      <div className={`editor-footer ${isTooShort ? "text-red-600" : ""}`}>
+      <div className={`editor-footer ${isTooShort ? "font-medium text-foreground" : ""}`}>
         <p>
           {plainTextLength} / {CONTENT_MAX_LENGTH}
         </p>

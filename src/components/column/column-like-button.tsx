@@ -90,7 +90,7 @@ export function ColumnLikeButton({
         )}
         <span>{count}</span>
       </button>
-      {error && <p className="hint mt-1 text-red-600">{error}</p>}
+      {error && <p className="hint mt-1 font-medium text-foreground">{error}</p>}
     </>
   );
 }

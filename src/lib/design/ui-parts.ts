@@ -18,7 +18,7 @@ export type UiPartGroup = {
 
 const RADIUS = "rounded-md (0.375rem)";
 const FOCUS_RING =
-  "focus-visible:ring-2 focus-visible:ring-zinc-400/50 dark:focus-visible:ring-zinc-500/50";
+  "focus-visible:ring-2 focus-visible:ring-zinc-400/40 dark:focus-visible:ring-zinc-500/40";
 
 export const UI_PART_GROUPS: UiPartGroup[] = [
   {
@@ -33,9 +33,9 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
           { property: "角丸", value: RADIUS },
           { property: "パディング", value: "px-4 py-2.5" },
           { property: "文字", value: "text-sm font-medium" },
-          { property: "ライト", value: "bg-zinc-900 text-white border-zinc-900" },
-          { property: "ダーク", value: "bg-zinc-100 text-zinc-900 border-zinc-100" },
-          { property: "ホバー", value: "hover:bg-zinc-800 / dark:hover:bg-zinc-200" },
+          { property: "ライト", value: "bg-zinc-800 text-zinc-50 border-zinc-800" },
+          { property: "ダーク", value: "bg-zinc-200 text-zinc-900 border-zinc-200" },
+          { property: "ホバー", value: "hover:bg-zinc-700 / dark:hover:bg-zinc-300" },
           { property: "フォーカス", value: FOCUS_RING },
           { property: "無効時", value: "disabled:opacity-50" },
         ],
@@ -57,9 +57,9 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
           { property: "角丸", value: RADIUS },
           { property: "パディング", value: "px-4 py-2.5" },
           { property: "背景", value: "bg-transparent" },
-          { property: "ライト枠", value: "border-zinc-300" },
-          { property: "ダーク枠", value: "border-zinc-700" },
-          { property: "ホバー", value: "hover:bg-zinc-50 / dark:hover:bg-zinc-900/60" },
+          { property: "ライト枠", value: "border-zinc-200" },
+          { property: "ダーク枠", value: "border-zinc-800" },
+          { property: "ホバー", value: "hover:bg-zinc-100 / dark:hover:bg-zinc-800" },
           { property: "フォーカス", value: FOCUS_RING },
         ],
       },
@@ -111,8 +111,8 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
           { property: "パディング", value: "px-3 py-2.5" },
           { property: "文字", value: "text-base" },
           { property: "背景", value: "bg-transparent" },
-          { property: "ライト枠", value: "border-zinc-300" },
-          { property: "ダーク枠", value: "border-zinc-700" },
+          { property: "ライト枠", value: "border-zinc-200" },
+          { property: "ダーク枠", value: "border-zinc-800" },
           { property: "フォーカス", value: FOCUS_RING },
         ],
       },
@@ -179,7 +179,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         styles: [
           { property: "角丸", value: RADIUS },
           { property: "パディング", value: "px-4 py-3" },
-          { property: "枠", value: "border-zinc-300 / dark:border-zinc-700" },
+          { property: "枠", value: "border-zinc-200 / dark:border-zinc-800" },
         ],
       },
       {
@@ -197,7 +197,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         description: "コラムやリストが空のときのプレースホルダーです。",
         styles: [
           { property: "角丸", value: RADIUS },
-          { property: "枠", value: "border border-dashed border-zinc-300 / dark:border-zinc-700" },
+          { property: "枠", value: "border border-dashed border-zinc-200 / dark:border-zinc-800" },
           { property: "パディング", value: "px-6 py-12" },
           { property: "配置", value: "text-center" },
         ],
@@ -215,6 +215,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
   },
   {
     title: "フィードバック",
+    description: "エラー・警告・成功は色分けせず、zinc 系の統一スタイルで表示します。",
     parts: [
       {
         name: "エラー",
@@ -223,8 +224,8 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         styles: [
           { property: "角丸", value: RADIUS },
           { property: "パディング", value: "px-4 py-3" },
-          { property: "ライト", value: "bg-red-50 text-red-700" },
-          { property: "ダーク", value: "bg-red-950 text-red-300" },
+          { property: "ライト", value: "bg-zinc-100 text-zinc-800 border-zinc-200" },
+          { property: "ダーク", value: "bg-zinc-900 text-zinc-200 border-zinc-800" },
         ],
       },
       {
@@ -232,8 +233,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         className: "alert-warning",
         description: "注意喚起メッセージに使用します。",
         styles: [
-          { property: "ライト", value: "bg-amber-50 text-amber-800" },
-          { property: "ダーク", value: "bg-amber-950 text-amber-200" },
+          { property: "スタイル", value: ".alert-error と同じ（zinc 系統一）" },
         ],
       },
       {
@@ -241,8 +241,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         className: "alert-success",
         description: "保存完了などの成功メッセージに使用します。",
         styles: [
-          { property: "ライト", value: "bg-green-50 text-green-700" },
-          { property: "ダーク", value: "bg-green-950 text-green-300" },
+          { property: "スタイル", value: ".alert-error と同じ（zinc 系統一）" },
         ],
       },
       {
@@ -282,7 +281,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         description: "コラム投稿の本文入力エリアの外枠です。",
         styles: [
           { property: "角丸", value: RADIUS },
-          { property: "枠", value: "border-zinc-300 / dark:border-zinc-700" },
+          { property: "枠", value: "border-zinc-200 / dark:border-zinc-800" },
           { property: "フッター", value: "editor-footer（文字数表示）" },
         ],
       },
@@ -291,7 +290,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         className: "header-menu-popup / header-menu-item",
         description: "ログイン後のユーザーメニューです。",
         styles: [
-          { property: "ポップアップ", value: "rounded-lg border shadow-lg w-56" },
+          { property: "ポップアップ", value: "rounded-lg border shadow-sm w-56" },
           { property: "項目", value: "px-4 py-2.5 text-sm hover:bg-zinc-100" },
         ],
       },
@@ -302,7 +301,7 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         styles: [
           { property: "形", value: "h-10 w-10 rounded-full" },
           { property: "影", value: "shadow-md" },
-          { property: "枠", value: "border-zinc-200 / dark:border-zinc-700" },
+          { property: "枠", value: "border-zinc-200 / dark:border-zinc-800" },
         ],
       },
     ],

@@ -10,7 +10,7 @@ export function DeleteAccountButton() {
     <form action={deleteAccount}>
       <button
         type="submit"
-        className="btn-outline w-full border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+        className="btn-outline w-full"
         onClick={(e) => {
           if (!confirm(CONFIRM_MESSAGE)) {
             e.preventDefault();

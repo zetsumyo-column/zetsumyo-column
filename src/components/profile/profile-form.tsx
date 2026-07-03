@@ -80,7 +80,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           placeholder="自己紹介を書いてみましょう"
           className="textarea"
         />
-        <p className={`hint ${isBioOverLimit ? "text-red-600" : ""}`}>
+        <p className={`hint ${isBioOverLimit ? "font-medium text-foreground" : ""}`}>
           {bio.length} / {BIO_MAX_LENGTH} 文字
         </p>
       </div>
