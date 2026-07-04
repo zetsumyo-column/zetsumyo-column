@@ -38,6 +38,7 @@ https://<project-ref>.supabase.co/auth/v1/callback
 16. `supabase/sql/017_columns_title_length.sql`（タイトルを10〜30文字に制限）
 17. `supabase/sql/018_profiles_sns_links.sql`（プロフィールのSNSリンク）
 18. `supabase/sql/019_profiles_remove_facebook_sns.sql`（Facebookリンク列の削除・018適用済み向け）
+19. `supabase/sql/020_columns_public_id.sql`（コラムURL用の短い public_id）
 
 ### 既にセットアップ済みの場合
 
@@ -59,8 +60,9 @@ https://<project-ref>.supabase.co/auth/v1/callback
 - タイトルを10〜30文字に制限する → `017_columns_title_length.sql` のみ
 - プロフィールにSNSリンクを表示する → `018_profiles_sns_links.sql` のみ
 - Facebookリンク列を削除する → `019_profiles_remove_facebook_sns.sql` のみ（018適用済みの場合）
+- コラムURLを `/{user_id}/{public_id}` 形式にする → `020_columns_public_id.sql` のみ
 
-各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜019 は未適用分だけ**実行すれば問題ありません。
+各ファイルは `IF NOT EXISTS` や `DROP CONSTRAINT IF EXISTS` で冪等に書いてあるため、**003〜020 は未適用分だけ**実行すれば問題ありません。
 
 ## 3. 環境変数を設定
 

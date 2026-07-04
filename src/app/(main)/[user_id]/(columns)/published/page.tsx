@@ -51,7 +51,7 @@ export default async function PublishedPage({ params }: PublishedPageProps) {
         {!columnsError && publishedColumns.length > 0 && (
           <ul className="column-feed-list mt-0">
             {publishedColumns.map((column) => (
-              <MyColumnListItem key={column.id} column={column} />
+              <MyColumnListItem key={column.id} column={column} profileUserId={user_id} />
             ))}
           </ul>
         )}
@@ -72,7 +72,7 @@ export default async function PublishedPage({ params }: PublishedPageProps) {
       {!columnsError && publishedColumns.length > 0 && (
         <ul className="column-feed-list">
           {publishedColumns.map((column) => (
-            <ColumnListItem key={column.id} column={column} />
+            <ColumnListItem key={column.id} column={column} profileUserId={user_id} />
           ))}
         </ul>
       )}

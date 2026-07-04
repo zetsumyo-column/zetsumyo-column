@@ -1,11 +1,13 @@
 import Link from "next/link";
 
 import { formatDate } from "@/lib/format-date";
+import { getColumnPath } from "@/lib/column/paths";
 import { getProfilePath } from "@/lib/profile/paths";
 import type { ColumnListItem, ColumnListItemWithAuthor } from "@/types/database";
 
 type ColumnListItemProps = {
   column: ColumnListItem | ColumnListItemWithAuthor;
+  profileUserId?: string;
 };
 
 function hasAuthor(
@@ -14,13 +16,17 @@ function hasAuthor(
   return "profiles" in column && column.profiles != null;
 }
 
-export function ColumnListItem({ column }: ColumnListItemProps) {
+export function ColumnListItem({ column, profileUserId }: ColumnListItemProps) {
   const plainTextLength = column.plain_text_length;
 
   if (!hasAuthor(column)) {
+    const href = profileUserId
+      ? getColumnPath(profileUserId, column.public_id)
+      : "#";
+
     return (
       <li className="column-feed-item">
-        <Link href={`/columns/${column.id}`} className="block text-base font-medium">
+        <Link href={href} className="block text-base font-medium">
           {column.title}
         </Link>
         <p className="hint mt-2">
@@ -36,7 +42,7 @@ export function ColumnListItem({ column }: ColumnListItemProps) {
 
   return (
     <li className="column-feed-item">
-      <Link href={`/columns/${column.id}`} className="block text-base font-medium">
+      <Link href={getColumnPath(author.user_id, column.public_id)} className="block text-base font-medium">
         {column.title}
       </Link>
       <p className="hint mt-2">

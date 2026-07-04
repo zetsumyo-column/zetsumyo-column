@@ -14,6 +14,7 @@ import {
   validateColumnTitle,
 } from "@/lib/validation/column";
 import { sanitizeToParagraphsOnly } from "@/lib/column/sanitize-content";
+import { getColumnEditPath, getColumnPath } from "@/lib/column/paths";
 import { getOwnProfileUserId } from "@/lib/profile/own-profile";
 import {
   getProfileDraftsPath,
@@ -45,7 +46,7 @@ function resolveDraftTitle(title: string): string {
   return trimmed.length > 0 ? trimmed : DRAFT_TITLE_PLACEHOLDER;
 }
 
-function revalidateColumnPaths(profileUserId: string) {
+function revalidateColumnPaths(profileUserId: string, publicId?: string) {
   revalidatePath("/");
   revalidatePath("/mypage");
   revalidatePath("/mypage/published");
@@ -55,6 +56,11 @@ function revalidateColumnPaths(profileUserId: string) {
   revalidatePath(getProfilePublishedPath(profileUserId));
   revalidatePath(getProfileDraftsPath(profileUserId));
   revalidatePath(getProfileFeedPath(profileUserId));
+
+  if (publicId) {
+    revalidatePath(getColumnPath(profileUserId, publicId));
+    revalidatePath(getColumnEditPath(profileUserId, publicId));
+  }
 }
 
 function redirectToDrafts(profileUserId: string, error?: string): never {
@@ -111,7 +117,7 @@ export async function saveColumn(
   if (columnId) {
     const { data: existing, error: fetchError } = await supabase
       .from("columns")
-      .select("id, author_id, status")
+      .select("id, author_id, status, public_id")
       .eq("id", columnId)
       .maybeSingle();
 
@@ -139,12 +145,12 @@ export async function saveColumn(
     }
 
     const profileUserId = await getOwnProfileUserId();
-    revalidateColumnPaths(profileUserId);
+    revalidateColumnPaths(profileUserId, existing.public_id);
     revalidatePath(`/columns/${columnId}`);
     revalidatePath(`/columns/${columnId}/edit`);
 
     if (intent === "publish") {
-      redirect(`/columns/${columnId}`);
+      redirect(getColumnPath(profileUserId, existing.public_id));
     }
 
     redirectToDrafts(profileUserId);
@@ -156,7 +162,7 @@ export async function saveColumn(
       author_id: user.id,
       ...buildPayload(basePayload),
     })
-    .select("id")
+    .select("id, public_id")
     .single();
 
   if (error) {
@@ -169,10 +175,10 @@ export async function saveColumn(
   }
 
   const profileUserId = await getOwnProfileUserId();
-  revalidateColumnPaths(profileUserId);
+  revalidateColumnPaths(profileUserId, data.public_id);
 
   if (intent === "publish") {
-    redirect(`/columns/${data.id}`);
+    redirect(getColumnPath(profileUserId, data.public_id));
   }
 
   redirectToDrafts(profileUserId);

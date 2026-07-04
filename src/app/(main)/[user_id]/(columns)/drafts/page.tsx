@@ -44,7 +44,7 @@ export default async function DraftsPage({ params, searchParams }: DraftsPagePro
       {!columnsError && draftColumns.length > 0 && (
         <ul className="column-feed-list mt-0">
           {draftColumns.map((column) => (
-            <MyColumnListItem key={column.id} column={column} />
+            <MyColumnListItem key={column.id} column={column} profileUserId={user_id} />
           ))}
         </ul>
       )}

@@ -2,16 +2,20 @@ import Link from "next/link";
 
 import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { formatDate } from "@/lib/format-date";
+import { getColumnEditPath, getColumnPath } from "@/lib/column/paths";
 import type { ColumnListItem } from "@/types/database";
 
 type MyColumnListItemProps = {
   column: ColumnListItem;
+  profileUserId: string;
 };
 
-export function MyColumnListItem({ column }: MyColumnListItemProps) {
+export function MyColumnListItem({ column, profileUserId }: MyColumnListItemProps) {
   const plainTextLength = column.plain_text_length;
   const isDraft = column.status === "draft";
-  const href = isDraft ? `/columns/${column.id}/edit` : `/columns/${column.id}`;
+  const href = isDraft
+    ? getColumnEditPath(profileUserId, column.public_id)
+    : getColumnPath(profileUserId, column.public_id);
 
   return (
     <li className="column-feed-item">

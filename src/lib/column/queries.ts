@@ -1,5 +1,10 @@
 import { cache } from "react";
 
+import {
+  isReservedColumnPublicId,
+  isValidColumnPublicId,
+} from "@/lib/column/public-id";
+import { getProfileByUserId } from "@/lib/profile/queries";
 import { createClient } from "@/lib/supabase/server";
 import type { ColumnListItem, ColumnWithAuthor } from "@/types/database";
 
@@ -20,12 +25,42 @@ export const getColumnById = cache(async (id: string): Promise<ColumnWithAuthor 
   return data as ColumnWithAuthor;
 });
 
+export const getColumnByUserAndPublicId = cache(
+  async (userId: string, publicId: string): Promise<ColumnWithAuthor | null> => {
+    if (!isValidColumnPublicId(publicId) || isReservedColumnPublicId(publicId)) {
+      return null;
+    }
+
+    const { data: profile, error: profileError } = await getProfileByUserId(userId);
+
+    if (profileError || !profile) {
+      return null;
+    }
+
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("columns")
+      .select(
+        "*, profiles!columns_author_id_fkey(user_id, display_name, avatar_url, bio)",
+      )
+      .eq("author_id", profile.id)
+      .eq("public_id", publicId)
+      .maybeSingle();
+
+    if (error || !data) {
+      return null;
+    }
+
+    return data as ColumnWithAuthor;
+  },
+);
+
 export const getColumnList = cache(async () => {
   const supabase = await createClient();
   return supabase
     .from("columns")
     .select(
-      "id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
+      "id, public_id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
     )
     .eq("status", "published")
     .order("created_at", { ascending: false });
@@ -35,7 +70,7 @@ export const getMyDraftColumns = cache(async (authorId: string) => {
   const supabase = await createClient();
   return supabase
     .from("columns")
-    .select("id, title, created_at, plain_text_length, status")
+    .select("id, public_id, title, created_at, plain_text_length, status")
     .eq("author_id", authorId)
     .eq("status", "draft")
     .order("created_at", { ascending: false });
@@ -62,7 +97,7 @@ export const getFollowingColumnList = cache(async (userId: string) => {
   return supabase
     .from("columns")
     .select(
-      "id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
+      "id, public_id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
     )
     .eq("status", "published")
     .in("author_id", followingIds)
@@ -94,7 +129,7 @@ export const getPublishedColumnsByAuthor = cache(async (authorId: string) => {
   const supabase = await createClient();
   return supabase
     .from("columns")
-    .select("id, title, created_at, plain_text_length, status")
+    .select("id, public_id, title, created_at, plain_text_length, status")
     .eq("author_id", authorId)
     .eq("status", "published")
     .order("created_at", { ascending: false });

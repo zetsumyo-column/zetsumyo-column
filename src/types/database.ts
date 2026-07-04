@@ -16,6 +16,7 @@ export type Profile = {
 
 export type Column = {
   id: string;
+  public_id: string;
   author_id: string;
   title: string;
   content: string;
@@ -33,7 +34,7 @@ export type ColumnWithAuthor = Column & {
 
 export type ColumnListItem = Pick<
   Column,
-  "id" | "title" | "created_at" | "plain_text_length" | "status"
+  "id" | "public_id" | "title" | "created_at" | "plain_text_length" | "status"
 >;
 
 export type ColumnListItemWithAuthor = ColumnListItem & {
@@ -99,6 +100,7 @@ export type Database = {
         Row: Column;
         Insert: {
           id?: string;
+          public_id?: string;
           author_id: string;
           title: string;
           content: string;
@@ -110,6 +112,7 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          public_id?: string;
           title?: string;
           content?: string;
           char_limit?: number;
