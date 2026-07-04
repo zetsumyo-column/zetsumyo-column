@@ -585,6 +585,22 @@ body {
     @apply flex flex-col gap-8;
   }
 
+  .theme-settings-compact {
+    @apply flex flex-col gap-6;
+  }
+
+  .column-display-settings {
+    @apply flex flex-col;
+  }
+
+  .column-display-settings-section {
+    @apply flex flex-col gap-6 border-t border-dashed border-zinc-200 pt-6 first:border-t-0 first:pt-0 dark:border-zinc-700;
+  }
+
+  .column-display-settings-heading {
+    @apply text-sm font-medium;
+  }
+
   .contrast-setting-block {
     @apply flex flex-col gap-4;
   }
