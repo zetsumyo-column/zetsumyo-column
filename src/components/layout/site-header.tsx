@@ -31,7 +31,7 @@ export async function SiteHeader() {
               userId={profile.user_id}
             />
           ) : (
-            <Link href="/login" className="btn btn-sm">
+            <Link href="/login" className="btn">
               ログイン
             </Link>
           )}

@@ -23,15 +23,16 @@ const FOCUS_RING =
 export const UI_PART_GROUPS: UiPartGroup[] = [
   {
     title: "ボタン",
-    description: "操作の優先度に応じて主ボタン・枠線ボタン・小サイズを使い分けます。",
+    description:
+      "主ボタン（.btn）と枠線ボタン（.btn-outline）の2種類のみを使い分けます。どちらも同じコンパクトサイズ（px-3 py-1.5・text-sm）に統一しており、大きさのバリエーションは設けていません。",
     parts: [
       {
         name: "主ボタン",
         className: "btn",
-        description: "保存・公開・フォローなど、主要な操作に使用します。",
+        description: "保存・公開・フォロー・ログインなど、主要な操作に使用します。",
         styles: [
           { property: "角丸", value: RADIUS },
-          { property: "パディング", value: "px-4 py-2.5" },
+          { property: "パディング", value: "px-3 py-1.5" },
           { property: "文字", value: "text-sm font-medium" },
           { property: "ライト", value: "bg-zinc-800 text-zinc-50 border-zinc-800" },
           { property: "ダーク", value: "bg-zinc-600 text-zinc-200 border-zinc-600" },
@@ -41,35 +42,17 @@ export const UI_PART_GROUPS: UiPartGroup[] = [
         ],
       },
       {
-        name: "主ボタン（小）",
-        className: "btn btn-sm",
-        description: "ヘッダーのログイン、プロフィールのフォローなどコンパクトな主操作に使用します。",
-        styles: [
-          { property: "ベース", value: ".btn を継承" },
-          { property: "パディング", value: "px-3 py-1.5" },
-        ],
-      },
-      {
         name: "枠線ボタン",
         className: "btn-outline",
         description: "下書き保存、フォロー解除、写真変更など副次の操作に使用します。",
         styles: [
           { property: "角丸", value: RADIUS },
-          { property: "パディング", value: "px-4 py-2.5" },
+          { property: "パディング", value: "px-3 py-1.5" },
           { property: "背景", value: "bg-transparent" },
           { property: "ライト枠", value: "border-zinc-200" },
           { property: "ダーク枠", value: "border-zinc-700" },
           { property: "ホバー", value: "hover:bg-zinc-100 / dark:hover:bg-zinc-700" },
           { property: "フォーカス", value: FOCUS_RING },
-        ],
-      },
-      {
-        name: "枠線ボタン（小）",
-        className: "btn-outline btn-sm",
-        description: "コンパクトな副次操作に使用します。",
-        styles: [
-          { property: "ベース", value: ".btn-outline を継承" },
-          { property: "パディング", value: "px-3 py-1.5" },
         ],
       },
       {

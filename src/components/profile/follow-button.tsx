@@ -14,7 +14,7 @@ type FollowButtonProps = {
 };
 
 function getFollowButtonClass(following: boolean, className?: string): string {
-  const base = following ? "btn-outline btn-sm" : "btn btn-sm";
+  const base = following ? "btn-outline" : "btn";
   return className ? `${base} ${className}` : base;
 }
 

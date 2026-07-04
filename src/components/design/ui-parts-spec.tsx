@@ -30,22 +30,26 @@ function PartStyleTable({ part }: { part: UiPartSpec }) {
 
 function ButtonPreviews() {
   return (
-    <div className="ui-parts-preview">
-      <button type="button" className="btn btn-sm">
-        主ボタン（小）
-      </button>
-      <button type="button" className="btn">
-        主ボタン
-      </button>
-      <button type="button" className="btn-outline btn-sm">
-        枠線（小）
-      </button>
-      <button type="button" className="btn-outline">
-        枠線ボタン
-      </button>
-      <button type="button" className="btn" disabled>
-        無効
-      </button>
+    <div className="ui-parts-preview ui-parts-preview-stack">
+      <div className="ui-parts-preview">
+        <button type="button" className="btn">
+          主ボタン
+        </button>
+        <button type="button" className="btn-outline">
+          枠線ボタン
+        </button>
+        <button type="button" className="btn" disabled>
+          無効
+        </button>
+      </div>
+      <div className="btn-row">
+        <button type="button" className="btn-outline">
+          下書き保存
+        </button>
+        <button type="button" className="btn">
+          公開
+        </button>
+      </div>
     </div>
   );
 }
