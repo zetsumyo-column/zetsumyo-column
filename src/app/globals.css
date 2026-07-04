@@ -2,14 +2,39 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  /* sync: src/lib/theme/color-tokens.ts THEME_BASE_COLORS.light */
+:root,
+.light {
+  /* sync: src/lib/theme/contrast-tokens.ts LIGHT_CONTRAST_PRESETS.medium */
   --background: #fafafa;
   --foreground: #27272a;
 }
 
+.light.contrast-low {
+  /* sync: LIGHT_CONTRAST_PRESETS.low */
+  --background: #f4f4f5;
+  --foreground: #52525b;
+}
+
+.light.contrast-high {
+  /* sync: LIGHT_CONTRAST_PRESETS.high */
+  --background: #fafafa;
+  --foreground: #18181b;
+}
+
 .dark {
-  /* sync: src/lib/theme/color-tokens.ts THEME_BASE_COLORS.dark */
+  /* sync: src/lib/theme/contrast-tokens.ts DARK_CONTRAST_PRESETS.medium */
+  --background: #27272a;
+  --foreground: #d4d4d8;
+}
+
+.dark.contrast-low {
+  /* sync: DARK_CONTRAST_PRESETS.low */
+  --background: #27272a;
+  --foreground: #71717a;
+}
+
+.dark.contrast-high {
+  /* sync: DARK_CONTRAST_PRESETS.high */
   --background: #18181b;
   --foreground: #e4e4e7;
 }
@@ -51,7 +76,7 @@ body {
   }
 
   .column-footer {
-    @apply flex flex-col gap-4 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-800;
+    @apply flex flex-col gap-4 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700;
   }
 
   .muted {
@@ -97,7 +122,7 @@ body {
   }
 
   .profile-follow-stat {
-    @apply flex min-w-0 flex-col items-center gap-0.5 rounded-md px-1 py-2 text-center transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800;
+    @apply flex min-w-0 flex-col items-center gap-0.5 rounded-md px-1 py-2 text-center transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-700;
   }
 
   .profile-follow-stat-value {
@@ -141,15 +166,15 @@ body {
   }
 
   .input {
-    @apply w-full rounded-md border border-zinc-200 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40 dark:border-zinc-800 dark:focus-visible:ring-zinc-500/40;
+    @apply w-full rounded-md border border-zinc-200 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40 dark:border-zinc-700 dark:focus-visible:ring-zinc-500/40;
   }
 
   .textarea {
-    @apply w-full resize-none rounded-md border border-zinc-200 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40 dark:border-zinc-800 dark:focus-visible:ring-zinc-500/40;
+    @apply w-full resize-none rounded-md border border-zinc-200 bg-transparent px-3 py-2.5 text-base transition-colors outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40 dark:border-zinc-700 dark:focus-visible:ring-zinc-500/40;
   }
 
   .btn {
-    @apply rounded-md border border-zinc-800 bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors outline-none hover:bg-zinc-700 focus-visible:ring-2 focus-visible:ring-zinc-400/40 disabled:opacity-50 dark:border-zinc-200 dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-300 dark:focus-visible:ring-zinc-500/40;
+    @apply rounded-md border border-zinc-800 bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors outline-none hover:bg-zinc-700 focus-visible:ring-2 focus-visible:ring-zinc-400/40 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-500 dark:focus-visible:ring-zinc-500/40;
   }
 
   .btn-sm {
@@ -157,7 +182,7 @@ body {
   }
 
   .btn-outline {
-    @apply rounded-md border border-zinc-200 bg-transparent px-4 py-2.5 text-sm font-medium transition-colors outline-none hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-zinc-400/40 disabled:opacity-50 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:focus-visible:ring-zinc-500/40;
+    @apply rounded-md border border-zinc-200 bg-transparent px-4 py-2.5 text-sm font-medium transition-colors outline-none hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-zinc-400/40 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:focus-visible:ring-zinc-500/40;
   }
 
   .btn-row {
@@ -174,11 +199,11 @@ body {
   }
 
   .card {
-    @apply rounded-md border border-zinc-200 px-4 py-3 dark:border-zinc-800;
+    @apply rounded-md border border-zinc-200 px-4 py-3 dark:border-zinc-700;
   }
 
   .card-link {
-    @apply block rounded-md border border-zinc-200 px-4 py-3 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800;
+    @apply block rounded-md border border-zinc-200 px-4 py-3 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700;
   }
 
   .settings-nav {
@@ -186,7 +211,7 @@ body {
   }
 
   .settings-nav-item {
-    @apply flex items-center gap-3 border-b border-dashed border-zinc-200 py-4 text-sm transition-colors hover:text-zinc-700 dark:border-zinc-800 dark:hover:text-zinc-300;
+    @apply flex items-center gap-3 border-b border-dashed border-zinc-200 py-4 text-sm transition-colors hover:text-zinc-700 dark:border-zinc-700 dark:hover:text-zinc-300;
   }
 
   .settings-nav-icon {
@@ -202,7 +227,7 @@ body {
   }
 
   .profile-avatar-card {
-    @apply flex items-center justify-between gap-4 rounded-2xl bg-zinc-100 px-4 py-4 dark:bg-zinc-800;
+    @apply flex items-center justify-between gap-4 rounded-2xl bg-zinc-100 px-4 py-4 dark:bg-zinc-900;
   }
 
   .profile-avatar-card-info {
@@ -210,7 +235,7 @@ body {
   }
 
   .settings-preview {
-    @apply rounded-md border border-dashed border-zinc-200 px-4 py-6 dark:border-zinc-800;
+    @apply rounded-md border border-dashed border-zinc-200 px-4 py-6 dark:border-zinc-700;
   }
 
   .settings-preview-label {
@@ -230,11 +255,11 @@ body {
   }
 
   .column-typography-fab-trigger {
-    @apply flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-zinc-700 shadow-sm outline-none transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-800;
+    @apply flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-zinc-700 shadow-sm outline-none transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-700;
   }
 
   .column-typography-fab-trigger-open {
-    @apply ring-2 ring-zinc-300 ring-offset-1 ring-offset-zinc-50 dark:ring-zinc-600 dark:ring-offset-zinc-950;
+    @apply ring-2 ring-zinc-300 ring-offset-1 ring-offset-zinc-50 dark:ring-zinc-600 dark:ring-offset-zinc-800;
   }
 
   .column-typography-fab-icon {
@@ -242,11 +267,11 @@ body {
   }
 
   .column-typography-fab-popup {
-    @apply absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),22.5rem)] max-h-[min(70vh,32.5rem)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-950;
+    @apply absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),22.5rem)] max-h-[min(70vh,32.5rem)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900;
   }
 
   .column-typography-fab-head {
-    @apply border-b border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900;
+    @apply border-b border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-900;
   }
 
   .column-typography-fab-body {
@@ -254,19 +279,19 @@ body {
   }
 
   .segmented-control {
-    @apply grid w-full overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800;
+    @apply grid w-full overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700;
   }
 
   .segmented-item {
-    @apply flex min-w-0 items-center justify-center border-r border-zinc-200 bg-transparent px-3 py-2.5 text-sm transition-colors outline-none last:border-r-0 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400/40 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:focus-visible:ring-zinc-500/40;
+    @apply flex min-w-0 items-center justify-center border-r border-zinc-200 bg-transparent px-3 py-2.5 text-sm transition-colors outline-none last:border-r-0 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400/40 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:focus-visible:ring-zinc-500/40;
   }
 
   .segmented-item-active {
-    @apply bg-zinc-100 font-medium text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200;
+    @apply bg-zinc-100 font-medium text-zinc-800 dark:bg-zinc-700 dark:text-zinc-300;
   }
 
   .segmented-item-active:hover {
-    @apply bg-zinc-100 dark:bg-zinc-800;
+    @apply bg-zinc-100 dark:bg-zinc-700;
   }
 
   .like-button {
@@ -274,21 +299,21 @@ body {
   }
 
   .like-button-active {
-    @apply font-medium text-zinc-800 dark:text-zinc-200;
+    @apply font-medium text-zinc-800 dark:text-zinc-300;
   }
 
   .empty {
-    @apply rounded-md border border-dashed border-zinc-200 px-6 py-12 text-center dark:border-zinc-800;
+    @apply rounded-md border border-dashed border-zinc-200 px-6 py-12 text-center dark:border-zinc-700;
   }
 
   .alert-error,
   .alert-warning,
   .alert-success {
-    @apply rounded-md border border-zinc-200 bg-zinc-100 px-4 py-3 text-sm text-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200;
+    @apply rounded-md border border-zinc-200 bg-zinc-100 px-4 py-3 text-sm text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300;
   }
 
   .draft-banner {
-    @apply mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-200 bg-zinc-100 px-4 py-3 text-sm text-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200;
+    @apply mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-200 bg-zinc-100 px-4 py-3 text-sm text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300;
   }
 
   .header {
@@ -308,23 +333,23 @@ body {
   }
 
   .header-menu-trigger-open {
-    @apply ring-2 ring-zinc-300 ring-offset-2 ring-offset-zinc-50 dark:ring-zinc-600 dark:ring-offset-zinc-950;
+    @apply ring-2 ring-zinc-300 ring-offset-2 ring-offset-zinc-50 dark:ring-zinc-600 dark:ring-offset-zinc-800;
   }
 
   .header-menu-popup {
-    @apply absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 py-1 shadow-sm dark:border-zinc-800 dark:bg-zinc-950;
+    @apply absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 py-1 shadow-sm dark:border-zinc-700 dark:bg-zinc-900;
   }
 
   .header-menu-head {
-    @apply border-b border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900;
+    @apply border-b border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-900;
   }
 
   .header-menu-divider {
-    @apply border-t border-zinc-200 dark:border-zinc-800;
+    @apply border-t border-zinc-200 dark:border-zinc-700;
   }
 
   .header-menu-item {
-    @apply flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800;
+    @apply flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700;
   }
 
   .header-menu-icon {
@@ -332,11 +357,11 @@ body {
   }
 
   .editor {
-    @apply overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800;
+    @apply overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700;
   }
 
   .editor-footer {
-    @apply border-t border-zinc-200 px-4 py-2 text-right text-sm text-zinc-500 dark:border-zinc-800;
+    @apply border-t border-zinc-200 px-4 py-2 text-right text-sm text-zinc-500 dark:border-zinc-700;
   }
 
   .badge {
@@ -356,27 +381,27 @@ body {
   }
 
   .column-feed-nav {
-    @apply -mx-1 mb-8 flex flex-wrap gap-1 border-b border-zinc-200 dark:border-zinc-800;
+    @apply -mx-1 mb-8 flex flex-wrap gap-1 border-b border-zinc-200 dark:border-zinc-700;
   }
 
   .column-feed-nav-item {
-    @apply rounded-t-md px-3 py-2.5 text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-500 dark:hover:text-zinc-200;
+    @apply rounded-t-md px-3 py-2.5 text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-500 dark:hover:text-zinc-300;
   }
 
   .column-feed-nav-item-active {
-    @apply border-b-2 border-zinc-800 font-medium text-zinc-800 dark:border-zinc-200 dark:text-zinc-200;
+    @apply border-b-2 border-zinc-800 font-medium text-zinc-800 dark:border-zinc-400 dark:text-zinc-300;
   }
 
   .column-feed-item {
-    @apply border-b border-dashed border-zinc-200 py-6 first:border-t dark:border-zinc-800;
+    @apply border-b border-dashed border-zinc-200 py-6 first:border-t dark:border-zinc-700;
   }
 
   .avatar {
-    @apply flex items-center justify-center rounded-full bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400;
+    @apply flex items-center justify-center rounded-full bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-400;
   }
 
   .site-footer {
-    @apply mt-auto border-t border-zinc-200 py-8 dark:border-zinc-800;
+    @apply mt-auto border-t border-zinc-200 py-8 dark:border-zinc-700;
   }
 
   .site-footer-inner {
@@ -388,7 +413,7 @@ body {
   }
 
   .site-footer-link {
-    @apply text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:hover:text-zinc-200;
+    @apply text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:hover:text-zinc-300;
   }
 
   .site-footer-copy {
@@ -432,7 +457,7 @@ body {
   }
 
   .typography-spec-caption {
-    @apply mb-2 text-left text-sm font-medium text-zinc-800 dark:text-zinc-200;
+    @apply mb-2 text-left text-sm font-medium text-zinc-800 dark:text-zinc-300;
   }
 
   .typography-spec-table {
@@ -441,7 +466,7 @@ body {
 
   .typography-spec-table th,
   .typography-spec-table td {
-    @apply border border-zinc-200 px-3 py-2 align-top dark:border-zinc-800;
+    @apply border border-zinc-200 px-3 py-2 align-top dark:border-zinc-700;
   }
 
   .typography-spec-table thead th {
@@ -449,7 +474,7 @@ body {
   }
 
   .typography-spec-table tbody th[scope="row"] {
-    @apply font-medium text-zinc-800 dark:text-zinc-200;
+    @apply font-medium text-zinc-800 dark:text-zinc-300;
   }
 
   .typography-spec-table code {
@@ -469,7 +494,7 @@ body {
   }
 
   .color-palette-chip {
-    @apply flex h-16 items-end rounded-md border border-zinc-200 p-2 dark:border-zinc-800;
+    @apply flex h-16 items-end rounded-md border border-zinc-200 p-2 dark:border-zinc-700;
   }
 
   .color-palette-chip-text-dark {
@@ -485,7 +510,7 @@ body {
   }
 
   .color-palette-name {
-    @apply text-xs font-medium text-zinc-800 dark:text-zinc-200;
+    @apply text-xs font-medium text-zinc-800 dark:text-zinc-300;
   }
 
   .color-palette-hex {
@@ -501,7 +526,7 @@ body {
   }
 
   .color-palette-base-card {
-    @apply rounded-md border border-zinc-200 p-4 dark:border-zinc-800;
+    @apply rounded-md border border-zinc-200 p-4 dark:border-zinc-700;
   }
 
   .color-palette-base-mode {
@@ -513,7 +538,7 @@ body {
   }
 
   .color-palette-base-preview {
-    @apply mt-4 rounded-md border border-zinc-200 p-4 dark:border-zinc-800;
+    @apply mt-4 rounded-md border border-zinc-200 p-4 dark:border-zinc-700;
   }
 
   .color-palette-base-preview-title {
@@ -529,7 +554,7 @@ body {
   }
 
   .color-palette-semantic-item {
-    @apply border-b border-dashed border-zinc-200 pb-4 last:border-b-0 last:pb-0 dark:border-zinc-800;
+    @apply border-b border-dashed border-zinc-200 pb-4 last:border-b-0 last:pb-0 dark:border-zinc-700;
   }
 
   .color-palette-semantic-label {
@@ -546,6 +571,58 @@ body {
 
   .color-palette-table-chip {
     @apply h-5 w-5 shrink-0 rounded border border-zinc-200 dark:border-zinc-700;
+  }
+
+  .color-mode-section {
+    @apply mt-10 border-t border-dashed border-zinc-200 pt-8 dark:border-zinc-700;
+  }
+
+  .color-mode-section-title {
+    @apply text-base font-medium;
+  }
+
+  .color-mode-table-note {
+    @apply mt-1 text-xs leading-relaxed text-zinc-500;
+  }
+
+  .theme-settings {
+    @apply flex flex-col gap-8;
+  }
+
+  .contrast-setting-block {
+    @apply flex flex-col gap-4;
+  }
+
+  .contrast-preview-wrap {
+    @apply flex flex-col gap-3;
+  }
+
+  .contrast-preview {
+    @apply rounded-md border border-zinc-200 p-4 dark:border-zinc-700;
+  }
+
+  .contrast-preview-title {
+    @apply text-sm font-medium;
+  }
+
+  .contrast-preview-body {
+    @apply mt-2 text-xs leading-relaxed opacity-90;
+  }
+
+  .contrast-preview-codes {
+    @apply grid grid-cols-2 gap-3;
+  }
+
+  .contrast-preview-code-item {
+    @apply flex flex-col gap-1;
+  }
+
+  .contrast-preview-code-label {
+    @apply text-xs font-medium text-zinc-600 dark:text-zinc-400;
+  }
+
+  .contrast-preview-code-value {
+    @apply flex items-center gap-2;
   }
 
   .ui-parts-group {
