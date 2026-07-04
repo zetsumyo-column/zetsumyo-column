@@ -71,7 +71,7 @@ function ContrastPreview({ theme, level }: ContrastPreviewProps) {
 }
 
 type ThemeControlsProps = {
-  variant?: "full" | "compact";
+  variant?: "full" | "compact" | "fab";
   className?: string;
 };
 
@@ -81,6 +81,8 @@ export function ThemeControls({
 }: ThemeControlsProps) {
   const { theme, contrast, setTheme, setContrast } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const isFab = variant === "fab";
+  const optionSize = isFab ? "compact" : "default";
 
   useEffect(() => {
     setMounted(true);
@@ -88,7 +90,11 @@ export function ThemeControls({
 
   const wrapperClass =
     className ??
-    (variant === "compact" ? "theme-settings-compact" : "theme-settings");
+    (variant === "fab"
+      ? "theme-settings-fab"
+      : variant === "compact"
+        ? "theme-settings-compact"
+        : "theme-settings");
 
   if (!mounted) {
     return (
@@ -107,18 +113,20 @@ export function ThemeControls({
   return (
     <div className={wrapperClass}>
       <OptionGroup
-        label="表示モード"
+        label={isFab ? "モード" : "表示モード"}
         options={THEME_OPTIONS}
         value={currentTheme}
         onChange={setTheme}
+        size={optionSize}
       />
 
-      <div className="contrast-setting-block">
+      <div className={isFab ? "contrast-setting-block-fab" : "contrast-setting-block"}>
         <OptionGroup
           label="コントラスト"
           options={CONTRAST_OPTIONS}
           value={currentContrast}
           onChange={setContrast}
+          size={optionSize}
         />
 
         {variant === "full" && contrastDescription && (

@@ -3,6 +3,7 @@ type OptionGroupProps<T extends string> = {
   options: ReadonlyArray<{ value: T; label: string }>;
   value: T;
   onChange: (value: T) => void;
+  size?: "default" | "compact";
 };
 
 export function OptionGroup<T extends string>({
@@ -10,10 +11,23 @@ export function OptionGroup<T extends string>({
   options,
   value,
   onChange,
+  size = "default",
 }: OptionGroupProps<T>) {
+  const isCompact = size === "compact";
+
   return (
-    <fieldset className="field m-0 min-w-0 border-0 p-0">
-      {label && <legend className="label">{label}</legend>}
+    <fieldset
+      className={
+        isCompact
+          ? "field field-compact m-0 min-w-0 border-0 p-0"
+          : "field m-0 min-w-0 border-0 p-0"
+      }
+    >
+      {label && (
+        <legend className={isCompact ? "label label-compact" : "label"}>
+          {label}
+        </legend>
+      )}
       <div
         className="segmented-control"
         style={{
@@ -24,6 +38,7 @@ export function OptionGroup<T extends string>({
       >
         {options.map((option) => {
           const isActive = value === option.value;
+          const itemClass = isCompact ? "segmented-item-compact" : "segmented-item";
 
           return (
             <button
@@ -34,8 +49,8 @@ export function OptionGroup<T extends string>({
               onClick={() => onChange(option.value)}
               className={
                 isActive
-                  ? "segmented-item segmented-item-active"
-                  : "segmented-item"
+                  ? `${itemClass} segmented-item-active`
+                  : itemClass
               }
             >
               {option.label}

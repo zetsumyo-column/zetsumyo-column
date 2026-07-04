@@ -19,13 +19,17 @@ import {
 
 type ColumnTypographyControlsProps = {
   className?: string;
+  variant?: "default" | "fab";
 };
 
 export function ColumnTypographyControls({
   className,
+  variant = "default",
 }: ColumnTypographyControlsProps) {
   const { typography, setTypography } = useColumnTypography();
   const [mounted, setMounted] = useState(false);
+  const isFab = variant === "fab";
+  const optionSize = isFab ? "compact" : "default";
 
   useEffect(() => {
     setMounted(true);
@@ -36,32 +40,41 @@ export function ColumnTypographyControls({
   }
 
   return (
-    <div className={className ?? "typography-settings"}>
+    <div
+      className={
+        className ??
+        (isFab ? "typography-settings typography-settings-fab" : "typography-settings")
+      }
+    >
       <OptionGroup<ColumnFontFamily>
         label="フォント"
         options={FONT_FAMILY_OPTIONS}
         value={typography.fontFamily}
         onChange={(fontFamily) => setTypography({ ...typography, fontFamily })}
+        size={optionSize}
       />
       <OptionGroup<ColumnFontSize>
-        label="文字サイズ"
+        label={isFab ? "サイズ" : "文字サイズ"}
         options={FONT_SIZE_OPTIONS}
         value={typography.fontSize}
         onChange={(fontSize) => setTypography({ ...typography, fontSize })}
+        size={optionSize}
       />
       <OptionGroup<ColumnLineHeight>
         label="行間"
         options={LINE_HEIGHT_OPTIONS}
         value={typography.lineHeight}
         onChange={(lineHeight) => setTypography({ ...typography, lineHeight })}
+        size={optionSize}
       />
       <OptionGroup<ColumnParagraphSpacing>
-        label="段落の広さ"
+        label={isFab ? "段落" : "段落の広さ"}
         options={PARAGRAPH_SPACING_OPTIONS}
         value={typography.paragraphSpacing}
         onChange={(paragraphSpacing) =>
           setTypography({ ...typography, paragraphSpacing })
         }
+        size={optionSize}
       />
       <OptionGroup<ColumnLetterSpacing>
         label="字間"
@@ -70,6 +83,7 @@ export function ColumnTypographyControls({
         onChange={(letterSpacing) =>
           setTypography({ ...typography, letterSpacing })
         }
+        size={optionSize}
       />
     </div>
   );

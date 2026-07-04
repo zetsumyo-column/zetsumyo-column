@@ -42,19 +42,22 @@ export function ColumnTypographyFab() {
         <div
           className="column-typography-fab-popup"
           role="dialog"
-          aria-label="表示の設定"
+          aria-label="表示設定"
         >
+          <div className="column-typography-fab-head">
+            <p className="column-typography-fab-title">表示設定</p>
+          </div>
+
           <div className="column-typography-fab-body">
-            <div className="column-display-settings">
-              <section className="column-display-settings-section">
-                <h3 className="column-display-settings-heading">文字組み</h3>
-                <ColumnTypographyControls className="typography-settings typography-settings-compact" />
-              </section>
-              <section className="column-display-settings-section">
-                <h3 className="column-display-settings-heading">カラーモード</h3>
-                <ThemeControls variant="compact" />
-              </section>
-            </div>
+            <section className="column-display-settings-section">
+              <h3 className="column-display-settings-heading">文字組み</h3>
+              <ColumnTypographyControls variant="fab" />
+            </section>
+
+            <section className="column-display-settings-section">
+              <h3 className="column-display-settings-heading">カラー</h3>
+              <ThemeControls variant="fab" />
+            </section>
           </div>
         </div>
       )}
@@ -66,7 +69,7 @@ export function ColumnTypographyFab() {
             ? "column-typography-fab-trigger column-typography-fab-trigger-open"
             : "column-typography-fab-trigger"
         }
-        aria-label="表示の設定"
+        aria-label="表示設定"
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={() => setOpen((current) => !current)}

@@ -161,8 +161,16 @@ body {
     @apply flex flex-col gap-1.5;
   }
 
+  .field-compact {
+    @apply gap-1;
+  }
+
   .label {
     @apply text-sm font-medium;
+  }
+
+  .label-compact {
+    @apply text-xs font-medium text-zinc-500;
   }
 
   .input {
@@ -246,32 +254,40 @@ body {
     @apply gap-6;
   }
 
+  .typography-settings-fab {
+    @apply flex flex-col gap-2.5;
+  }
+
   .column-typography-fab {
     @apply fixed bottom-4 right-4 z-50;
   }
 
   .column-typography-fab-trigger {
-    @apply flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-zinc-700 shadow-sm outline-none transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-700;
+    @apply flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-zinc-700 shadow-sm outline-none transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-700;
   }
 
   .column-typography-fab-trigger-open {
-    @apply ring-2 ring-zinc-300 ring-offset-1 ring-offset-zinc-50 dark:ring-zinc-600 dark:ring-offset-zinc-800;
+    @apply bg-zinc-100 ring-2 ring-zinc-300 ring-offset-1 ring-offset-zinc-50 dark:bg-zinc-800 dark:ring-zinc-600 dark:ring-offset-zinc-800;
   }
 
   .column-typography-fab-icon {
-    @apply h-5 w-5;
+    @apply h-4 w-4;
   }
 
   .column-typography-fab-popup {
-    @apply absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),22.5rem)] max-h-[min(70vh,32.5rem)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900;
+    @apply absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),17.5rem)] max-h-[min(70vh,28rem)] overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900;
   }
 
   .column-typography-fab-head {
-    @apply border-b border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-900;
+    @apply border-b border-zinc-200 px-3 py-2 dark:border-zinc-700;
+  }
+
+  .column-typography-fab-title {
+    @apply text-xs font-medium text-zinc-600 dark:text-zinc-400;
   }
 
   .column-typography-fab-body {
-    @apply px-4 py-4;
+    @apply max-h-[min(calc(70vh-2.5rem),25.5rem)] overflow-y-auto px-3 py-2.5;
   }
 
   .segmented-control {
@@ -282,11 +298,16 @@ body {
     @apply flex min-w-0 items-center justify-center border-r border-zinc-200 bg-transparent px-3 py-2.5 text-sm transition-colors outline-none last:border-r-0 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400/40 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:focus-visible:ring-zinc-500/40;
   }
 
+  .segmented-item-compact {
+    @apply flex min-w-0 items-center justify-center border-r border-zinc-200 bg-transparent px-1.5 py-1 text-xs leading-tight transition-colors outline-none last:border-r-0 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400/40 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:focus-visible:ring-zinc-500/40;
+  }
+
   .segmented-item-active {
     @apply bg-zinc-100 font-medium text-zinc-800 dark:bg-zinc-700 dark:text-zinc-300;
   }
 
-  .segmented-item-active:hover {
+  .segmented-item-active:hover,
+  .segmented-item-compact.segmented-item-active:hover {
     @apply bg-zinc-100 dark:bg-zinc-700;
   }
 
@@ -645,20 +666,28 @@ body {
     @apply flex flex-col gap-6;
   }
 
+  .theme-settings-fab {
+    @apply flex flex-col gap-2.5;
+  }
+
   .column-display-settings {
     @apply flex flex-col;
   }
 
   .column-display-settings-section {
-    @apply flex flex-col gap-6 border-t border-dashed border-zinc-200 pt-6 first:border-t-0 first:pt-0 dark:border-zinc-700;
+    @apply flex flex-col gap-2 border-t border-zinc-200 pt-2.5 first:border-t-0 first:pt-0 dark:border-zinc-700;
   }
 
   .column-display-settings-heading {
-    @apply text-sm font-medium;
+    @apply text-xs font-medium text-zinc-500;
   }
 
   .contrast-setting-block {
     @apply flex flex-col gap-4;
+  }
+
+  .contrast-setting-block-fab {
+    @apply flex flex-col gap-0;
   }
 
   .contrast-preview-wrap {
