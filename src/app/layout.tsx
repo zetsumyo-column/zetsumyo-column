@@ -5,6 +5,7 @@ import Script from "next/script";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ColumnTypographyProvider } from "@/components/column/column-typography-provider";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { createRootMetadata } from "@/lib/metadata/site";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/init-script";
 import "./globals.css";
 
@@ -13,10 +14,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "絶妙コラム",
-  description: "文字数制限コラムサービス",
-};
+export const metadata: Metadata = createRootMetadata();
 
 export default function RootLayout({
   children,
