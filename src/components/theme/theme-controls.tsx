@@ -27,10 +27,11 @@ type ContrastPreviewProps = {
 
 function ContrastPreview({ theme, level }: ContrastPreviewProps) {
   const preset = getContrastPreset(theme, level);
-  const option = CONTRAST_LEVEL_OPTIONS.find((item) => item.value === level);
+  const label = theme === "dark" ? "ダーク" : "ライト";
 
   return (
     <div className="contrast-preview-wrap">
+      <p className="contrast-preview-mode-label">{label}</p>
       <div
         className="contrast-preview"
         style={{
@@ -39,7 +40,7 @@ function ContrastPreview({ theme, level }: ContrastPreviewProps) {
         }}
       >
         <p className="contrast-preview-title">絶妙コラム</p>
-        <p className="contrast-preview-body">{option?.description}</p>
+        <p className="contrast-preview-body">背景と文字色のプレビューです。</p>
       </div>
       <dl className="contrast-preview-codes">
         <div className="contrast-preview-code-item">
@@ -69,34 +70,6 @@ function ContrastPreview({ theme, level }: ContrastPreviewProps) {
   );
 }
 
-type ContrastSettingBlockProps = {
-  label: string;
-  value: ContrastLevel;
-  onChange: (level: ContrastLevel) => void;
-  previewTheme: "light" | "dark";
-  showPreview: boolean;
-};
-
-function ContrastSettingBlock({
-  label,
-  value,
-  onChange,
-  previewTheme,
-  showPreview,
-}: ContrastSettingBlockProps) {
-  return (
-    <div className="contrast-setting-block">
-      <OptionGroup
-        label={label}
-        options={CONTRAST_OPTIONS}
-        value={value}
-        onChange={onChange}
-      />
-      {showPreview && <ContrastPreview theme={previewTheme} level={value} />}
-    </div>
-  );
-}
-
 type ThemeControlsProps = {
   variant?: "full" | "compact";
   className?: string;
@@ -106,14 +79,7 @@ export function ThemeControls({
   variant = "full",
   className,
 }: ThemeControlsProps) {
-  const {
-    theme,
-    contrastLight,
-    contrastDark,
-    setTheme,
-    setContrastLight,
-    setContrastDark,
-  } = useTheme();
+  const { theme, contrast, setTheme, setContrast } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -133,7 +99,10 @@ export function ThemeControls({
   }
 
   const currentTheme = theme === "dark" ? "dark" : "light";
-  const showPreview = variant === "full";
+  const currentContrast = contrast ?? "medium";
+  const contrastDescription = CONTRAST_LEVEL_OPTIONS.find(
+    (option) => option.value === currentContrast,
+  )?.description;
 
   return (
     <div className={wrapperClass}>
@@ -144,25 +113,29 @@ export function ThemeControls({
         onChange={setTheme}
       />
 
-      <ContrastSettingBlock
-        label="ライトモードのコントラスト"
-        value={contrastLight ?? "medium"}
-        onChange={setContrastLight}
-        previewTheme="light"
-        showPreview={showPreview}
-      />
+      <div className="contrast-setting-block">
+        <OptionGroup
+          label="コントラスト"
+          options={CONTRAST_OPTIONS}
+          value={currentContrast}
+          onChange={setContrast}
+        />
 
-      <ContrastSettingBlock
-        label="ダークモードのコントラスト"
-        value={contrastDark ?? "medium"}
-        onChange={setContrastDark}
-        previewTheme="dark"
-        showPreview={showPreview}
-      />
+        {variant === "full" && contrastDescription && (
+          <p className="hint">{contrastDescription}</p>
+        )}
 
-      {showPreview && (
+        {variant === "full" && (
+          <div className="contrast-preview-grid">
+            <ContrastPreview theme="light" level={currentContrast} />
+            <ContrastPreview theme="dark" level={currentContrast} />
+          </div>
+        )}
+      </div>
+
+      {variant === "full" && (
         <p className="hint">
-          コントラストはライト・ダークそれぞれ独立して保存されます。表示モードを切り替えると、対応する設定が反映されます。
+          コントラストはライト・ダーク共通の段階です。表示モードを切り替えても同じ段階が使われます。
         </p>
       )}
     </div>

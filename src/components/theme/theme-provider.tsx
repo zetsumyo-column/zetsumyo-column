@@ -11,10 +11,8 @@ import {
 
 import {
   applyThemeClasses,
-  readStoredContrastDark,
-  readStoredContrastLight,
-  THEME_CONTRAST_DARK_STORAGE_KEY,
-  THEME_CONTRAST_LIGHT_STORAGE_KEY,
+  persistContrast,
+  readStoredContrast,
   type ContrastLevel,
 } from "@/lib/theme/contrast-tokens";
 import { THEME_STORAGE_KEY } from "@/lib/theme/init-script";
@@ -25,11 +23,9 @@ export type Theme = (typeof THEMES)[number];
 
 type ThemeContextValue = {
   theme?: Theme;
-  contrastLight?: ContrastLevel;
-  contrastDark?: ContrastLevel;
+  contrast?: ContrastLevel;
   setTheme: (theme: Theme) => void;
-  setContrastLight: (level: ContrastLevel) => void;
-  setContrastDark: (level: ContrastLevel) => void;
+  setContrast: (level: ContrastLevel) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -42,15 +38,10 @@ function readStoredTheme(): Theme {
   return localStorage.getItem(THEME_STORAGE_KEY) === "dark" ? "dark" : "light";
 }
 
-function persistAndApply(
-  theme: Theme,
-  contrastLight: ContrastLevel,
-  contrastDark: ContrastLevel,
-): void {
+function persistAndApply(theme: Theme, contrast: ContrastLevel): void {
   localStorage.setItem(THEME_STORAGE_KEY, theme);
-  localStorage.setItem(THEME_CONTRAST_LIGHT_STORAGE_KEY, contrastLight);
-  localStorage.setItem(THEME_CONTRAST_DARK_STORAGE_KEY, contrastDark);
-  applyThemeClasses(theme, contrastLight, contrastDark);
+  persistContrast(contrast);
+  applyThemeClasses(theme, contrast);
 }
 
 type ThemeProviderProps = {
@@ -59,64 +50,46 @@ type ThemeProviderProps = {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme | undefined>(undefined);
-  const [contrastLight, setContrastLightState] = useState<
-    ContrastLevel | undefined
-  >(undefined);
-  const [contrastDark, setContrastDarkState] = useState<
-    ContrastLevel | undefined
-  >(undefined);
+  const [contrast, setContrastState] = useState<ContrastLevel | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     const storedTheme = readStoredTheme();
-    const storedContrastLight = readStoredContrastLight();
-    const storedContrastDark = readStoredContrastDark();
+    const storedContrast = readStoredContrast();
 
     setThemeState(storedTheme);
-    setContrastLightState(storedContrastLight);
-    setContrastDarkState(storedContrastDark);
-    applyThemeClasses(storedTheme, storedContrastLight, storedContrastDark);
+    setContrastState(storedContrast);
+    applyThemeClasses(storedTheme, storedContrast);
+    persistContrast(storedContrast);
   }, []);
 
   const setTheme = useCallback(
     (next: Theme) => {
       setThemeState(next);
-      const cl = contrastLight ?? readStoredContrastLight();
-      const cd = contrastDark ?? readStoredContrastDark();
-      persistAndApply(next, cl, cd);
+      const level = contrast ?? readStoredContrast();
+      persistAndApply(next, level);
     },
-    [contrastDark, contrastLight],
+    [contrast],
   );
 
-  const setContrastLight = useCallback(
+  const setContrast = useCallback(
     (level: ContrastLevel) => {
-      setContrastLightState(level);
+      setContrastState(level);
       const currentTheme = theme ?? readStoredTheme();
-      const cd = contrastDark ?? readStoredContrastDark();
-      persistAndApply(currentTheme, level, cd);
+      persistAndApply(currentTheme, level);
     },
-    [contrastDark, theme],
-  );
-
-  const setContrastDark = useCallback(
-    (level: ContrastLevel) => {
-      setContrastDarkState(level);
-      const currentTheme = theme ?? readStoredTheme();
-      const cl = contrastLight ?? readStoredContrastLight();
-      persistAndApply(currentTheme, cl, level);
-    },
-    [contrastLight, theme],
+    [theme],
   );
 
   const value = useMemo(
     () => ({
       theme,
-      contrastLight,
-      contrastDark,
+      contrast,
       setTheme,
-      setContrastLight,
-      setContrastDark,
+      setContrast,
     }),
-    [contrastDark, contrastLight, setContrastDark, setContrastLight, setTheme, theme],
+    [contrast, setContrast, setTheme, theme],
   );
 
   return (

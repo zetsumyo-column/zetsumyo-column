@@ -609,6 +609,14 @@ body {
     @apply flex flex-col gap-3;
   }
 
+  .contrast-preview-mode-label {
+    @apply text-xs font-medium text-zinc-600 dark:text-zinc-400;
+  }
+
+  .contrast-preview-grid {
+    @apply grid gap-4 sm:grid-cols-2;
+  }
+
   .contrast-preview {
     @apply rounded-md border border-zinc-200 p-4 dark:border-zinc-700;
   }

@@ -1,6 +1,11 @@
 /** globals.css の .contrast-* 定義と対応（変更時は両方を揃える） */
 
+export const THEME_CONTRAST_STORAGE_KEY = "theme-contrast";
+
+/** @deprecated 旧キー（読み込み時のフォールバックのみ） */
 export const THEME_CONTRAST_LIGHT_STORAGE_KEY = "theme-contrast-light";
+
+/** @deprecated 旧キー（読み込み時のフォールバックのみ） */
 export const THEME_CONTRAST_DARK_STORAGE_KEY = "theme-contrast-dark";
 
 export const CONTRAST_LEVELS = ["low", "medium", "high"] as const;
@@ -85,33 +90,34 @@ export function contrastClassName(level: ContrastLevel): string {
   return `contrast-${level}`;
 }
 
-export function readStoredContrastLight(): ContrastLevel {
+export function readStoredContrast(): ContrastLevel {
   if (typeof window === "undefined") {
     return "medium";
   }
 
-  return parseContrastLevel(
-    localStorage.getItem(THEME_CONTRAST_LIGHT_STORAGE_KEY),
-  );
-}
-
-export function readStoredContrastDark(): ContrastLevel {
-  if (typeof window === "undefined") {
-    return "medium";
+  const unified = localStorage.getItem(THEME_CONTRAST_STORAGE_KEY);
+  if (isContrastLevel(unified)) {
+    return unified;
   }
 
-  return parseContrastLevel(
-    localStorage.getItem(THEME_CONTRAST_DARK_STORAGE_KEY),
-  );
+  const legacyLight = localStorage.getItem(THEME_CONTRAST_LIGHT_STORAGE_KEY);
+  if (isContrastLevel(legacyLight)) {
+    return legacyLight;
+  }
+
+  const legacyDark = localStorage.getItem(THEME_CONTRAST_DARK_STORAGE_KEY);
+  if (isContrastLevel(legacyDark)) {
+    return legacyDark;
+  }
+
+  return "medium";
 }
 
 export function applyThemeClasses(
   theme: "light" | "dark",
-  contrastLight: ContrastLevel,
-  contrastDark: ContrastLevel,
+  contrast: ContrastLevel,
 ): void {
   const root = document.documentElement;
-  const contrast = theme === "dark" ? contrastDark : contrastLight;
 
   root.classList.remove(
     "light",
@@ -121,4 +127,10 @@ export function applyThemeClasses(
     "contrast-high",
   );
   root.classList.add(theme, contrastClassName(contrast));
+}
+
+export function persistContrast(contrast: ContrastLevel): void {
+  localStorage.setItem(THEME_CONTRAST_STORAGE_KEY, contrast);
+  localStorage.removeItem(THEME_CONTRAST_LIGHT_STORAGE_KEY);
+  localStorage.removeItem(THEME_CONTRAST_DARK_STORAGE_KEY);
 }

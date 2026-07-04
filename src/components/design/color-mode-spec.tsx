@@ -11,8 +11,7 @@ import {
   CONTRAST_LEVEL_OPTIONS,
   DARK_CONTRAST_PRESETS,
   LIGHT_CONTRAST_PRESETS,
-  THEME_CONTRAST_DARK_STORAGE_KEY,
-  THEME_CONTRAST_LIGHT_STORAGE_KEY,
+  THEME_CONTRAST_STORAGE_KEY,
 } from "@/lib/theme/contrast-tokens";
 
 function isLightSwatch(hex: string): boolean {
@@ -117,7 +116,10 @@ function ModeColorTable({ colors }: { colors: ModeColorSpec[] }) {
 
 function ContrastLevelTable({ theme }: { theme: "light" | "dark" }) {
   const presets = theme === "dark" ? DARK_CONTRAST_PRESETS : LIGHT_CONTRAST_PRESETS;
-  const title = theme === "dark" ? "ダークモードのコントラスト" : "ライトモードのコントラスト";
+  const title =
+    theme === "dark"
+      ? "ダークモードでの配色（各段階）"
+      : "ライトモードでの配色（各段階）";
 
   return (
     <div className="color-palette-group">
@@ -234,13 +236,13 @@ export function ColorModeSpec() {
         系パレットのみで構成し、純白（#fff）・純黒（#000）は使いません。以下では標準コントラスト時のライトモードとダークモードの配色を説明します。
       </p>
       <p className="legal-section-paragraph">
-        設定画面ではライト・ダークそれぞれについてコントラストを「低」「標準」「高」から選べます（
-        <code>{THEME_CONTRAST_LIGHT_STORAGE_KEY}</code> /{" "}
-        <code>{THEME_CONTRAST_DARK_STORAGE_KEY}</code>
+        コントラストは「低」「標準」「高」の1段階を選び、ライト・ダーク共通で適用します（
+        <code>{THEME_CONTRAST_STORAGE_KEY}</code>
         ）。ページ背景（<code>--background</code>）と本文（
         <code>--foreground</code>）が変わります。
       </p>
 
+      <h3 className="typography-spec-subtitle">コントラスト（ライト・ダーク共通）</h3>
       <ContrastLevelTable theme="light" />
       <ContrastLevelTable theme="dark" />
 
