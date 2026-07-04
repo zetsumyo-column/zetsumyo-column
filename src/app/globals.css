@@ -352,6 +352,62 @@ body {
     @apply h-5 w-5 shrink-0 text-zinc-500;
   }
 
+  .header-notifications {
+    @apply relative;
+  }
+
+  .header-notifications-trigger {
+    @apply flex h-10 w-10 items-center justify-center rounded-full outline-none hover:bg-zinc-100 dark:hover:bg-zinc-800;
+  }
+
+  .header-notifications-trigger-open {
+    @apply bg-zinc-100 ring-2 ring-zinc-300 ring-offset-2 ring-offset-zinc-50 dark:bg-zinc-800 dark:ring-zinc-600 dark:ring-offset-zinc-800;
+  }
+
+  .header-notifications-icon {
+    @apply h-5 w-5 text-zinc-600 dark:text-zinc-400;
+  }
+
+  .header-notifications-popup {
+    @apply absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900;
+  }
+
+  .header-notifications-head {
+    @apply border-b border-zinc-200 px-4 py-3 dark:border-zinc-700;
+  }
+
+  .header-notifications-body {
+    @apply max-h-96 overflow-y-auto;
+  }
+
+  .header-notifications-empty {
+    @apply px-4 py-8 text-center text-sm text-zinc-500;
+  }
+
+  .header-notifications-list {
+    @apply m-0 list-none p-0;
+  }
+
+  .header-notifications-item {
+    @apply flex items-start gap-3 px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800;
+  }
+
+  .header-notifications-item:not(:last-child) {
+    @apply border-b border-zinc-200 dark:border-zinc-700;
+  }
+
+  .header-notifications-avatar {
+    @apply h-8 w-8;
+  }
+
+  .header-notifications-text {
+    @apply text-sm leading-relaxed text-zinc-800 dark:text-zinc-300;
+  }
+
+  .header-notifications-date {
+    @apply mt-1 block text-xs text-zinc-500;
+  }
+
   .editor {
     @apply overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700;
   }

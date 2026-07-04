@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { ColumnLikeButton } from "@/components/column/column-like-button";
 import { ColumnViewTracker } from "@/components/column/column-view-tracker";
+import { DeleteColumnButton } from "@/components/column/delete-column-button";
 import { FollowButton } from "@/components/profile/follow-button";
 import { formatDate } from "@/lib/format-date";
 import { getAvatarInitial } from "@/lib/profile/avatar";
@@ -102,6 +103,12 @@ export function ColumnArticleFooter({
 
       {author.bio && (
         <p className="whitespace-pre-wrap text-sm">{author.bio}</p>
+      )}
+
+      {isOwner && !isDraft && (
+        <div className="pt-4">
+          <DeleteColumnButton columnId={columnId} isPublished />
+        </div>
       )}
     </footer>
   );

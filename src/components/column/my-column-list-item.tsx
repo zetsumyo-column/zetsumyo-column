@@ -8,9 +8,14 @@ import type { ColumnListItem } from "@/types/database";
 type MyColumnListItemProps = {
   column: ColumnListItem;
   profileUserId: string;
+  likeCount?: number;
 };
 
-export function MyColumnListItem({ column, profileUserId }: MyColumnListItemProps) {
+export function MyColumnListItem({
+  column,
+  profileUserId,
+  likeCount,
+}: MyColumnListItemProps) {
   const plainTextLength = column.plain_text_length;
   const isDraft = column.status === "draft";
   const href = isDraft
@@ -32,9 +37,15 @@ export function MyColumnListItem({ column, profileUserId }: MyColumnListItemProp
             <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
             <span className="mx-1.5">·</span>
             <span>{plainTextLength}文字</span>
+            {likeCount !== undefined && (
+              <>
+                <span className="mx-1.5">·</span>
+                <span>いいね {likeCount}</span>
+              </>
+            )}
           </p>
         </div>
-        {isDraft && <DeleteColumnButton columnId={column.id} />}
+        <DeleteColumnButton columnId={column.id} isPublished={!isDraft} />
       </div>
     </li>
   );

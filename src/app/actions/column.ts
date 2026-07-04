@@ -68,6 +68,11 @@ function redirectToDrafts(profileUserId: string, error?: string): never {
   redirect(error ? `${path}?error=${encodeURIComponent(error)}` : path);
 }
 
+function redirectToPublished(profileUserId: string, error?: string): never {
+  const path = getProfilePublishedPath(profileUserId);
+  redirect(error ? `${path}?error=${encodeURIComponent(error)}` : path);
+}
+
 function buildPayload(
   base: Omit<ColumnPayload, "char_limit">,
 ): ColumnPayload {
@@ -197,7 +202,7 @@ export async function deleteColumn(formData: FormData): Promise<void> {
 
   const { data: existing, error: fetchError } = await supabase
     .from("columns")
-    .select("id, status")
+    .select("id, status, public_id")
     .eq("id", columnId)
     .eq("author_id", user.id)
     .maybeSingle();
@@ -206,22 +211,27 @@ export async function deleteColumn(formData: FormData): Promise<void> {
     redirectToDrafts(profileUserId, "コラムが見つかりません");
   }
 
-  if (existing.status !== "draft") {
-    redirectToDrafts(profileUserId, "公開済みのコラムは削除できません");
-  }
+  const isPublished = existing.status === "published";
 
   const { error } = await supabase
     .from("columns")
     .delete()
     .eq("id", columnId)
-    .eq("author_id", user.id)
-    .eq("status", "draft");
+    .eq("author_id", user.id);
 
   if (error) {
     console.error("column delete error:", error);
+    if (isPublished) {
+      redirectToPublished(profileUserId, "削除に失敗しました");
+    }
     redirectToDrafts(profileUserId, "削除に失敗しました");
   }
 
-  revalidateColumnPaths(profileUserId);
+  revalidateColumnPaths(profileUserId, existing.public_id);
+
+  if (isPublished) {
+    redirectToPublished(profileUserId);
+  }
+
   redirectToDrafts(profileUserId);
 }

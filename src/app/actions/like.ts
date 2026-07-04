@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import { getProfileLikesPath } from "@/lib/profile/paths";
 import { createClient } from "@/lib/supabase/server";
 import { getRequiredAuthUser } from "@/lib/supabase/auth";
 
@@ -40,6 +43,7 @@ export async function toggleLike(columnId: string): Promise<ToggleLikeResult> {
       return { error: "いいねの解除に失敗しました" };
     }
 
+    await revalidateLikesPath(supabase, user.id);
     return { liked: false };
   }
 
@@ -52,5 +56,21 @@ export async function toggleLike(columnId: string): Promise<ToggleLikeResult> {
     return { error: "いいねに失敗しました" };
   }
 
+  await revalidateLikesPath(supabase, user.id);
   return { liked: true };
+}
+
+async function revalidateLikesPath(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+): Promise<void> {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("user_id")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profile?.user_id) {
+    revalidatePath(getProfileLikesPath(profile.user_id));
+  }
 }

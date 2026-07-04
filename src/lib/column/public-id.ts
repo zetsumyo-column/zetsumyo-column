@@ -6,6 +6,7 @@ export const RESERVED_COLUMN_PUBLIC_IDS = new Set([
   "published",
   "drafts",
   "feed",
+  "likes",
   "followers",
   "following",
   "edit",

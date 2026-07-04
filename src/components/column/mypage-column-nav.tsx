@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   getProfileDraftsPath,
   getProfileFeedPath,
+  getProfileLikesPath,
   getProfilePublishedPath,
 } from "@/lib/profile/paths";
 
@@ -18,6 +19,7 @@ export function MypageColumnNav({ userId }: MypageColumnNavProps) {
   const items = [
     { href: getProfilePublishedPath(userId), label: "公開済み" },
     { href: getProfileDraftsPath(userId), label: "下書き" },
+    { href: getProfileLikesPath(userId), label: "いいね" },
     { href: getProfileFeedPath(userId), label: "フォローしている人のコラム" },
   ] as const;
 

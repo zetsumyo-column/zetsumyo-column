@@ -8,6 +8,7 @@ import type { ColumnListItem, ColumnListItemWithAuthor } from "@/types/database"
 type ColumnListItemProps = {
   column: ColumnListItem | ColumnListItemWithAuthor;
   profileUserId?: string;
+  likeCount?: number;
 };
 
 function hasAuthor(
@@ -16,7 +17,11 @@ function hasAuthor(
   return "profiles" in column && column.profiles != null;
 }
 
-export function ColumnListItem({ column, profileUserId }: ColumnListItemProps) {
+export function ColumnListItem({
+  column,
+  profileUserId,
+  likeCount,
+}: ColumnListItemProps) {
   const plainTextLength = column.plain_text_length;
 
   if (!hasAuthor(column)) {
@@ -33,6 +38,12 @@ export function ColumnListItem({ column, profileUserId }: ColumnListItemProps) {
           <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
           <span className="mx-1.5">·</span>
           <span>{plainTextLength}文字</span>
+          {likeCount !== undefined && (
+            <>
+              <span className="mx-1.5">·</span>
+              <span>いいね {likeCount}</span>
+            </>
+          )}
         </p>
       </li>
     );
@@ -49,6 +60,12 @@ export function ColumnListItem({ column, profileUserId }: ColumnListItemProps) {
         <time dateTime={column.created_at}>{formatDate(column.created_at)}</time>
         <span className="mx-1.5">·</span>
         <span>{plainTextLength}文字</span>
+        {likeCount !== undefined && (
+          <>
+            <span className="mx-1.5">·</span>
+            <span>いいね {likeCount}</span>
+          </>
+        )}
         <span className="mx-1.5">·</span>
         <Link href={getProfilePath(author.user_id)}>{author.display_name}</Link>
       </p>

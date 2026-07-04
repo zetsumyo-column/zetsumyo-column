@@ -135,6 +135,45 @@ export const getPublishedColumnsByAuthor = cache(async (authorId: string) => {
     .order("created_at", { ascending: false });
 });
 
+export const getLikedColumnsByUser = cache(async (userId: string) => {
+  const supabase = await createClient();
+
+  const { data: likes, error: likesError } = await supabase
+    .from("column_likes")
+    .select("column_id, created_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (likesError) {
+    return { data: null, error: likesError };
+  }
+
+  if (!likes?.length) {
+    return { data: [], error: null };
+  }
+
+  const columnIds = likes.map((like) => like.column_id);
+
+  const { data: columns, error: columnsError } = await supabase
+    .from("columns")
+    .select(
+      "id, public_id, title, created_at, plain_text_length, status, profiles!columns_author_id_fkey(user_id, display_name)",
+    )
+    .eq("status", "published")
+    .in("id", columnIds);
+
+  if (columnsError) {
+    return { data: null, error: columnsError };
+  }
+
+  const columnById = new Map((columns ?? []).map((column) => [column.id, column]));
+  const orderedColumns = likes
+    .map((like) => columnById.get(like.column_id))
+    .filter((column): column is NonNullable<typeof column> => column != null);
+
+  return { data: orderedColumns, error: null };
+});
+
 export function sumPlainTextLength(
   columns: Pick<ColumnListItem, "plain_text_length">[],
 ): number {

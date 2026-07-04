@@ -28,6 +28,10 @@ export function getProfileFeedPath(userId: string): string {
   return `/${userId}/feed`;
 }
 
+export function getProfileLikesPath(userId: string): string {
+  return `/${userId}/likes`;
+}
+
 export function getFollowersPath(userId: string): string {
   return `/${userId}/followers`;
 }
