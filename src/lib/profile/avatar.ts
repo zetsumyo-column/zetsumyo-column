@@ -56,6 +56,8 @@ export async function uploadProfileAvatar(
     };
   }
 
+  await deleteProfileAvatarsExcept(supabase, userId, path);
+
   const {
     data: { publicUrl },
   } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(path);
@@ -68,6 +70,14 @@ export async function uploadProfileAvatar(
 export async function deleteProfileAvatars(
   supabase: SupabaseClient<Database>,
   userId: string,
+): Promise<void> {
+  await deleteProfileAvatarsExcept(supabase, userId);
+}
+
+async function deleteProfileAvatarsExcept(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  keepPath?: string,
 ): Promise<void> {
   const { data: files, error: listError } = await supabase.storage
     .from(AVATAR_BUCKET)
@@ -82,7 +92,14 @@ export async function deleteProfileAvatars(
     return;
   }
 
-  const paths = files.map((file) => `${userId}/${file.name}`);
+  const paths = files
+    .map((file) => `${userId}/${file.name}`)
+    .filter((path) => path !== keepPath);
+
+  if (paths.length === 0) {
+    return;
+  }
+
   const { error: removeError } = await supabase.storage
     .from(AVATAR_BUCKET)
     .remove(paths);
